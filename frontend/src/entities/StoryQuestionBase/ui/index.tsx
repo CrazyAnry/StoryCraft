@@ -1,0 +1,31 @@
+'use client'
+
+import React, { useEffect } from 'react';
+import s from './StoryQuestionBase.module.scss'
+import { useScene } from '@/shared/lib/hooks/useScene';
+import { useStories } from '@/shared/lib/hooks/useStories';
+import { usePathname } from 'next/navigation';
+
+export default function StoryQuestionBase() {
+    const { getScene, scene } = useScene()
+    const { getStory, story } = useStories()
+    const pathname = usePathname();
+
+    useEffect(() => {
+        getScene()
+        getStory()
+    }, [pathname]);
+
+    return (
+        <>
+            <div className={s.titleRow}>
+                <h2> {story?.title} </h2>
+                <h2>Сцена: {story?.scenes.findIndex(storyScene => storyScene.id === scene?.id)! + 1}</h2>
+            </div>
+            <div className={s.questionBody}>
+                <h2>{scene?.title}</h2>
+                <h3>{scene?.description}</h3>
+            </div>
+        </>
+    );
+};
