@@ -3,14 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import s from './ReadHeader.module.scss'
 import Link from 'next/link';
-import { useHeader } from '@/shared/lib';
 import { useLikes } from '@/shared/lib';
 import { useViews } from '@/shared/lib';
 import { useUsersStore } from '@/shared/stores';
 import { useReadingStoriesStore } from '@/shared/stores/readingStories';
+import { useStories } from '@/shared/lib/hooks/useStories';
 
 export default function ReadHeader() {
-  const { getStory, story } = useHeader()
+  const { getStory, story } = useStories()
   const [storyLiked, setStoryLiked] = useState<boolean>(false)
   const { getLikesCount, getLikes, setLike, deleteLike, likesCount } = useLikes()
   const { getViews, views } = useViews()

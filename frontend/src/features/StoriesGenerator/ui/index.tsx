@@ -3,15 +3,11 @@
 import React from 'react';
 import s from './StoriesGenerator.module.scss'
 import { Story } from '@/features';
-import { IStoryHeader } from '@/shared/lib';
 import { PaginationButtons } from '@/shared/ui';
+import { useSortedStoriesStore } from '@/shared/stores/sortedStories';
 
-interface Props {
-    sortedStories: IStoryHeader[] | null;
-    fetchStoriesByLimit: (page?: number, limit?: number) => Promise<void>;
-}
-
-export default function StoriesGenerator({ sortedStories,fetchStoriesByLimit }: Props) {
+export default function StoriesGenerator() {
+    const { sortedStories } = useSortedStoriesStore()
     if (!sortedStories) {
         return (
             <h1>Loading...</h1>
@@ -23,7 +19,7 @@ export default function StoriesGenerator({ sortedStories,fetchStoriesByLimit }: 
             <div className={s.stories}>
                 {sortedStories.map(story => <Story image={story.image!} key={story.id} id={story.id!} title={story.title!} author={story.authorName!} />)}
             </div>
-            <PaginationButtons fetchStoriesByLimit={fetchStoriesByLimit}/>
+            <PaginationButtons/>
         </>
     );
 

@@ -5,7 +5,7 @@ import { error } from "console";
 
 export const getAllScenes = async (storyId: number): Promise<IScene[]> => {
   try {
-    const response = await axiosInstance.get(`/stories/${storyId}/scene`);
+    const response = await axiosInstance.get(API_ROUTES.scenes.getAllScenes(storyId));
     return response.data.scenes;
   } catch (error) {
     throw error;
@@ -14,7 +14,7 @@ export const getAllScenes = async (storyId: number): Promise<IScene[]> => {
 
 export const getOneScene = async (storyId: number, sceneId: number): Promise<IScene> => {
   try {
-    const response = await axiosInstance.get(`/stories/${storyId}/scene/${sceneId}`);
+    const response = await axiosInstance.get(API_ROUTES.scenes.getOneScene(storyId, sceneId));
     return response.data.scene;
   } catch (error) {
     throw error;

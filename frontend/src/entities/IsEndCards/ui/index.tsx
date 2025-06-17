@@ -1,26 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import s from './IsEndCards.module.scss'
 import { useRouter } from 'next/navigation';
-import { useHeader } from '@/shared/lib';
-
-interface Card {
-    text: string;
-    path: string;
-}
+import { Card } from '@/shared/lib/types/IEndCards';
+import { useEndCards } from '@/shared/lib/hooks/useEndCards';
 
 export default function IsEndCards() {
     const router = useRouter();
-    const {getStory, story} = useHeader()
-
-    useEffect(() => {
-        getStory()
-    }, [])
-
-    const EndCards: Card[] = [
-        { text: "To home", path: "/" },
-        { text: "To story", path: `/read/${story?.id}` },
-        { text: "To first scene", path: `/read/${story?.id}/${story?.scenes[0].id}` }
-    ];
+    const { EndCards } = useEndCards()
 
     return (
         <div className={s.choiceContainer}>

@@ -4,24 +4,26 @@ import React from 'react';
 import s from './StoriesSort.module.scss'
 import { CustomSelect } from '@/shared/ui';
 import { useStories } from '@/shared/lib/hooks/useStories';
-import { IStoryHeader } from '@/shared/lib';
+import { useSortedStoriesStore } from '@/shared/stores/sortedStories';
+import { useLikes, useViews } from '@/shared/lib';
 
-interface Props{
-	sortedStories: IStoryHeader[] | null
-	sortStories: (value: string) => Promise<void>
-}
+export default function StoriesSort() {
+	const { sortStories } = useSortedStoriesStore()
+	const { getLikesCount } = useLikes();
+	const { getViews } = useViews();
 
-export default function StoriesSort({sortedStories, sortStories}: Props){
-    return (
+	return (
 		<>
 			<div className={s.storiesSort}>
 				<h1>Истории</h1>
 				<CustomSelect
-					onChange={(value: string) => sortStories(value)} 
-					options={[{content: "Сортировать по лайкам", value: "likes", disabled: false}, {content: "Сортировать по просмотрам", value: "views", disabled: false}]} 
-					defaultValue={{content: "Сортировать по лайкам", value: "likes", disabled: false}}
+					onChange={async (value: string) => {
+						await sortStories(value, getLikesCount, getViews);
+					}}
+					options={[{ content: "Сортировать по лайкам", value: "likes", disabled: false }, { content: "Сортировать по просмотрам", value: "views", disabled: false }]}
+					defaultValue={{ content: "Сортировать по лайкам", value: "likes", disabled: false }}
 				/>
 			</div>
 		</>
-    );
+	);
 };

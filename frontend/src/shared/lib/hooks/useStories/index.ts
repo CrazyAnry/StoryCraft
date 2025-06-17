@@ -1,14 +1,20 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { getAllStories, getStoriesByLimit, getStoryLikesCount } from '@/shared/api/stories/queries'
-import { IStoryHeader, useLikes, useViews } from '@/shared/lib'
+import { getAllStories, getOneStory, getStoriesByLimit } from '@/shared/api/stories/queries'
+import { IStoryHeader } from '@/shared/lib'
+import { usePathname } from 'next/navigation'
 
 export const useStories = () => {
     const [stories, setStories] = useState<IStoryHeader[]>([])
     const [sortedStories, setSortedStories] = useState<IStoryHeader[]>([])
-    const { getLikesCount } = useLikes()
-    const { getViews } = useViews()
+    const [story, setStory] = useState<IStoryHeader>()
+    const pathname = usePathname()
+
+    const getStory = async () => {
+        const response = await getOneStory(+pathname.split('/')[2])
+        setStory(response)
+    }
 
     const fetchAllStories = useCallback(async () => {
         try {
@@ -16,34 +22,19 @@ export const useStories = () => {
             return data
         } catch (error) {
             throw error
-    }}, [])
+        }
+    }, [])
 
     const fetchStoriesByLimit = useCallback(async (page: number = 1, limit: number = 8) => {
         try {
             const data = await getStoriesByLimit(page, limit)
             setStories(data)
             setSortedStories(data)
-        } catch (error) {
-            throw error
-    }}, [])
-
-    const sortStories = useCallback(async (value: string) => {
-        try {
-            const storiesWithData = await Promise.all(
-                stories.map(async story => {
-                    const data = value === 'likes' 
-                        ? await getLikesCount(story.id!)
-                        : await getViews(story.id!)
-                    return { ...story, sortValue: data || 0 }
-                })
-            )
-
-            const sorted = [...storiesWithData].sort((a, b) => b.sortValue - a.sortValue)
-            setSortedStories(sorted)
+            return data
         } catch (error) {
             throw error
         }
-    }, [stories])
+    }, [])
 
     useEffect(() => {
         fetchStoriesByLimit()
@@ -53,7 +44,8 @@ export const useStories = () => {
         stories,
         sortedStories,
         fetchStoriesByLimit,
-        sortStories,
-        fetchAllStories
+        fetchAllStories,
+        getStory,
+        story
     }
 }

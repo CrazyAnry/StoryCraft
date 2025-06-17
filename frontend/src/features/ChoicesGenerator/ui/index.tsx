@@ -1,4 +1,6 @@
-import React from 'react';
+'use client'
+
+import React, { useEffect, useState } from 'react';
 import s from './ChoicesGenerator.module.scss';
 import { ReadChoiceCard } from '@/entities';
 import { IChoice } from '@/shared/lib';
@@ -8,10 +10,15 @@ interface Props {
 }
 
 export default function ChoicesGenerator({ choices }: Props) {
-    const chunkedChoices = [];
-    for (let i = 0; i < choices.length; i += 3) {
-        chunkedChoices.push(choices.slice(i, i + 3));
-    }
+    const [chunkedChoices, setChunkedChoices] = useState<IChoice[][]>([]);
+
+    useEffect(() => {
+        const chunks = [];
+        for (let i = 0; i < choices.length; i += 3) {
+            chunks.push(choices.slice(i, i + 3));
+        }
+        setChunkedChoices(chunks);
+    }, [choices]);
 
     return (
         <div className={s.choicesContainer}>
