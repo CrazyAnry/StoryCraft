@@ -1,5 +1,5 @@
 export interface IChoice {
-	id: number;
+	id?: number;
 	text: string;
 	nextSceneId: number;
 	access: boolean;

@@ -1,15 +1,18 @@
 'use client'
 
-import { getAllStories, getStoriesByLimit } from "@/shared/api/stories/queries";
+import { getAllStories } from "@/shared/api/stories/queries";
 import { useCallback, useEffect, useState } from "react";
 import s from './PaginationButton.module.scss'
 import { useStories } from "@/shared/lib/hooks/useStories";
 import { useSortedStoriesStore } from "@/shared/stores/sortedStories";
 
+interface Props{
+  mode?: 'home' | 'create'
+}
 
-export default function Pagination() {
+export default function Pagination({ mode='home' }: Props) {
   const [totalPages, setTotalPages] = useState(0)
-  const { fetchStoriesByLimit } = useStories()
+  const { fetchStoriesByLimit, fetchAllUsersStories } = useStories()
   const { setSortedStories, setCurrentPage, limit, currentPage } = useSortedStoriesStore();
   const numbers = []
 
@@ -17,12 +20,12 @@ export default function Pagination() {
     if (newPage < 1 || newPage > totalPages) return;
 
     setCurrentPage(newPage);
-    setSortedStories(await fetchStoriesByLimit(newPage, limit));
+    setSortedStories(mode === 'home' ? await fetchStoriesByLimit(newPage, limit) : await fetchAllUsersStories());
   }, [fetchStoriesByLimit, limit, totalPages]);
 
   useEffect(() => {
     const getStories = async () => {
-      const res = await getAllStories()
+      const res = mode === 'home' ? await getAllStories() : await fetchAllUsersStories()
       setTotalPages(Math.ceil(res.length / limit))
     }
 

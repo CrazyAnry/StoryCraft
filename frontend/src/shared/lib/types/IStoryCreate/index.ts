@@ -1,6 +1,4 @@
-import { IScene } from "../IScene";
-
-export interface IStoryHeader {
+export interface IStoryCreate {
   id: number | null;
   title: string | null;
   description: string | null;
@@ -10,6 +8,5 @@ export interface IStoryHeader {
   updatedAt: string | null;
   isPublic: boolean;
   authorName?: string | null;
-  scenes: IScene[];
   sortValue?: number;
 }

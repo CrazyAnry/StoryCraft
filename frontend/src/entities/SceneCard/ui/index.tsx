@@ -1,7 +1,6 @@
 "use client";
 
 import { ChoiceCard } from "@/entities";
-import { IScene } from "@/shared/lib";
 import {
   AddChoiceButton,
   CustomCheckbox,
@@ -11,15 +10,17 @@ import { FaCheck } from "react-icons/fa";
 import { useShallow } from "zustand/react/shallow";
 import styles from "./SceneCard.module.scss";
 import { useStoryEditorStore } from "@/shared/stores";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
-interface SceneProps {
-  scene: IScene;
+interface Props{
+  sceneId: number;
+  sceneIndex: number;
 }
 
-export default function SceneCard({ scene }: SceneProps) {
+export default function SceneCard({sceneId, sceneIndex}: Props) {
+
   const {
-    scenes,
+    story,
     setSceneTitle,
     setSceneDescription,
     setSceneMaxChoices,
@@ -31,46 +32,50 @@ export default function SceneCard({ scene }: SceneProps) {
   );
 
   useEffect(() => {
-    if (scene.isEnd) {
-      setSceneMaxChoices(scene.id, 0);
+    if (story?.scenes![sceneIndex]?.isEnd) {
+      setSceneMaxChoices(story?.scenes![sceneIndex].id!, 0);
     }
-  }, [scene.isEnd, scene.id, setSceneMaxChoices]);
+  }, [story?.scenes![sceneIndex]?.isEnd, story?.scenes![sceneIndex]?.id, setSceneMaxChoices]);
+
+  if(!story){
+    return <h1> Loading </h1>
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <span className={styles.index}>{scenes.indexOf(scene) + 1}</span>
+        <span className={styles.index}>{sceneIndex + 1}</span>
 
         <input
           type="text"
-          value={scene.title}
-          onChange={(e) => setSceneTitle(scene.id, e.target.value)}
+          value={story?.scenes![sceneIndex].title}
+          onChange={(e) => setSceneTitle(story?.scenes![sceneIndex].id!, e.target.value)}
           placeholder="Заголовок сцены"
           className={styles.titleInput}
         />
       </div>
 
       <textarea
-        value={scene.description}
-        onChange={(e) => setSceneDescription(scene.id, e.target.value)}
+        value={story?.scenes![sceneIndex].description}
+        onChange={(e) => setSceneDescription(story?.scenes![sceneIndex].id!, e.target.value)}
         placeholder="Описание сцены"
         className={styles.description}
       />
 
       <div className={styles.controls}>
         <CustomCheckbox
-          checked={scene.isEnd}
-          onChange={(val) => setSceneIsEnd(scene.id, val)}
+          checked={story?.scenes![sceneIndex].isEnd}
+          onChange={(val) => setSceneIsEnd(story?.scenes![sceneIndex].id!, val)}
           label="Это концовка?"
           icon={<FaCheck />}
         />
 
         <label className={styles.selectLabel}>
           Количество выборов:
-          {!scene.isEnd ? <select
-            value={scene.maxChoices}
+          {!story?.scenes![sceneIndex].isEnd ? <select
+            value={story?.scenes![sceneIndex].maxChoices}
             onChange={(e) => {
-              setSceneMaxChoices(scene.id, parseInt(e.target.value))
+              setSceneMaxChoices(story?.scenes![sceneIndex].id!, parseInt(e.target.value))
             }}
             className={styles.select}
           >
@@ -85,21 +90,21 @@ export default function SceneCard({ scene }: SceneProps) {
         </label>
       </div>
 
-      {!scene.isEnd && scene.choices.map((choice, index) => (
+      {!story?.scenes![sceneIndex].isEnd &&  Array.isArray(story?.scenes![sceneIndex].choices) && story?.scenes[sceneIndex].choices.map((choice, index) => (
         <ChoiceCard
-          scene={scene}
+          scene={story?.scenes![sceneIndex]}
           choice={choice}
           index={index}
           key={choice.id}
         />
       ))}
 
-      {scene.choices.length < scene.maxChoices && (
-        <AddChoiceButton onClick={() => addNewChoice(scene.id)} />
+      {story?.scenes![sceneIndex]!.choices!.length < story?.scenes![sceneIndex].maxChoices && (
+        <AddChoiceButton onClick={() => addNewChoice(story?.scenes![sceneIndex].id!)} />
       )}
 
       <div className={styles.footer}>
-        <RemoveSceneButton onClick={() => removeScene(scene.id)} />
+        <RemoveSceneButton onClick={() => removeScene(story?.scenes![sceneIndex].id!)} />
       </div>
     </div>
   );
