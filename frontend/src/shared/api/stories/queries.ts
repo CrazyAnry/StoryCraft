@@ -2,6 +2,7 @@ import { IStoryHeader, IView, ILike } from "@/shared/lib";
 import { axiosInstance } from "../client";
 import { API_ROUTES } from "../endpoints";
 import { getAllScenes } from "../scenes/queries";
+import { getAllChoices } from "../choices/queries";
 
 export const getAllStories = async (): Promise<IStoryHeader[]> => {
   try {
@@ -26,7 +27,13 @@ export const getStoriesByLimit = async (page: number, limit: number): Promise<IS
 export const getOneStory = async (storyId: number): Promise<IStoryHeader> => {
   try{
     const story = await axiosInstance.get(API_ROUTES.stories.getOneStory(storyId))
-    const scenes = await getAllScenes(storyId)
+    const gettedScenes = await getAllScenes(storyId)
+    const scenes = []
+    for(const scene of gettedScenes){
+      const choices = await getAllChoices(storyId, scene.id!)
+      scenes.push({...scene, choices})
+    }
+
     return {
       ...story.data.story,
       scenes

@@ -3,4 +3,5 @@ export { default as SceneCard } from "./SceneCard";
 export { default as SceneTitle } from "./SceneTitle";
 export { default as TextInput } from "./TextInput";
 export { default as ReadChoiceCard } from "./ChoiceCard_read";
-export { default as  StoryQuestionBase } from "./StoryQuestionBase"
+export { default as StoryQuestionBase } from "./StoryQuestionBase"
+export { default as CreateStoryCard } from "./CreateStoryCard"

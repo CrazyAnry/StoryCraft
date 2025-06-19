@@ -1,14 +1,16 @@
-import { IStoryEditor } from "@/shared/lib";
+import { IStoryEditor, IStoryHeader } from "@/shared/lib";
 
 export type StoryEditorActions = {
   // Story Actions
-  setId: (id: IStoryEditor["id"]) => void;
-  setTitle: (title: IStoryEditor["title"]) => void;
-  setAuthorId: (authorId: IStoryEditor["authorId"]) => void;
-  setDescription: (description: IStoryEditor["description"]) => void;
-  setImage: (image: IStoryEditor["image"]) => void;
-  setIsPublic: (isPublic: IStoryEditor["isPublic"]) => void;
-  setScenes: (scenes: IStoryEditor["scenes"]) => void;
+  setId: (id: IStoryHeader["id"]) => void;
+  setTitle: (title: IStoryHeader["title"]) => void;
+  setAuthorId: (authorId: IStoryHeader["authorId"]) => void;
+  setDescription: (description: IStoryHeader["description"]) => void;
+  setImage: (image: IStoryHeader["image"]) => void;
+  setIsPublic: (isPublic: IStoryHeader["isPublic"]) => void;
+  setScenes: (scenes: IStoryHeader["scenes"]) => void;
+  setCurrentStory: (value: number) => void;
+  setStory: (value: IStoryHeader) => void;
 
   // Scene Actions
   addNewScene: () => void;

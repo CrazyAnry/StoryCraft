@@ -1,13 +1,7 @@
-import { IScene } from "../";
+import { IStoryHeader } from "../";
 
 export interface IStoryEditor {
-  id: number | null;
-  title: string | null;
-  description: string | null;
-  image: string | null;
-  authorId: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
-  isPublic: boolean;
-  scenes: IScene[];
+  stories: IStoryHeader[];
+  currentStory: number;
+  story: IStoryHeader | null
 }
