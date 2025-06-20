@@ -10,3 +10,12 @@ export const changeStory = async (storyId: number, body: IStoryCreate): Promise<
     throw error;
   }
 };
+
+export const createStory = async (body: IStoryCreate): Promise<IStoryHeader> => {
+  try {
+    const response = await axiosInstance.post(`/stories`, body);
+    return response.data.story;
+  } catch (error) {
+    throw error;
+  }
+};

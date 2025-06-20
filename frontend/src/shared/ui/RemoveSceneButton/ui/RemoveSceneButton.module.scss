@@ -1,24 +1,74 @@
-
-
 .removeButton {
   width: 20%;
-  background: #ff5722;
+  background: linear-gradient(135deg, #ff4757, #ff6b6b);
   color: white;
-  padding: 0.4rem;
-  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   border: none;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
   margin-top: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   font-family: 'Nunito', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  box-shadow: 
+    0 2px 8px rgba(255, 71, 87, 0.3),
+    0 4px 16px rgba(255, 107, 107, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.removeButton:focus,
-.select:focus {
-  outline: 2px solid #ff5722; /* оранжевый */
-  outline-offset: 2px;
+.removeButton:hover {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 12px rgba(255, 71, 87, 0.4),
+    0 8px 24px rgba(255, 107, 107, 0.3);
+}
+
+.removeButton:active {
+  transform: translateY(0);
+}
+
+.removeButton::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.removeButton:hover::before {
+  opacity: 1;
+  animation: shine 1.5s infinite;
+}
+
+.removeButton:focus {
+  outline: none;
+  box-shadow: 
+    0 0 0 3px rgba(255, 107, 107, 0.4),
+    0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
 }

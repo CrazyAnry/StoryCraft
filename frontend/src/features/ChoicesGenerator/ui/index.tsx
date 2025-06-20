@@ -13,9 +13,10 @@ export default function ChoicesGenerator({ choices }: Props) {
     const [chunkedChoices, setChunkedChoices] = useState<IChoice[][]>([]);
 
     useEffect(() => {
+        const safeChoices = choices || [];
         const chunks = [];
-        for (let i = 0; i < choices.length; i += 3) {
-            chunks.push(choices.slice(i, i + 3));
+        for (let i = 0; i < safeChoices.length; i += 3) {
+            chunks.push(safeChoices.slice(i, i + 3));
         }
         setChunkedChoices(chunks);
     }, [choices]);

@@ -5,4 +5,5 @@ export { default as TextInput } from "./TextInput";
 export { default as ReadChoiceCard } from "./ChoiceCardRead";
 export { default as StoryQuestionBase } from "./StoryQuestionBase"
 export { default as CreateStoryCard } from "./CreateStoryCard"
+export { default as AddStoryCard } from "./AddStoryCard"
 export { default as FollowUser } from "./followUser"

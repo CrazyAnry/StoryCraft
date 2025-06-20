@@ -3,6 +3,7 @@ import { axiosInstance } from "../client";
 import { API_ROUTES } from "../endpoints";
 import { getAllScenes } from "../scenes/queries";
 import { getAllChoices } from "../choices/queries";
+import axios from "axios";
 
 export const getAllStories = async (): Promise<IStoryHeader[]> => {
   try {
@@ -24,75 +25,91 @@ export const getStoriesByLimit = async (page: number, limit: number): Promise<IS
   }
 };
 
-export const getOneStory = async (storyId: number): Promise<IStoryHeader> => {
-  try{
+export const getUsersStoriesByLimit = async (page: number, limit: number): Promise<IStoryHeader[]> => {
+  try {
+    const response = await axiosInstance.get(`/stories/my/paginated`,
+      { params: { page, limit } }
+    );
+    return response.data.stories;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getOneStory = async (storyId: number): Promise<IStoryHeader | null> => {
+  try {
     const story = await axiosInstance.get(API_ROUTES.stories.getOneStory(storyId))
     const gettedScenes = await getAllScenes(storyId)
     const scenes = []
-    for(const scene of gettedScenes){
+    if(!gettedScenes)
+      return {...story.data.story, scenes: []}
+    for (const scene of gettedScenes) {
       const choices = await getAllChoices(storyId, scene.id!)
-      scenes.push({...scene, choices})
+      scenes.push({ ...scene, choices })
     }
 
     return {
       ...story.data.story,
       scenes
     }
-  }catch(error){
-    throw error
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return null
+    }
+    throw error;
   }
 }
 
 export const getStoryLikesCount = async (storyId: number): Promise<number> => {
-  try{
+  try {
     const storyLikes = await axiosInstance.get(API_ROUTES.stories.getStoryLikes(storyId))
     return storyLikes.data.likes.length
-  }catch(error){
+  } catch (error) {
     throw error
   }
 }
 
 export const getStoryLikes = async (storyId: number): Promise<ILike[]> => {
-  try{
+  try {
     const storyLikes = await axiosInstance.get(API_ROUTES.stories.getStoryLikes(storyId))
     return storyLikes.data.likes
-  }catch(error){
+  } catch (error) {
     throw error
   }
 }
 
 export const setStoryLike = async (storyId: number): Promise<ILike> => {
-  try{
+  try {
     const storyLikes = await axiosInstance.patch(API_ROUTES.stories.setStoryLike(storyId))
     return storyLikes.data
-  }catch(error){
+  } catch (error) {
     throw error
   }
 }
 
 export const deleteStoryLike = async (storyId: number): Promise<ILike> => {
-  try{
+  try {
     const storyLikes = await axiosInstance.patch(API_ROUTES.stories.deleteStoryLike(storyId))
     return storyLikes.data
-  }catch(error){
+  } catch (error) {
     throw error
   }
 }
 
 export const getStoryViews = async (storyId: number): Promise<number> => {
-  try{
+  try {
     const storyViews = await axiosInstance.get(API_ROUTES.stories.getStoryViews(storyId))
     return storyViews.data.views.length
-  }catch(error){
+  } catch (error) {
     throw error
   }
 }
 
 export const setStoryView = async (storyId: number): Promise<IView> => {
-  try{
+  try {
     const storyView = await axiosInstance.patch(API_ROUTES.stories.setStoryView(storyId))
     return storyView.data
-  }catch(error){
+  } catch (error) {
     throw error
   }
 }

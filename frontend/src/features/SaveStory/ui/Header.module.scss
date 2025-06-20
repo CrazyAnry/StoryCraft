@@ -1,41 +1,125 @@
 .controlButton {
-  padding: 0.375rem 0.625rem; /* 6px 10px */
+  padding: 0.75rem 1.5rem;
   font-family: "Nunito", sans-serif;
   color: #fff;
   border: none;
-  border-radius: 0.5rem; /* 8px / 16 */
+  border-radius: 10px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2); /* 2px 6px */
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.1);
   user-select: none;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
 }
 
+/* Общие эффекты для всех кнопок */
+.controlButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.controlButton:active {
+  transform: translateY(0);
+}
+
+.controlButton::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.controlButton:hover::before {
+  opacity: 1;
+  animation: shine 1.5s infinite;
+}
+
+.controlButton:focus {
+  outline: none;
+  box-shadow: 
+    0 0 0 3px rgba(255, 255, 255, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Стили для конкретных кнопок */
 .controlButton.save {
-  background-color: #ff5722; /* colors.accent */
+  background: linear-gradient(135deg, #FF9800, #FF5722);
+}
+
+.controlButton.save:hover {
+  background: linear-gradient(135deg, #FFA726, #FF7043);
 }
 
 .controlButton.publish {
-  background-color: #ff5722;
-  box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  box-shadow: 
+    0 2px 8px rgba(76, 175, 80, 0.3),
+    0 4px 16px rgba(46, 125, 50, 0.2);
 }
 
-.controlButton.publish.disabled {
-  background-color: #999;
-  cursor: not-allowed;
-  box-shadow: none;
-  opacity: 0.7;
+.controlButton.publish:hover {
+  background: linear-gradient(135deg, #66BB6A, #388E3C);
+  box-shadow: 
+    0 4px 12px rgba(76, 175, 80, 0.4),
+    0 8px 24px rgba(46, 125, 50, 0.3);
 }
 
 .controlButton.unpublish {
-  background-color: #d32f2f;
-  box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #F44336, #D32F2F);
+  box-shadow: 
+    0 2px 8px rgba(244, 67, 54, 0.3),
+    0 4px 16px rgba(211, 47, 47, 0.2);
 }
 
-.controlButton.unpublish.disabled {
-  background-color: #999;
+.controlButton.unpublish:hover {
+  background: linear-gradient(135deg, #EF5350, #C62828);
+  box-shadow: 
+    0 4px 12px rgba(244, 67, 54, 0.4),
+    0 8px 24px rgba(211, 47, 47, 0.3);
+}
+
+/* Стили для disabled состояний */
+.controlButton.disabled {
+  background: #666 !important;
   cursor: not-allowed;
-  box-shadow: none;
+  box-shadow: none !important;
   opacity: 0.7;
+  transform: none !important;
+}
+
+.controlButton.disabled:hover::before {
+  animation: none;
+  opacity: 0;
+}
+
+/* Анимация shine */
+@keyframes shine {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
 }

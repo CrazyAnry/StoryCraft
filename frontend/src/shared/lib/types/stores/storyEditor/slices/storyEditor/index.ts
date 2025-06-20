@@ -11,6 +11,8 @@ export type StoryEditorActions = {
   setScenes: (scenes: IStoryHeader["scenes"]) => void;
   setCurrentStory: (value: number) => void;
   setStory: (value: IStoryHeader) => void;
+  setStories: (stories: IStoryHeader[]) => void,
+
 
   // Scene Actions
   addNewScene: () => void;

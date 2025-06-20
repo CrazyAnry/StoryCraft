@@ -2,76 +2,105 @@
 
 import React, { useEffect } from 'react';
 import s from './EditableHeader.module.scss'
-import { useStoryEditorStore } from '@/shared/stores';
+import { useStoryEditorStore, useUsersStore } from '@/shared/stores';
 import { useShallow } from 'zustand/shallow';
 import { useStories } from '@/shared/lib/hooks/useStories';
+import { usePathname } from 'next/navigation';
 
-export default function EditHeader(){
+export default function EditHeader() {
 
-    const {
-        story,
-        stories,
-        setTitle,
-        setDescription,
-        setStory
-    } = useStoryEditorStore(useShallow((state) => state));
+  const {
+    story,
+    stories,
+    setTitle,
+    setDescription,
+    setStory,
+    setStories
+  } = useStoryEditorStore(useShallow((state) => state));
+  const { currentUser } = useUsersStore()
+  const { getStory, oneStory } = useStories()
+  const pathname = usePathname()
 
-    const {getStory, oneStory} = useStories()
-    
-    useEffect(() => {
+  useEffect(() => {
+    if(pathname.split('/')[2] !== 'newStory')
       getStory()
-    }, [])
+  }, [])
 
-    useEffect(() => {
-      if(oneStory){
-        const editingStory = stories.findIndex(story => story.id === oneStory.id!)
-        if(editingStory === -1){
-          stories.push(oneStory)
-        }
-        else{
-          setStory(stories[editingStory])
-        }
+  useEffect(() => {
+    if (oneStory) {
+      const editingStory = stories.findIndex(story => story.id === oneStory.id!)
+      if (editingStory === -1) {
+        const updatedStories = [...stories, oneStory];
+        setStories(updatedStories)
+        setStory(updatedStories[updatedStories.length - 1]);
       }
-    }, [oneStory?.id])
-
-    if(!story){
-      return <h1>Loading...</h1>
+      else {
+        setStory(stories[editingStory])
+      }
     }
+    else {
+      const updatedStories = [...stories, {
+        id: newId(1),
+        title: "",
+        description: "",
+        image: null,
+        isPublic: false,
+        authorId: currentUser?.id!,
+        authorName: currentUser?.username!,
+        scenes: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }];
+      setStories(updatedStories)
+      setStory(updatedStories[updatedStories.length - 1]);
+    }
+  }, [oneStory?.id])
 
-    return (
-        <div className={s.container}>
-          <div className={s.titleRow}>
-            <div className={s.inputGroup}>
-              <label htmlFor="story-title" className={s.label}>
-                {story?.title}
-              </label>
-              <input
-                id="story-title"
-                type="text"
-                className={s.titleInput}
-                aria-label="Название истории"
-                value={story?.title || ""}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Название истории"
-              />
-              </div>
-              <div className={s.scenesCount}>
-                Количество сцен: {story.scenes!.length}
-              </div>
-            </div>
-            <div className={s.inputGroup}>
-            <label htmlFor="story-description" className={s.label}>
-              {story?.description}
-            </label>
-            <textarea
-              id="story-description"
-              className={s.description_edit}
-              value={story?.description || ""}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Описание истории"
-              aria-label="Описание истории"
-            />
-          </div>
+  const newId = (num: number) => {
+    if(stories.findIndex((s) => s.id === num)){
+      return newId(num + 1)
+    }
+    return num
+  }
+
+  if (!story) {
+    return <h1>Loading...</h1>
+  }
+
+  return (
+    <div className={s.container}>
+      <div className={s.titleRow}>
+        <div className={s.inputGroup}>
+          <label htmlFor="story-title" className={s.label}>
+            {story?.title}
+          </label>
+          <input
+            id="story-title"
+            type="text"
+            className={s.titleInput}
+            aria-label="Название истории"
+            value={story?.title || ""}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Название истории"
+          />
         </div>
-    );
+        <div className={s.scenesCount}>
+          Количество сцен: {story.scenes!.length}
+        </div>
+      </div>
+      <div className={s.inputGroup}>
+        <label htmlFor="story-description" className={s.label}>
+          {story?.description}
+        </label>
+        <textarea
+          id="story-description"
+          className={s.description_edit}
+          value={story?.description || ""}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Описание истории"
+          aria-label="Описание истории"
+        />
+      </div>
+    </div>
+  );
 };

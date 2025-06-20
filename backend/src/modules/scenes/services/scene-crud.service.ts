@@ -17,7 +17,7 @@ export class SceneCrudService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly helpers: HelpersService,
-  ) {}
+  ) { }
 
   async create(userId: number, storyId: number, data: CreateSceneDto): Promise<CreateResponse> {
     try {
@@ -52,7 +52,7 @@ export class SceneCrudService {
   async findAll(storyId: number): Promise<FindAllResponse> {
     try {
       await this.helpers.getEntityOrThrow<Story>('story', { id: storyId }, 'Story');
-      const scenes = await this.helpers.getEntityOrThrow<Scene>('scene', { storyId }, 'Scene', {isArray: true});
+      const scenes = await this.helpers.getEntityOrThrow<Scene>('scene', { storyId }, 'Scene', { isArray: true });
 
       if (!scenes) throw new Error('Scenes not found');
 
@@ -62,7 +62,7 @@ export class SceneCrudService {
     }
   }
 
-  async findOne(storyId: number, id: number): Promise<FindOneResponse> {
+  async findOne(storyId: number, id: number): Promise<FindOneResponse | []> {
     try {
       await this.helpers.getEntityOrThrow<Story>('story', { id: storyId }, 'Story');
       await this.helpers.getEntityOrThrow<Scene>('scene', { id, storyId }, 'Scene');
@@ -70,11 +70,11 @@ export class SceneCrudService {
       const scene = await this.prisma.scene.findUnique({
         where: { id, storyId },
       });
-      if (!scene) throw new Error('Scene not found');
+      if (!scene) return [];
 
       return { scene };
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 
