@@ -1,26 +1,45 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { getAllStories, getOneStory, getStoriesByLimit } from '@/shared/api/stories/queries'
-import { IStoryHeader } from '@/shared/lib'
-import { usePathname } from 'next/navigation'
-import { useUsersStore } from '@/shared/stores'
-import { changeStory } from '@/shared/api/stories/mutations'
+import { getAllStories, getOneStory, getStoriesByLimit, getUsersStoriesByLimit } from '@/shared/api/stories/queries'
+import { IScene, IStoryHeader } from '@/shared/lib'
+import { usePathname, useRouter } from 'next/navigation'
+import { useStoryEditorStore, useUsersStore } from '@/shared/stores'
+import { changeStory, createStory } from '@/shared/api/stories/mutations'
 import { changeScene, createScene } from '@/shared/api/scenes/mutations'
 import { changeChoice, createChoice } from '@/shared/api/choices/mutations'
+
 
 export const useStories = () => {
     const [stories, setStories] = useState<IStoryHeader[]>([])
     const [sortedStories, setSortedStories] = useState<IStoryHeader[]>([])
-    const [oneStory, setStory] = useState<IStoryHeader>()
+    const [oneStory, setOneStory] = useState<IStoryHeader>()
     const pathname = usePathname()
     const { currentUser } = useUsersStore()
+    const { setStory, story } = useStoryEditorStore()
+    const router = useRouter()
 
-    const getStory = async () => {
-        const response = await getOneStory(+pathname.split('/')[2])
-        setStory(response)
-        return response
+    const getStory = async (id?: number) => {
+        try {
+            const response = await getOneStory(id ? id : +pathname.split('/')[2])
+            if (response) {
+                setOneStory(response)
+                return response
+            }
+        }
+        catch (error) {
+            throw error
+        }
     }
+
+    const fetchAllUsersStoriesByLimit = useCallback(async (page: number = 1, limit: number = 7) => {
+        try {
+            const data = await getUsersStoriesByLimit(page, limit)
+            return data
+        } catch (error) {
+            throw error
+        }
+    }, [])
 
     const fetchAllUsersStories = useCallback(async () => {
         try {
@@ -53,48 +72,125 @@ export const useStories = () => {
         }
     }, [])
 
-    const updateStory = async (story: IStoryHeader) => {
+    const updateStory = async (savingStory: IStoryHeader) => {
         try {
-            const { scenes, ...updatedStory } = story
-            const currentStory = await getStory()
-            // await changeStory(story.id!, updatedStory)
-            for (const scene of scenes || []) {
-                if (!scene || !currentStory) continue;
-                const { choices, ...sceneData } = scene;
-                const existingScene = currentStory.scenes?.find(s => s.id === scene.id);
+            const { id, scenes, ...updatedStory } = savingStory;
+            let storyId = savingStory.id!;
+            let isNewStory = false;
 
-                if (existingScene) {
-                    await changeScene(story.id!, scene.id!, sceneData);
+            const currentStory = await getStory(storyId);
+
+            if (currentStory) {
+                await changeStory(storyId, updatedStory);
+            } else {
+                const createdStory = await createStory(updatedStory);
+                storyId = createdStory.id!;
+                isNewStory = true;
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 300));
+            const updatedStoryData = await getStory(storyId);
+
+            if (!updatedStoryData) {
+                throw new Error('Story not found after update');
+            }
+
+            const scenesToProcess = savingStory.scenes || [];
+            const existingScenes = updatedStoryData.scenes || [];
+
+            for (const [index, scene] of scenesToProcess.entries()) {
+                const { id, choices, ...sceneData } = scene;
+
+                if (existingScenes[index]) {
+                    await changeScene(storyId, existingScenes[index].id!, {
+                        ...sceneData,
+                        storyId: storyId
+                    });
                 } else {
-                    const { id, ...newSceneData } = sceneData;
-                    await createScene(story.id!, newSceneData);
+                    await createScene(storyId, {
+                        ...sceneData,
+                        storyId: storyId
+                    });
                 }
             }
 
-            for (const scene of story.scenes || []) {
-                if (!scene) continue;
-                console.log(123)
-                const { choices, ...sceneData } = scene;
+            const allScenes = (await getStory(storyId))?.scenes || [];
 
-                for (const choice of choices || []) {
+
+            for (const [sceneIndex, scene] of scenesToProcess.entries()) {
+                if (!scene || !allScenes[sceneIndex]) continue;
+
+                const choicesToProcess = scene.choices || [];
+                const existingChoices = allScenes[sceneIndex].choices || [];
+
+                for (const [choiceIndex, choice] of choicesToProcess.entries()) {
                     if (!choice) continue;
 
-                    console.log(125)
+                    const { id, ...choiceData } = choice;
 
+                    let nextSceneId: string | number;
+                    let nextScene: IScene | undefined;
 
-                    const { id, ...newChoiceData } = choice;
-                    await createChoice(story.id!, scene.id!, newChoiceData);
-                    
+                    if (choiceData.nextSceneId <= allScenes.length) {
+                        const nextSceneIndex = choiceData.nextSceneId - 1;
+
+                        if (nextSceneIndex < 0 || nextSceneIndex >= allScenes.length) {
+                            throw new Error(`Invalid next scene index: ${nextSceneIndex}`);
+                        }
+
+                        nextScene = allScenes[nextSceneIndex];
+                        if (!nextScene?.id) {
+                            throw new Error(`Next scene not found at index ${nextSceneIndex}`);
+                        }
+
+                        nextSceneId = nextScene.id;
+                    }
+                    else {
+                        nextSceneId = choiceData.nextSceneId;
+                        nextScene = allScenes.find(s => s.id === nextSceneId);
+
+                        if (!nextScene) {
+                            throw new Error(`Next scene not found with ID: ${nextSceneId}`);
+                        }
+                    }
+
+                    const choicePayload = {
+                        ...choiceData,
+                        nextSceneId: nextScene.id!,
+                        sceneId: allScenes[sceneIndex].id!,
+                        storyId: storyId
+                    };
+
+                    if (existingChoices[choiceIndex]) {
+                        await changeChoice(
+                            storyId,
+                            allScenes[sceneIndex].id!,
+                            existingChoices[choiceIndex].id!,
+                            choicePayload
+                        );
+                    } else {
+                        await createChoice(
+                            storyId,
+                            allScenes[sceneIndex].id!,
+                            choicePayload
+                        );
+                    }
+                    isNewStory && router.push(`/editor/${storyId}`)
                 }
             }
+            const storyToUpdate = JSON.parse(JSON.stringify({
+                ...updatedStoryData,
+                id: storyId
+            }));
 
-            return story;
+            const gettedStory = await getStory(storyId)
+            setStory(storyToUpdate)
+            return gettedStory;
         } catch (error) {
-            console.error("Failed to update story:", error);
+            console.error("Error updating story:", error);
             throw error;
         }
-    };
-
+    }
 
     useEffect(() => {
         fetchStoriesByLimit()
@@ -107,7 +203,8 @@ export const useStories = () => {
         fetchAllStories,
         getStory,
         oneStory,
-        fetchAllUsersStories,
-        updateStory
+        fetchAllUsersStoriesByLimit,
+        updateStory,
+        fetchAllUsersStories
     }
 }

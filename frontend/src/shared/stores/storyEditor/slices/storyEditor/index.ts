@@ -18,63 +18,65 @@ export const storyEditorSlice: StateCreator<
   setId: (id) => set(state => {
     if (!state.story) return;
     const updatedStory = { ...state.story, id };
-    return { 
-      story: updatedStory, 
-      stories: updateStories(updatedStory, state.stories) 
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
     };
   }),
+
+  setStories: (stories) => set({ stories }),
 
   setTitle: (title) => set(state => {
     if (!state.story) return;
     const updatedStory = { ...state.story, title };
-    return { 
-      story: updatedStory, 
-      stories: updateStories(updatedStory, state.stories) 
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
     };
   }),
 
   setAuthorId: (authorId) => set(state => {
     if (!state.story) return;
     const updatedStory = { ...state.story, authorId };
-    return { 
-      story: updatedStory, 
-      stories: updateStories(updatedStory, state.stories) 
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
     };
   }),
 
   setDescription: (description) => set(state => {
     if (!state.story) return;
     const updatedStory = { ...state.story, description };
-    return { 
-      story: updatedStory, 
-      stories: updateStories(updatedStory, state.stories) 
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
     };
   }),
 
   setImage: (image) => set(state => {
     if (!state.story) return;
     const updatedStory = { ...state.story, image };
-    return { 
-      story: updatedStory, 
-      stories: updateStories(updatedStory, state.stories) 
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
     };
   }),
 
   setIsPublic: (isPublic) => set(state => {
     if (!state.story) return;
     const updatedStory = { ...state.story, isPublic };
-    return { 
-      story: updatedStory, 
-      stories: updateStories(updatedStory, state.stories) 
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
     };
   }),
 
   setScenes: (scenes) => set(state => {
     if (!state.story) return;
     const updatedStory = { ...state.story, scenes };
-    return { 
-      story: updatedStory, 
-      stories: updateStories(updatedStory, state.stories) 
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
     };
   }),
 
@@ -85,7 +87,7 @@ export const storyEditorSlice: StateCreator<
   },
 
   setStory: (currentStory: IStoryHeader) => {
-    set({ 
+    set({
       story: currentStory,
       stories: updateStories(currentStory, get().stories)
     });
@@ -95,7 +97,9 @@ export const storyEditorSlice: StateCreator<
   addNewScene: () => set(state => {
     if (!state.story) return;
 
-    const nextSceneId = Math.max(0, ...state.story.scenes!.map((s, index) => index)) + 1;
+    const nextSceneId = state.story.scenes!.length > 0
+      ? Math.max(...state.story.scenes!.map(s => s.id || 0)) + 1
+      : 1;
 
     const newScene: IScene = {
       id: nextSceneId,
@@ -105,14 +109,7 @@ export const storyEditorSlice: StateCreator<
       isEnd: false,
       storyId: state.story.id || 0,
       maxChoices: 1,
-      choices: [{
-        id: 1,
-        text: '',
-        nextSceneId: 0,
-        access: true,
-        sceneId: nextSceneId,
-        storyId: state.story.id || 0
-      }]
+      choices: []
     };
 
     const updatedStory = {
@@ -128,7 +125,7 @@ export const storyEditorSlice: StateCreator<
 
   removeScene: (sceneId) => set(state => {
     if (!state.story) return;
-    
+
     const updatedStory = {
       ...state.story,
       scenes: state.story.scenes!.filter(s => s.id !== sceneId)
@@ -192,42 +189,42 @@ export const storyEditorSlice: StateCreator<
     };
   }),
 
-setSceneMaxChoices: (sceneId, maxChoices) => set(state => {
-  if (!state.story) return;
+  setSceneMaxChoices: (sceneId, maxChoices) => set(state => {
+    if (!state.story) return;
 
-  const updatedStory = {
-    ...state.story,
-    scenes: (state.story.scenes ?? []).map(scene => {
-      if (scene.id !== sceneId) return scene;
+    const updatedStory = {
+      ...state.story,
+      scenes: (state.story.scenes ?? []).map(scene => {
+        if (scene.id !== sceneId) return scene;
 
-      const currentChoices = scene.choices || [];
-      const withText = currentChoices.filter(c => c.text?.trim());
-      const withoutText = currentChoices.filter(c => !c.text?.trim());
+        const currentChoices = scene.choices || [];
+        const withText = currentChoices.filter(c => c.text?.trim());
+        const withoutText = currentChoices.filter(c => !c.text?.trim());
 
-      let updatedChoices = [...currentChoices];
+        let updatedChoices = [...currentChoices];
 
-      if (withText.length >= maxChoices) {
-        updatedChoices = withText.slice(0, maxChoices);
-      } else {
-        updatedChoices = [
-          ...withText,
-          ...withoutText.slice(0, maxChoices - withText.length)
-        ];
-      }
+        if (withText.length >= maxChoices) {
+          updatedChoices = withText.slice(0, maxChoices);
+        } else {
+          updatedChoices = [
+            ...withText,
+            ...withoutText.slice(0, maxChoices - withText.length)
+          ];
+        }
 
-      return {
-        ...scene,
-        maxChoices,
-        choices: updatedChoices
-      };
-    })
-  };
+        return {
+          ...scene,
+          maxChoices,
+          choices: updatedChoices
+        };
+      })
+    };
 
-  return {
-    story: updatedStory,
-    stories: updateStories(updatedStory, state.stories)
-  };
-}),
+    return {
+      story: updatedStory,
+      stories: updateStories(updatedStory, state.stories)
+    };
+  }),
 
   setSceneImage: (sceneId, image) => set(state => {
     if (!state.story) return;

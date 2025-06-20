@@ -21,7 +21,7 @@ export default function ReadHeader() {
   useEffect(() => {
     getStory()
   }, [])
-
+  
   useEffect(() => {
     const isLiked = async () => {
       if (oneStory) {

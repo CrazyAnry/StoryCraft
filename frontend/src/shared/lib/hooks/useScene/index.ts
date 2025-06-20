@@ -14,8 +14,12 @@ export const useScene = () => {
         const storyId = pathname.split('/')[2]
         const getScene = await getOneScene(+storyId, +URLsceneId!)
         const sceneChoices = await getAllChoices(+storyId, +URLsceneId!)
-        setScene({...getScene, ...sceneChoices})
-        return {...getScene, ...sceneChoices}
+        if(getScene && sceneChoices){
+            setScene({ ...getScene, choices: sceneChoices})
+            return {...getScene, choices: sceneChoices}
+        }
+        setScene(getScene)
+        return {...getScene, choices: []}
     }
 
     return {getScene, scene}

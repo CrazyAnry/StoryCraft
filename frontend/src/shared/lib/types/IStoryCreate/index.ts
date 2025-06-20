@@ -1,5 +1,4 @@
 export interface IStoryCreate {
-  id: number | null;
   title: string | null;
   description: string | null;
   image: string | null;

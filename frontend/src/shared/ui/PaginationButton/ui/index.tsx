@@ -12,7 +12,7 @@ interface Props{
 
 export default function Pagination({ mode='home' }: Props) {
   const [totalPages, setTotalPages] = useState(0)
-  const { fetchStoriesByLimit, fetchAllUsersStories } = useStories()
+  const { fetchStoriesByLimit, fetchAllUsersStoriesByLimit, fetchAllUsersStories } = useStories()
   const { setSortedStories, setCurrentPage, limit, currentPage } = useSortedStoriesStore();
   const numbers = []
 
@@ -20,13 +20,13 @@ export default function Pagination({ mode='home' }: Props) {
     if (newPage < 1 || newPage > totalPages) return;
 
     setCurrentPage(newPage);
-    setSortedStories(mode === 'home' ? await fetchStoriesByLimit(newPage, limit) : await fetchAllUsersStories());
+    setSortedStories(mode === 'home' ? await fetchStoriesByLimit(newPage, limit) : await fetchAllUsersStoriesByLimit(newPage, 7));
   }, [fetchStoriesByLimit, limit, totalPages]);
 
   useEffect(() => {
     const getStories = async () => {
       const res = mode === 'home' ? await getAllStories() : await fetchAllUsersStories()
-      setTotalPages(Math.ceil(res.length / limit))
+      mode === 'home' ? setTotalPages(Math.ceil(res.length / limit)) : setTotalPages(Math.ceil(res.length / 7))
     }
 
     getStories()

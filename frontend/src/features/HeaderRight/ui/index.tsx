@@ -8,7 +8,7 @@ export default function HeaderRight() {
     const { isAuth, user } = useAuthStore();
     return (
       <nav className={s.nav}>
-          <Link href="/editor/1">
+          <Link href="/create">
             <span className={s.navLink} title="Создать">
               ✍️
               <span>Создать</span>

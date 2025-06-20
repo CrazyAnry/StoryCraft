@@ -18,3 +18,12 @@ export const createScene = async (storyId: number, body: IScene): Promise<object
     throw error;
   }
 };
+
+export const deleteScene = async (storyId: number, sceneId: number): Promise<object> => {
+  try {
+    const response = await axiosInstance.delete(`stories/${storyId}/scene/${sceneId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
