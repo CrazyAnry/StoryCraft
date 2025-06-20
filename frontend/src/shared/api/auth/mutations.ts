@@ -29,3 +29,15 @@ export const login = async (data: LoginDto): Promise<AuthResponse | undefined> =
     throw error;
   }
 };
+
+export const logout = async () => {
+  try {
+    await axiosInstance.post(API_ROUTES.auth.logout);
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      toast.error(`Ошибка при выходе: ${error.response?.data.message}`);
+      return;
+    }
+    throw error;
+  }
+};

@@ -8,4 +8,5 @@ export type AuthSlice = {
   // Actions
   setUser: (user: IUser | null) => void;
   setIsAuth: (isAuth: boolean) => void;
+  logout: () => void;
 }

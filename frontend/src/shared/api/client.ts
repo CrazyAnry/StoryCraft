@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useAuthStore } from "../stores";
+import { toast } from 'react-toastify';
 
 // Нельзя использовать хук или состояние напрямую вне компонента
 // Создаем отдельный экземпляр хранилища

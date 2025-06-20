@@ -65,6 +65,7 @@ export default function BioBlock() {
               placeholder="Добавьте описание..."
               rows={3}
             />
+            <p className={s.editText}>Нажмите Enter для сохранения или Escape для отмены</p>
           </div>
         ) : (
           <div className={s.bioContainer}>

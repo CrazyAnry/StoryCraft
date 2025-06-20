@@ -21,14 +21,22 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const canActivate = await super.canActivate(context);
-    if (!canActivate) return false;
-
+    // First check if the token is revoked before validating with passport
     const token = this.getTokenFromRequest(context);
     
+    if (!token) {
+      throw new UnauthorizedException('No token provided');
+    }
+
     const isRevoked = await this.userAuthHelperService.isTokenRevoked(token);
-    if (isRevoked || !token) {
+    if (isRevoked) {
       throw new ForbiddenException('Token has been revoked');
+    }
+
+    // Then proceed with passport JWT validation
+    const canActivate = await super.canActivate(context);
+    if (!canActivate) {
+      return false;
     }
 
     return true;

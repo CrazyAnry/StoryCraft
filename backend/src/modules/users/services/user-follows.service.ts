@@ -45,6 +45,34 @@ export class UserFollowsService {
     }
   }
 
+  async findAllFollowings(userId: number) {
+    try {
+      await this.helperService.getEntityOrThrow<User>('user', { id: userId }, 'User');
+      const follows = await this.prisma.follow.findMany({
+        where: {
+          followerId: userId,
+        },
+        include: {
+          followingUser: true,
+        },
+      });
+
+      const users = follows.map((follow) => follow.followingUser);
+
+      const followsWithoutPassword = follows.map((follow) => {
+        const { ...rest } = follow;
+        return {
+          ...rest,
+          followingUser: users,
+        };
+      });
+
+      return { follows: followsWithoutPassword };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
    * Follow a user
    * @param userId - The ID of the user

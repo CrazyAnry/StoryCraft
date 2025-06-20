@@ -14,3 +14,4 @@ export * from "./IView";
 export * from "./IPaginatedResult";
 
 export * from "./stores";
+export * from "./IFollow";

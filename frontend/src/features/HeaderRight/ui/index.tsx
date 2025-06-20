@@ -17,7 +17,7 @@ export default function HeaderRight() {
           <Link href={isAuth ? `/account/${user?.id}` : "/auth/login"}>
             <span className={s.navLink} title="Профиль">
               👤
-              <span>Профиль</span>
+              <span>{isAuth ? "Профиль" : "Войти"}</span>
             </span>
           </Link>
           <Link href="/settings">

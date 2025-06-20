@@ -21,6 +21,11 @@
   height: 20px;
 }
 
+.editText {
+  color: $main-light;
+  opacity: 0.5;
+}
+
 .avatar {
   width: 200px;
   height: 200px;
@@ -71,6 +76,10 @@
   max-width: 900px;
   white-space: normal;
   word-break: break-word; /* Жёсткий перенос, если слово не помещается */
+  font-size: 28px;
+  color: #ff4757;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
 }
 
 .bioContainer {

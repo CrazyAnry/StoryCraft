@@ -19,7 +19,7 @@ export class UserFollowsController {
   constructor(private readonly userFollowsService: UserFollowsService) {}
 
   // Find all followers
-  @Get(':userId')
+  @Get('followers/:userId')
   @ApiOperation({ summary: 'Find all followers of a user' })
   @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
   @ApiResponse({
@@ -30,6 +30,20 @@ export class UserFollowsController {
   findAllFollowers(@Param('userId') userId: string) {
     return this.userFollowsService.findAllFollowers(+userId);
   }
+
+  // Find all followings
+  @Get('followings/:userId')
+  @ApiOperation({ summary: 'Find all followings of a user' })
+  @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns a list of followings for the specified user',
+  })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  findAllFollowings(@Param('userId') userId: string) {
+    return this.userFollowsService.findAllFollowings(+userId);
+  }
+
 
   // Follow
   @Post('follow/:followerId')

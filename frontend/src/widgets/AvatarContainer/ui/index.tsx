@@ -7,19 +7,78 @@ import { Modal, NewModal } from "@/shared/ui";
 import { useState, useRef, useEffect } from "react";
 import { updateMe } from "@/shared/api/users/mutations";
 import { MdModeEdit } from "react-icons/md";
+import {
+  FastAverageColor,
+  FastAverageColorResult,
+  FastAverageColorRgb,
+} from "fast-average-color";
+import { IFollow, IUser } from "@/shared/lib/types";
+import { follow, unfollow } from "@/shared/api/follow/mutations";
+import { FollowsBlock } from "@/features";
 
 export default function AvatarContainer() {
   const { user } = useAuthStore();
-  const { currentUser, updateUser } = useUsersStore();
+  const {
+    currentUser,
+    updateUser,
+    addFollow,
+    removeFollow,
+    allFollows,
+    getAccountFollowers,
+  } = useUsersStore();
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModalFollowers, setShowModalFollowers] = useState<boolean>(false);
+  const [showModalFollowing, setShowModalFollowing] = useState<boolean>(false);
   const [avatarUrlValue, setAvatarUrlValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const fac = new FastAverageColor();
+  const [shadowColor, setShadowColor] = useState<string>("#666666"); // Default fallback color
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  const [followings, setFollowings] = useState<IUser[]>([]);
+  const [followers, setFollowers] = useState<IUser[]>([]);
+
+  useEffect(() => {
+    if (allFollows && user?.id && currentUser?.id) {
+      const isFollowed = allFollows.some(
+        (follow) =>
+          follow.followerId === currentUser.id && follow.followingId === user.id
+      );
+      setIsFollowed(isFollowed);
+    }
+  }, [allFollows, user?.id, currentUser?.id]);
 
   useEffect(() => {
     if (showModal && inputRef.current) {
       inputRef.current.focus();
     }
   }, [showModal]);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img || !imageLoaded) return;
+
+    // Only analyze color if image is loaded and has a valid source
+    const isDefaultImage = img.src.includes("withoutAvatar.png");
+
+    if (isDefaultImage) {
+      // Set a default color for the placeholder image
+      setShadowColor("#666666");
+      return;
+    }
+
+    fac
+      .getColorAsync(img)
+      .then((res: FastAverageColorResult) => {
+        setShadowColor(res.rgb);
+      })
+      .catch((error) => {
+        console.warn("FastAverageColor error:", error);
+        // Fallback to default color on error
+        setShadowColor("#666666");
+      });
+  }, [currentUser?.avatarUrl, imageLoaded]);
 
   if (!currentUser) return null;
 
@@ -28,6 +87,38 @@ export default function AvatarContainer() {
   const handleEditAvatar = () => {
     setShowModal(true);
     setAvatarUrlValue(avatarUrl || "");
+  };
+
+  const handleFollowers = () => {
+    setShowModalFollowers(true);
+  };
+
+  const handleFollowing = () => {
+    setShowModalFollowing(true);
+    console.log(followings);
+  };
+
+  const handleFollow = () => {
+    if (!user?.id) return;
+    addFollow({
+      id: allFollows.length + 1,
+      followerId: currentUser.id,
+      followingId: user.id,
+      follower: currentUser,
+      following: user,
+      followerUser: [currentUser],
+      followingUser: [user],
+      followedUser: [user],
+    });
+    setIsFollowed(true);
+    follow(currentUser.id);
+  };
+
+  const handleUnfollow = () => {
+    if (!user?.id) return;
+    removeFollow(user.id, currentUser.id);
+    setIsFollowed(false);
+    unfollow(currentUser.id);
   };
 
   const handleSaveAvatar = () => {
@@ -51,25 +142,107 @@ export default function AvatarContainer() {
     }
   };
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    if (showModalFollowers || showModalFollowing) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [showModalFollowers, showModalFollowing]);
+
+  const closeModal = () => {
+    setShowModal(false);
+    setShowModalFollowers(false);
+    setShowModalFollowing(false);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.currentTarget;
+    if (target.src !== location.origin + "/withoutAvatar.png") {
+      target.src = "/withoutAvatar.png";
+      setImageLoaded(true); // Mark as loaded even for fallback
+    }
+  };
+
+  useEffect(() => {
+    if (allFollows && currentUser?.id) {
+      const followings = allFollows
+      .filter((follow) => follow.followingId === currentUser.id).flatMap((follow) => follow.followedUser)
+
+      const followers = allFollows
+      .filter((follow) => follow.followerId === currentUser.id)
+      .flatMap((follow) => follow.followingUser) // Use all users in the array
+      .filter((user): user is IUser => Boolean(user?.id)) // Type-safe filter
+      .filter(
+        (user, index, self) =>
+          index === self.findIndex((u) => u.id === user.id)
+      ) // Deduplicate
+  
+      setFollowings(followings);
+      setFollowers(followers)
+    }
+  }, [allFollows, currentUser?.id]);
+
   return (
     <div className={s.avatarContainer}>
       <img
-        src={avatarUrl || "/withoutAvatar.png"}
+        src={`/api/image-proxy?url=${encodeURIComponent(avatarUrl || "/withoutAvatar.png")}`}
         alt="avatar"
         title={username}
         className={s.avatar}
-        onError={(e) => {
-          const target = e.currentTarget;
-          if (target.src !== location.origin + "/withoutAvatar.png") {
-            target.src = "/withoutAvatar.png";
-          }
+        onLoad={handleImageLoad}
+        onError={handleImageError}
+        ref={imgRef}
+        style={{
+          boxShadow: `0 0 25px 5px ${shadowColor}`,
+          border: `2px solid ${shadowColor}`,
         }}
       />
-      {user?.id === currentUser?.id && (
+      {user?.id === currentUser?.id ? (
         <button onClick={handleEditAvatar} className={s.editAvatar}>
           Изменить
         </button>
+      ) : isFollowed ? (
+        <button onClick={handleUnfollow} className={s.followButton}>
+          Отписаться
+        </button>
+      ) : (
+        <button onClick={handleFollow} className={s.followButton}>
+          Подписаться
+        </button>
       )}
+      <button
+        onClick={handleFollowers}
+        className={s.editAvatar + " " + s.followers}
+      >
+        Подписчики (
+        {
+          followers.length
+        }
+        )
+      </button>
+      <button
+        onClick={handleFollowing}
+        className={s.editAvatar + " " + s.following}
+      >
+        Подписки (
+        {
+          followings.length
+        }
+        )
+      </button>
       {showModal && (
         <NewModal setIsVisible={setShowModal} isVisible={showModal}>
           <div className={s.modalContent}>
@@ -100,6 +273,37 @@ export default function AvatarContainer() {
                 Отмена
               </button>
             </div>
+          </div>
+        </NewModal>
+      )}
+      {showModalFollowers && (
+        <NewModal
+          setIsVisible={setShowModalFollowers}
+          isVisible={showModalFollowers}
+        >
+          <div onKeyDown={handleKeyDown} className={s.modalContent}>
+            <h3 className={s.modalTitle}>
+              Подписчики (
+              { followers.length }
+              )
+            </h3>
+            <FollowsBlock accounts={followers} />
+          </div>
+        </NewModal>
+      )}
+
+      {showModalFollowing && (
+        <NewModal
+          setIsVisible={setShowModalFollowing}
+          isVisible={showModalFollowing}
+        >
+          <div onKeyDown={handleKeyDown} className={s.modalContent}>
+            <h3 className={s.modalTitle}>
+              Подписки (
+              { followings.length }
+              )
+            </h3>
+            <FollowsBlock accounts={followings} />
           </div>
         </NewModal>
       )}

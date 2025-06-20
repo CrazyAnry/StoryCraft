@@ -48,6 +48,11 @@
 .username {
   display: flex;
   align-items: center;
+  font-size: 64px;
+
+  color: #ff4757;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
 }
 
 .verified {

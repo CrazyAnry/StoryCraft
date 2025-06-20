@@ -90,8 +90,23 @@ export class UserAuthService {
    */
   async login(loginUserDto: LoginUserDto): Promise<LoginResponse> {
     try {
-      const user = await this.prisma.user.findUnique({
-        where: { email: loginUserDto.email, username: loginUserDto.username },
+      const user = await this.prisma.user.findFirst({
+        where: {
+          AND: [
+            {
+              email: {
+                equals: loginUserDto.email?.toLowerCase(),
+                mode: 'insensitive',
+              },
+            },
+            {
+              username: {
+                equals: loginUserDto.username?.toLowerCase(),
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
       });
       if (!user) {
         throw new NotFoundException('User with this email not found');
@@ -123,7 +138,7 @@ export class UserAuthService {
 
   async validateGoogleUser(googleUser: CreateUserDto) {
     try {
-      const user = await this.prisma.user.findUnique({
+      const user = await this.prisma.user.findFirst({
         where: {
           email: googleUser.email,
         },

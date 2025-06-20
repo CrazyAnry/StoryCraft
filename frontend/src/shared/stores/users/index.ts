@@ -1,16 +1,22 @@
 import { create } from "zustand";
-import { devtools, persist, subscribeWithSelector, createJSONStorage } from "zustand/middleware";
+import {
+  devtools,
+  persist,
+  subscribeWithSelector,
+  createJSONStorage,
+} from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-import { UsersSlice } from "@/shared/lib/types";
-import { usersSlice } from "./slices";
+import { UsersStore } from "@/shared/lib/types";
+import { usersSlice, followsSlice } from "./slices";
 
-export const useUsersStore = create<UsersSlice>()(
+export const useUsersStore = create<UsersStore>()(
   devtools(
     persist(
       subscribeWithSelector(
         immer((...a) => ({
           ...usersSlice(...a),
+          ...followsSlice(...a),
         }))
       ),
       {

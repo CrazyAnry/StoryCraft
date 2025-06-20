@@ -5,10 +5,17 @@ export const API_ROUTES = {
     logout: "/users/auth/logout",
     me: "/users/auth/me",
     updateUserJwt: "/users/auth/update-user-jwt",
+    
   },
   users: {
     findUser: "/users/",
     updateMe: "/users/me",
+  },
+  follow: {
+    follow: "/users/follows/follow/",
+    unfollow: "/users/follows/unfollow/",
+    followers: "/users/follows/followers/",
+    followings: "/users/follows/followings/",
   },
   stories: {
     AllStories: "/stories",

@@ -1,0 +1,42 @@
+@use "sass:color";
+@use "@/app/(default)/styles/variables.scss" as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: $main-dark;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff4757;
+  transition: all 0.15s ease;
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+
+  &:hover {
+    transform: scale(1.1);
+    text-shadow: 0 0 15px rgba(255, 71, 87, 0.8);
+  }
+}
+
+.username {
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 10px;
+  color: #ff4757;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+
+  &:hover {
+    text-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
+  }
+}

@@ -2,7 +2,7 @@
 
 import s from "./AccountInfo.module.scss";
 import { useUsersStore } from "@/shared/stores/users";
-import { BioBlock, RoleAndPlanBlock, UsernameBlock } from "@/features";
+import { BioBlock, RoleAndPlanBlock, UsernameBlock, LogoutBlock } from "@/features";
 
 export default function AccountInfo() {
   const { currentUser } = useUsersStore();
@@ -17,6 +17,8 @@ export default function AccountInfo() {
       <RoleAndPlanBlock />
 
       <BioBlock />
+
+      <LogoutBlock />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { UsersSlice } from "@/shared/lib";
+import { UsersSlice, FollowsSlice } from "@/shared/lib";
 
 export * from "./slices";
-export type UsersStore = UsersSlice;
+export type UsersStore = UsersSlice & FollowsSlice;
