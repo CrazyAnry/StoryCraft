@@ -90,6 +90,35 @@ export class StoryCrudService {
     try {
       const stories = await 
         this.prisma.story.findMany({
+          where: {
+            isPublic: true
+          },
+          skip,
+          take: limit
+        });
+
+      return {
+        stories
+      };
+    } catch (error) {
+      throw new Error(`Failed to fetch stories: ${error.message}`);
+    }
+  }
+
+  async AllMyStoriesByLimit(
+    userId: number,
+    options?: {page: number, limit: number}
+  ): Promise<FindAllResponse>  {
+    const page = Number(options!.page) || 1;
+    const limit = Number(options?.limit) || 6;
+    const skip = (page - 1) * limit;
+
+    try {
+      const stories = await 
+        this.prisma.story.findMany({
+          where: {
+            authorId: userId
+          },
           skip,
           take: limit
         });
@@ -154,22 +183,11 @@ export class StoryCrudService {
     }
 
     try {
-      const updatedStory = await this.prisma.story.update({
-        where: { id },
-        data: {
-          ...updateStoryDto,
-          scenes: {
-            deleteMany: {
-              storyId: id,
-            },
-          },
-          choices: {
-            deleteMany: {
-              storyId: id,
-            },
-          },
-        },
-      }); // TODO: Refactor
+    const updatedStory = await this.prisma.story.update({
+      where: { id },
+      data: updateStoryDto,
+    });
+   // TODO: Refactor
 
       return { story: updatedStory };
     } catch (error) {

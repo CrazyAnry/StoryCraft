@@ -14,6 +14,7 @@ export default function StoryReader() {
 
     useEffect(() => {
         getScene()
+        console.log(scene)
     }, [pathname]);
 
     if (scene === null) {
@@ -34,7 +35,7 @@ export default function StoryReader() {
     return (
         <div className={s.container}>
             <StoryQuestionBase/>
-            <ChoicesGenerator choices={scene.choices} />
+            <ChoicesGenerator choices={scene?.choices!} />
         </div>
     );
 };

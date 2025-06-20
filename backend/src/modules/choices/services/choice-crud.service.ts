@@ -42,7 +42,7 @@ export class ChoiceCrudService {
     }
   }
 
-  async findAll(storyId: number, sceneId: number): Promise<FindAllResponse> {
+  async findAll(storyId: number, sceneId: number): Promise<FindAllResponse | []> {
     try {
       const choices = await this.helpers.getEntityOrThrow<Choice>(
         'choice',
@@ -50,9 +50,11 @@ export class ChoiceCrudService {
         'Choice',
         { isArray: true },
       );
+
       return { choices };
     } catch (error) {
-      throw error;
+      return []
+      console.error(error)
     }
   }
 

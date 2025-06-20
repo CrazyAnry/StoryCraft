@@ -10,6 +10,6 @@ export interface IStoryHeader {
   updatedAt: string | null;
   isPublic: boolean;
   authorName?: string | null;
-  scenes: IScene[];
+  scenes: IScene[] | [];
   sortValue?: number;
 }

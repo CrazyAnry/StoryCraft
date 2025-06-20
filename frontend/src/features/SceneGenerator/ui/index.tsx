@@ -6,6 +6,7 @@ import { useStoryEditorStore } from '@/shared/stores';
 import { useShallow } from 'zustand/shallow';
 import { SceneCard } from '@/entities';
 import { useStories } from '@/shared/lib/hooks/useStories';
+import { usePathname } from 'next/navigation';
 
 export default function SceneGenerator() {
     const {
@@ -13,10 +14,12 @@ export default function SceneGenerator() {
         addNewScene
     } = useStoryEditorStore(useShallow((state) => state));
 
-    const {getStory, oneStory} = useStories()
-    
+    const { getStory, oneStory } = useStories()
+    const pathname = usePathname()
+
     useEffect(() => {
-      getStory()
+        if (pathname.split('/')[2] !== 'newStory')
+            getStory()
     }, [])
 
     if (!story) {
@@ -29,9 +32,9 @@ export default function SceneGenerator() {
 
     return (
         <>
-            {story.scenes!.map((scene, index) => (
-                <SceneCard key={index} sceneId={scene.id!} sceneIndex={index} />
-            ))}
+            {story.scenes?.map((scene, index) => {
+                return <SceneCard key={scene.id} sceneId={scene.id!} sceneIndex={index} />
+            })}
 
             <button onClick={addNewScene} className={s.addSceneButton}>
                 Добавить сцену
