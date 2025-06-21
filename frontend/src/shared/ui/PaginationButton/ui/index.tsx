@@ -26,7 +26,7 @@ export default function Pagination({ mode='home' }: Props) {
   useEffect(() => {
     const getStories = async () => {
       const res = mode === 'home' ? await getAllStories() : await fetchAllUsersStories()
-      mode === 'home' ? setTotalPages(Math.ceil(res.length / limit)) : setTotalPages(Math.ceil(res.length / 7))
+      mode === 'home' ? setTotalPages(Math.ceil(res.filter((s) => s.isPublic === true).length / limit)) : setTotalPages(Math.ceil(res.length / 7))
     }
 
     getStories()

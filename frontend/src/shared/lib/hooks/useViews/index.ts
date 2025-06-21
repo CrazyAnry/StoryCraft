@@ -2,15 +2,19 @@
 
 import { getStoryViews, setStoryView } from "@/shared/api/stories/queries"
 import { useState } from "react"
-import { IView } from "@/shared/lib"
 
 export const useViews = () => {
     const [views, setViews] = useState<number>()
 
     async function getViews(storyId: number) {
-        const viewsCount = await getStoryViews(storyId)
-        setViews(viewsCount)
-        return viewsCount
+        try{
+            const viewsCount = await getStoryViews(storyId)
+            setViews(viewsCount)
+            return viewsCount
+        } catch{
+            setViews(0)
+            return 0
+        }
     }
 
     async function setView(storyId: number) {

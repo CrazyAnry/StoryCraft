@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-width: 180px; // Увеличил для текста "Отменить публикацию"
+  min-width: 180px;
   
   &:hover:not(.disabled) {
     transform: translateY(-2px);

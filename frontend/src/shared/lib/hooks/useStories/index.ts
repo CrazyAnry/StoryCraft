@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useStoryEditorStore, useUsersStore } from '@/shared/stores'
 import { changeStory, createStory } from '@/shared/api/stories/mutations'
 import { changeScene, createScene } from '@/shared/api/scenes/mutations'
-import { changeChoice, createChoice } from '@/shared/api/choices/mutations'
+import { changeChoice, createChoice, deleteChoice } from '@/shared/api/choices/mutations'
 
 
 export const useStories = () => {
@@ -89,14 +89,14 @@ export const useStories = () => {
             }
 
             await new Promise(resolve => setTimeout(resolve, 300));
-            const updatedStoryData = await getStory(storyId);
+            const storyData = await getStory(storyId);
 
-            if (!updatedStoryData) {
+            if (!storyData) {
                 throw new Error('Story not found after update');
             }
 
             const scenesToProcess = savingStory.scenes || [];
-            const existingScenes = updatedStoryData.scenes || [];
+            const existingScenes = storyData.scenes || [];
 
             for (const [index, scene] of scenesToProcess.entries()) {
                 const { id, choices, ...sceneData } = scene;
@@ -116,13 +116,10 @@ export const useStories = () => {
 
             const allScenes = (await getStory(storyId))?.scenes || [];
 
-
             for (const [sceneIndex, scene] of scenesToProcess.entries()) {
                 if (!scene || !allScenes[sceneIndex]) continue;
-
-                const choicesToProcess = scene.choices || [];
                 const existingChoices = allScenes[sceneIndex].choices || [];
-
+                const choicesToProcess = scene.choices || [];
                 for (const [choiceIndex, choice] of choicesToProcess.entries()) {
                     if (!choice) continue;
 
@@ -161,7 +158,7 @@ export const useStories = () => {
                         storyId: storyId
                     };
 
-                    if (existingChoices[choiceIndex]) {
+                    if (existingChoices[choiceIndex] && choiceIndex + 1 <= scene.maxChoices) {
                         await changeChoice(
                             storyId,
                             allScenes[sceneIndex].id!,
@@ -175,14 +172,26 @@ export const useStories = () => {
                             choicePayload
                         );
                     }
-                    isNewStory && router.push(`/editor/${storyId}`)
                 }
+
+                for (const [choiceIndex, choice] of existingChoices.entries()) {
+                    if (!choice) continue;
+
+                    if (existingChoices[choiceIndex] && choiceIndex + 1 > scene.maxChoices) {
+                        await deleteChoice(
+                            storyId,
+                            allScenes[sceneIndex].id!,
+                            allScenes[sceneIndex]?.choices![choiceIndex].id!
+                        );
+                    }
+                }
+                isNewStory && router.push(`/editor/${storyId}`)
             }
+            const updatedStoryData = await getStory(storyId);
             const storyToUpdate = JSON.parse(JSON.stringify({
                 ...updatedStoryData,
                 id: storyId
             }));
-
             const gettedStory = await getStory(storyId)
             setStory(storyToUpdate)
             return gettedStory;

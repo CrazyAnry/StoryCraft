@@ -19,3 +19,12 @@ export const createChoice = async (storyId: number, sceneId: number, body: IChoi
     throw error;
   }
 };
+
+export const deleteChoice = async (storyId: number, sceneId: number, choiceId: number): Promise<IChoice> => {
+  try {
+    const response = await axiosInstance.delete(`/stories/${storyId}/scenes/${sceneId}/choices/${choiceId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

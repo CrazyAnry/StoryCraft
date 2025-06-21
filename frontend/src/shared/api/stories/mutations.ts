@@ -19,3 +19,12 @@ export const createStory = async (body: IStoryCreate): Promise<IStoryHeader> => 
     throw error;
   }
 };
+
+export const deleteStory = async (storyId: number): Promise<IStoryHeader> => {
+  try {
+    const response = await axiosInstance.delete(`/stories/my/${storyId}`);
+    return response.data.story;
+  } catch (error) {
+    throw error;
+  }
+};
