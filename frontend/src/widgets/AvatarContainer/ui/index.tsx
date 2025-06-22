@@ -179,19 +179,25 @@ export default function AvatarContainer() {
   useEffect(() => {
     if (allFollows && currentUser?.id) {
       const followings = allFollows
-      .filter((follow) => follow.followingId === currentUser.id).flatMap((follow) => follow.followedUser)
+        .filter((follow) => follow.followingId === currentUser.id)
+        .flatMap((follow) => follow.followedUser)
+        .filter((user): user is IUser => Boolean(user?.id))
+        .filter(
+          (user, index, self) =>
+            index === self.findIndex((u) => u.id === user.id)
+        );
 
       const followers = allFollows
-      .filter((follow) => follow.followerId === currentUser.id)
-      .flatMap((follow) => follow.followingUser) // Use all users in the array
-      .filter((user): user is IUser => Boolean(user?.id)) // Type-safe filter
-      .filter(
-        (user, index, self) =>
-          index === self.findIndex((u) => u.id === user.id)
-      ) // Deduplicate
-  
+        .filter((follow) => follow.followerId === currentUser.id)
+        .flatMap((follow) => follow.followingUser) // Use all users in the array
+        .filter((user): user is IUser => Boolean(user?.id)) // Type-safe filter
+        .filter(
+          (user, index, self) =>
+            index === self.findIndex((u) => u.id === user.id)
+        ); // Deduplicate
+
       setFollowings(followings);
-      setFollowers(followers)
+      setFollowers(followers);
     }
   }, [allFollows, currentUser?.id]);
 
@@ -227,21 +233,13 @@ export default function AvatarContainer() {
         onClick={handleFollowers}
         className={s.editAvatar + " " + s.followers}
       >
-        Подписчики (
-        {
-          followers.length
-        }
-        )
+        Подписчики ({followers.length})
       </button>
       <button
         onClick={handleFollowing}
         className={s.editAvatar + " " + s.following}
       >
-        Подписки (
-        {
-          followings.length
-        }
-        )
+        Подписки ({followings.length})
       </button>
       {showModal && (
         <NewModal setIsVisible={setShowModal} isVisible={showModal}>
@@ -282,11 +280,7 @@ export default function AvatarContainer() {
           isVisible={showModalFollowers}
         >
           <div onKeyDown={handleKeyDown} className={s.modalContent}>
-            <h3 className={s.modalTitle}>
-              Подписчики (
-              { followers.length }
-              )
-            </h3>
+            <h3 className={s.modalTitle}>Подписчики ({followers.length})</h3>
             <FollowsBlock accounts={followers} />
           </div>
         </NewModal>
@@ -298,11 +292,7 @@ export default function AvatarContainer() {
           isVisible={showModalFollowing}
         >
           <div onKeyDown={handleKeyDown} className={s.modalContent}>
-            <h3 className={s.modalTitle}>
-              Подписки (
-              { followings.length }
-              )
-            </h3>
+            <h3 className={s.modalTitle}>Подписки ({followings.length})</h3>
             <FollowsBlock accounts={followings} />
           </div>
         </NewModal>

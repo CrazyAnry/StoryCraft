@@ -5,6 +5,7 @@ import s from "./Header.module.scss";
 import { useStoryEditorStore } from "@/shared/stores";
 import { usePathname, useRouter } from "next/navigation";
 import { createStory } from "@/shared/api/stories/mutations";
+import { toast } from "react-toastify";
 
 export default function SaveStory() {
 	const { updateStory } = useStories()
@@ -16,7 +17,12 @@ export default function SaveStory() {
 		<button
 		className={`${s.controlButton} ${s.save}`}
 		onClick={async () => {
-			await updateStory(story!)
+			try {
+				await updateStory(story!)
+				toast.success('История сохранена')
+			} catch (error) {
+				toast.error('Ошибка сохранения истории')
+			}
 		}}
 	>
 		Сохранить

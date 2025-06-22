@@ -12,6 +12,11 @@
   user-select: none;
 }
 
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .checkboxBox {
   width: 20px;
   height: 20px;

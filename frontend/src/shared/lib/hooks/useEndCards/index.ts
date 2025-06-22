@@ -10,9 +10,9 @@ export const useEndCards = () => {
     }, [])
 
     const EndCards: Card[] = [
-        { text: "To home", path: "/" },
-        { text: "To story", path: `/read/${oneStory?.id}` },
-        { text: "To first scene", path: `/read/${oneStory?.id}/${oneStory?.scenes![0].id}` }
+        { text: "Домой", path: "/" },
+        { text: "Вернуться к истории", path: `/read/${oneStory?.id}` },
+        { text: "Вернуться к первой сцене", path: `/read/${oneStory?.id}/${oneStory?.scenes![0].id}` }
     ];
 
     return { EndCards }

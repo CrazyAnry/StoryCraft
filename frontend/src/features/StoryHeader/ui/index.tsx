@@ -1,6 +1,5 @@
 "use client";
 
-import s from "./StoryHeader.module.scss";
 import { useState } from "react";
 import { IStoryHeaderMode } from "@/shared/lib";
 import { EditHeader, ReadHeader } from "@/features";

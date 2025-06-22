@@ -50,12 +50,13 @@ const ChoiceCard = ({ scene, choice, index }: Props) => {
               );
             })}
         </select>
-        <CustomCheckbox
+        {/* <CustomCheckbox
           checked={choice.access}
           onChange={(checked) => setChoiceAccess(scene.id!, choice.id!, checked)}
           label="Доступ"
+          disabled={true}
           icon={<FaCheck />}
-        />
+        /> */}
       </div>
     </div>
   );

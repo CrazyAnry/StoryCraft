@@ -8,6 +8,7 @@ import { useStoryEditorStore, useUsersStore } from '@/shared/stores'
 import { changeStory, createStory } from '@/shared/api/stories/mutations'
 import { changeScene, createScene } from '@/shared/api/scenes/mutations'
 import { changeChoice, createChoice, deleteChoice } from '@/shared/api/choices/mutations'
+import { toast } from 'react-toastify'
 
 
 export const useStories = () => {
@@ -120,6 +121,7 @@ export const useStories = () => {
                 if (!scene || !allScenes[sceneIndex]) continue;
                 const existingChoices = allScenes[sceneIndex].choices || [];
                 const choicesToProcess = scene.choices || [];
+                
                 for (const [choiceIndex, choice] of choicesToProcess.entries()) {
                     if (!choice) continue;
 
@@ -128,7 +130,7 @@ export const useStories = () => {
                     let nextSceneId: string | number;
                     let nextScene: IScene | undefined;
 
-                    if (choiceData.nextSceneId <= allScenes.length) {
+                    if (choiceData.nextSceneId <= allScenes.length && choiceData.nextSceneId > 0) {
                         const nextSceneIndex = choiceData.nextSceneId - 1;
 
                         if (nextSceneIndex < 0 || nextSceneIndex >= allScenes.length) {
@@ -142,13 +144,18 @@ export const useStories = () => {
 
                         nextSceneId = nextScene.id;
                     }
-                    else {
+                    else if (choiceData.nextSceneId > allScenes.length) {
                         nextSceneId = choiceData.nextSceneId;
                         nextScene = allScenes.find(s => s.id === nextSceneId);
 
                         if (!nextScene) {
                             throw new Error(`Next scene not found with ID: ${nextSceneId}`);
                         }
+                    }
+                    else {
+                        // Случай когда nextSceneId <= 0 (не выбрана следующая сцена)
+                        toast.error("Сначала укажите все сцены, на которые ведут выборы");
+                        throw new Error("Some choices don't have next scene specified");
                     }
 
                     const choicePayload = {
@@ -196,7 +203,6 @@ export const useStories = () => {
             setStory(storyToUpdate)
             return gettedStory;
         } catch (error) {
-            console.error("Error updating story:", error);
             throw error;
         }
     }
