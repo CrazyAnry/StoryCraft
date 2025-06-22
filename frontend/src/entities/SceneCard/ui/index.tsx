@@ -6,8 +6,9 @@ import { FaCheck } from "react-icons/fa";
 import { useShallow } from "zustand/react/shallow";
 import styles from "./SceneCard.module.scss";
 import { useStoryEditorStore } from "@/shared/stores";
-import { useEffect } from "react";
 import { deleteScene } from "@/shared/api/scenes/mutations";
+import { useScene } from "@/shared/lib/hooks/useScene";
+import { usePathname } from "next/navigation";
 
 interface Props {
   sceneId: number;
@@ -17,6 +18,7 @@ interface Props {
 export default function SceneCard({ sceneId, sceneIndex }: Props) {
   const {
     story,
+    stories,
     setSceneTitle,
     setSceneDescription,
     setSceneMaxChoices,
@@ -24,6 +26,8 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
     addNewChoice,
     removeScene,
   } = useStoryEditorStore(useShallow((state) => state));
+  const { getScene } = useScene()
+  const pathname = usePathname()
 
   if (!story || !story.scenes || !story.scenes[sceneIndex]) {
     return <h1>Loading...</h1>;
@@ -103,10 +107,18 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
       )}
 
       <div className={styles.footer}>
-        <RemoveSceneButton onClick={() => {
+        <RemoveSceneButton onClick={async () => {
           removeScene(currentScene.id!)
-          deleteScene(story.id!, sceneId)
-        }} />
+          if(pathname.split('/')[2] !== 'newStory'){
+            try{
+              const findedScene = await getScene(currentScene.id!)
+              console.log(findedScene)
+              if(findedScene)
+                deleteScene(story.id!, sceneId)
+            }
+            catch{}
+          }
+        }}> Удалить сцену </RemoveSceneButton>
       </div>
     </div>
   );

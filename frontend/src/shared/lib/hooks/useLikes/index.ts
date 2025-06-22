@@ -9,15 +9,26 @@ export const useLikes = () => {
     const [likes, setLikes] = useState<ILike[]>()
 
     async function getLikesCount(storyId: number) {
-        const likesCount = await getStoryLikesCount(storyId)
-        setLikesCount(likesCount)
-        return likesCount
+        try{
+            const likesCount = await getStoryLikesCount(storyId)
+            setLikesCount(likesCount)
+            return likesCount
+        }
+        catch{
+            setLikesCount(0)
+            return 0
+        }
     }
 
     async function getLikes(storyId: number) {
-        const likesCount = await getStoryLikes(storyId)
-        setLikes(likesCount)
-        return likesCount
+        try{
+            const likesCount = await getStoryLikes(storyId)
+            setLikes(likesCount)
+            return likesCount
+        } catch{
+            setLikes([])
+            return []
+        }
     }
 
     async function setLike(storyId: number) {

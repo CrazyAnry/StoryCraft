@@ -5,7 +5,9 @@ import s from './EditableHeader.module.scss'
 import { useStoryEditorStore, useUsersStore } from '@/shared/stores';
 import { useShallow } from 'zustand/shallow';
 import { useStories } from '@/shared/lib/hooks/useStories';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { RemoveSceneButton } from '@/shared/ui';
+import { deleteStory } from '@/shared/api/stories/mutations';
 
 export default function EditHeader() {
 
@@ -20,9 +22,10 @@ export default function EditHeader() {
   const { currentUser } = useUsersStore()
   const { getStory, oneStory } = useStories()
   const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
-    if(pathname.split('/')[2] !== 'newStory')
+    if (pathname.split('/')[2] !== 'newStory')
       getStory()
   }, [])
 
@@ -36,6 +39,7 @@ export default function EditHeader() {
       }
       else {
         setStory(stories[editingStory])
+        console.log(123)
       }
     }
     else {
@@ -57,7 +61,7 @@ export default function EditHeader() {
   }, [oneStory?.id])
 
   const newId = (num: number) => {
-    if(stories.findIndex((s) => s.id === num)){
+    if (stories.findIndex((s) => s.id === num)) {
       return newId(num + 1)
     }
     return num
@@ -100,6 +104,20 @@ export default function EditHeader() {
           placeholder="Описание истории"
           aria-label="Описание истории"
         />
+      </div>
+      <div className={s.footer}>
+        <RemoveSceneButton onClick={async () => {
+          if (pathname.split('/')[2] !== 'newStory') {
+            try {
+              const findedStory = await getStory()
+              if (findedStory){
+                deleteStory(findedStory.id!)
+                router.push('/create')
+              }
+            }
+            catch { }
+          }
+        }}> Удалить историю </RemoveSceneButton>
       </div>
     </div>
   );

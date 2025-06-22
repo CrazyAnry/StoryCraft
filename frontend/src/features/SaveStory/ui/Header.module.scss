@@ -21,7 +21,6 @@
   min-width: 120px;
 }
 
-/* Общие эффекты для всех кнопок */
 .controlButton:hover {
   transform: translateY(-2px);
   box-shadow: 
@@ -58,7 +57,6 @@
     0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-/* Стили для конкретных кнопок */
 .controlButton.save {
   background: linear-gradient(135deg, #FF9800, #FF5722);
 }
@@ -95,7 +93,6 @@
     0 8px 24px rgba(211, 47, 47, 0.3);
 }
 
-/* Стили для disabled состояний */
 .controlButton.disabled {
   background: #666 !important;
   cursor: not-allowed;
@@ -109,7 +106,6 @@
   opacity: 0;
 }
 
-/* Анимация shine */
 @keyframes shine {
   0% {
     left: -100%;

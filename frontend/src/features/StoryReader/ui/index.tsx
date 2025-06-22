@@ -14,7 +14,6 @@ export default function StoryReader() {
 
     useEffect(() => {
         getScene()
-        console.log(scene)
     }, [pathname]);
 
     if (scene === null) {
