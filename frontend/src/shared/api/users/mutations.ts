@@ -1,6 +1,8 @@
 import { UpdateUserDto } from "./types";
 import { axiosInstance } from "../client";
 import { API_ROUTES } from "../endpoints";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export const updateMe = async (id: string | number, data: UpdateUserDto) => {
   try {
@@ -10,7 +12,11 @@ export const updateMe = async (id: string | number, data: UpdateUserDto) => {
       data
     );
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      toast.error(`Ошибка при обновлении данных: ${error.response?.data.message}`);
+      return;
+    }
     throw error;
   }
 };

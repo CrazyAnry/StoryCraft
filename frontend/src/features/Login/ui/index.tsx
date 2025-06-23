@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import s from "./Login.module.scss";
 import { Submit } from "@/shared/ui";
 import { CustomInput } from "@/shared/ui";
@@ -10,6 +10,8 @@ import { setFormDataValue } from "@/shared/lib";
 import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { IRegistrationSubmitData } from "@/shared/lib";
+import { redirect } from "next/navigation";
+import OAuth2Google from "@/widgets/OAuth2Google";
 
 export default function Login() {
   const [formData, setFormData] = useState<IRegistrationSubmitData>({
@@ -26,6 +28,17 @@ export default function Login() {
   const changePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const [accessToken, setAccessToken] = useState<string>("");
+
+  useEffect(() => {
+    const token = window.location.search.split("=")[1];
+    if (token) {
+      setAccessToken(token);
+      window.localStorage.setItem("accessToken", token);
+      window.location.href = "/";
+    }
+  }, []);
 
   return (
     <div className={s.container}>
@@ -62,11 +75,12 @@ export default function Login() {
           ) : (
             <FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
           )}
+          <OAuth2Google />
         </div>
         <Link className={s.link} href="/auth/register">
           Зарегистрироваться
         </Link>
-        <Submit>Войти</Submit>
+        <Submit className={s.submit}>Войти</Submit>
       </CustomForm>
     </div>
   );

@@ -19,6 +19,11 @@
   padding: 15px 20px;
   background-color: transparent;
   color: $main-light;
+  box-shadow:
+    inset 0 0 4px 1px rgba(255, 71, 87, 0.7),
+    /* внутренняя тень */ 0 0 5px 1px #ff4757; /* внешняя тень */
+  color: #ff4757;
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
 }
 
 .link {
@@ -30,11 +35,27 @@
 
 .passwordBlock {
   position: relative;
+  width: 100%; // Добавляем ширину для правильного позиционирования
 }
 
 .eyeIcon {
   cursor: pointer;
   position: absolute;
-  right: -30px;
-  top: 35%;
+  left: 815px;
+  top: 50%; // Используем 50% для вертикального центрирования
+  transform: translateY(-50%); // Точное центрирование по вертикали
+  color: $main-red; // Добавляем цвет для лучшей видимости
+}
+
+.submit {
+  box-shadow: 
+    0 0 6px 1px #ff4757;
+  border: none;
+  transition: all 0.1s ease;
+  animation: glow 3s infinite alternate;
+
+  &:hover {
+    box-shadow: 
+      0 0px 12px 3px #ff6b6b;
+  }
 }

@@ -45,8 +45,8 @@ export class UserCrudService {
       const user = await this.helpers.getEntityOrThrow<User>(
         'user',
         isNaN(+idOrUsername)
-          ? { username: idOrUsername }  // Search by username
-          : { id: +idOrUsername },     // Search by ID (direct number)
+          ? { username: idOrUsername } // Search by username
+          : { id: +idOrUsername }, // Search by ID (direct number)
         'User',
       );
       return { user };
@@ -63,9 +63,29 @@ export class UserCrudService {
    */
   async update(id: number, dto: UpdateUserDto): Promise<UpdateResponse> {
     try {
-      await this.helpers.getEntityOrThrow<User>('user', { id }, 'User');
+      const oldUser = await this.helpers.getEntityOrThrow<User>(
+        'user',
+        { id },
+        'User',
+      );
 
-      const { settings, password, ...rest } = dto;
+      const { settings, password, username, ...rest } = dto;
+
+      if (username && (username.length > 16 || username.length < 3)) {
+        throw new BadRequestException(
+          'Никнейм должен быть от 3 до 16 символов',
+        );
+      }
+
+      if (username) {
+        const isUsernameExists = await this.prisma.user.findUnique({
+          where: { username },
+        });
+
+        if (isUsernameExists && isUsernameExists.id !== id) {
+          throw new BadRequestException('Никнейм уже занят');
+        }
+      }
 
       const data: Prisma.UserUncheckedUpdateInput = {
         ...rest,

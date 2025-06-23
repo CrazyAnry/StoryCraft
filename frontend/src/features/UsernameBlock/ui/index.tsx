@@ -2,6 +2,7 @@ import { updateMe } from "@/shared/api/users/mutations";
 import { useAuthStore, useUsersStore } from "@/shared/stores";
 import s from "./UsernameBlock.module.scss";
 import { MdModeEdit } from "react-icons/md";
+import { toast } from "react-toastify";
 
 export default function UsernameBlock() {
     const { currentUser, updateUser, accountInfoState, updateAccountInfoState } =
@@ -21,19 +22,30 @@ export default function UsernameBlock() {
       });
     };
 
-    const handleUsernameSave = () => {
-      updateUser?.(currentUser!.id, { ...currentUser!, username: usernameValue! });
-      updateMe(currentUser!.id, { username: usernameValue! });
-      updateAccountInfoState({
-        ...accountInfoState,
-        usernameIsEditting: false,
-      });
+    const handleUsernameSave = async () => {
+      if (!usernameValue || usernameValue.length < 3 || usernameValue.length > 16) {
+        toast.error("Username must be between 3 and 16 characters");
+        return;
+      }
+      try {
+        const updatedUser = await updateMe(currentUser!.id, { username: usernameValue });
+        if (!updatedUser) {
+          return;
+        }
+    
+        updateUser?.(currentUser!.id, { ...currentUser!, username: usernameValue });
+        updateAccountInfoState({
+          ...accountInfoState,
+          usernameIsEditting: false,
+        });
+      } catch (error) {
+        toast.error("Username already exists or something went wrong");
+      }
     };
+    
 
     const handleUsernameKeyPress = (e: React.KeyboardEvent) => {
-      if (e.key === "Enter") {
-        handleUsernameSave();
-      } else if (e.key === "Escape") {
+      if (e.key === "Escape") {
         handleUsernameCancel();
       }
     };

@@ -21,12 +21,22 @@ export default function BioBlock() {
   };
 
   const handleBioSave = () => {
-    updateUser?.(currentUser!.id, { ...currentUser!, bio: bioValue });
-    updateMe(currentUser!.id, { bio: bioValue });
-    updateAccountInfoState({
-      ...accountInfoState,
-      bioIsEditting: false,
-    });
+    if (bio === bioValue) {
+      updateUser?.(currentUser!.id, { ...currentUser!, bio: bioValue });
+
+      updateAccountInfoState({
+        ...accountInfoState,
+        bioIsEditting: false,
+      });
+    } else {
+      updateMe(currentUser!.id, { bio: bioValue });
+      updateUser?.(currentUser!.id, { ...currentUser!, bio: bioValue });
+
+      updateAccountInfoState({
+        ...accountInfoState,
+        bioIsEditting: false,
+      });
+    }
   };
 
   const handleBioCancel = () => {
@@ -38,6 +48,9 @@ export default function BioBlock() {
   };
 
   const handleBioKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && e.shiftKey) {
+      return;
+    }
     if (e.key === "Enter") {
       handleBioSave();
     } else if (e.key === "Escape") {
@@ -65,7 +78,9 @@ export default function BioBlock() {
               placeholder="Добавьте описание..."
               rows={3}
             />
-            <p className={s.editText}>Нажмите Enter для сохранения или Escape для отмены</p>
+            <p className={s.editText}>
+              Нажмите Enter для сохранения или Escape для отмены
+            </p>
           </div>
         ) : (
           <div className={s.bioContainer}>

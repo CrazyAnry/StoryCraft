@@ -1,6 +1,7 @@
 import { UsersSlice, UsersStore } from "@/shared/lib";
 import { StateCreator } from "zustand";
 import { IUser, IAccountInfoState } from "@/shared/lib/types";
+import { toast } from "react-toastify";
 
 export const usersSlice: StateCreator<
   UsersStore,

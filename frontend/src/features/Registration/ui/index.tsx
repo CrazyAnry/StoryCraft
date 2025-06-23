@@ -8,6 +8,7 @@ import { IRegistrationSubmitData } from "@/shared/lib";
 import { setFormDataValue } from "@/shared/lib";
 import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import OAuth2Google from "@/widgets/OAuth2Google";
 
 export default function Registration() {
   const [formData, setFormData] = useState<IRegistrationSubmitData>({
@@ -70,35 +71,37 @@ export default function Registration() {
             <FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
           )}
         </div>
-
         <div className={s.passwordBlock}>
-        <CustomInput
-          className={s.input}
-          type={showPassword ? "text" : "password"}
-          value={formData.rePassword}
-          placeholder="Повторите пароль..."
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setFormDataValue(
-              setFormData,
-              formData,
-              "rePassword",
-              e.target.value
-            )
-          }
-        />
-        {showPassword ? (
-          <FaEyeSlash
-            className={s.eyeIcon}
-            onClick={changePasswordVisibility}
-          />
-        ) : (
-          <FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
-        )}
-        </div>
-        <Link className={s.link} href="/auth/login">
-          Уже есть аккаунт?
-        </Link>
-        <Submit>Зарегистрироваться</Submit>
+  <CustomInput
+    className={s.input}
+    type={showPassword ? "text" : "password"}
+    value={formData.rePassword}
+    placeholder="Повторите пароль..."
+    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+      setFormDataValue(
+        setFormData,
+        formData,
+        "rePassword",
+        e.target.value
+      )
+    }
+  />
+  {showPassword ? (
+    <FaEyeSlash
+      className={s.eyeIcon}
+      onClick={changePasswordVisibility}
+    />
+  ) : (
+    <FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
+  )}
+</div>
+
+<OAuth2Google/> {/* Переносим OAuth2Google за пределы passwordBlock */}
+
+<Link className={s.link} href="/auth/login">
+  Уже есть аккаунт?
+</Link>
+        <Submit className={s.submit}>Зарегистрироваться</Submit>
       </CustomForm>
     </div>
   );

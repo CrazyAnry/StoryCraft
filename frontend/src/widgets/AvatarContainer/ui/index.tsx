@@ -15,6 +15,7 @@ import {
 import { IFollow, IUser } from "@/shared/lib/types";
 import { follow, unfollow } from "@/shared/api/follow/mutations";
 import { FollowsBlock } from "@/features";
+import ButtonsUnderAvatar from "@/features/ButtonsUnderAvatar/ui/ButtonsUnderAvatar.module";
 
 export default function AvatarContainer() {
   const { user } = useAuthStore();
@@ -38,6 +39,7 @@ export default function AvatarContainer() {
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [followings, setFollowings] = useState<IUser[]>([]);
   const [followers, setFollowers] = useState<IUser[]>([]);
+  const { accountInfoState } = useUsersStore();
 
   useEffect(() => {
     if (allFollows && user?.id && currentUser?.id) {
@@ -216,31 +218,18 @@ export default function AvatarContainer() {
           border: `2px solid ${shadowColor}`,
         }}
       />
-      {user?.id === currentUser?.id ? (
-        <button onClick={handleEditAvatar} className={s.editAvatar}>
-          Изменить
-        </button>
-      ) : isFollowed ? (
-        <button onClick={handleUnfollow} className={s.followButton}>
-          Отписаться
-        </button>
-      ) : (
-        <button onClick={handleFollow} className={s.followButton}>
-          Подписаться
-        </button>
-      )}
-      <button
-        onClick={handleFollowers}
-        className={s.editAvatar + " " + s.followers}
-      >
-        Подписчики ({followers.length})
-      </button>
-      <button
-        onClick={handleFollowing}
-        className={s.editAvatar + " " + s.following}
-      >
-        Подписки ({followings.length})
-      </button>
+      <ButtonsUnderAvatar
+        user={user}
+        currentUser={currentUser}
+        handleEditAvatar={handleEditAvatar}
+        handleFollow={handleFollow}
+        handleUnfollow={handleUnfollow}
+        handleFollowers={handleFollowers}
+        handleFollowing={handleFollowing}
+        followers={followers}
+        followings={followings}
+        isFollowed={isFollowed}
+      />
       {showModal && (
         <NewModal setIsVisible={setShowModal} isVisible={showModal}>
           <div className={s.modalContent}>

@@ -32,17 +32,15 @@ export default function AccountPage() {
     });
   }, [userIdOrUsername]);
 
-  if (!currentUser) return null;
-
   useEffect(() => {
     const fetchFollows = async () => {
-      if (!currentUser?.id) return; // Добавляем проверку
+      if (!currentUser?.id) return; // Early return if no current user
 
       try {
         const result = await fetchFollowsByUserId(currentUser.id);
         console.log("Follows data:", result);
 
-        // Проверяем, что данные существуют и являются массивами
+        // Check that data exists and are arrays
         const followings = Array.isArray(result?.userFollowings)
           ? result.userFollowings
           : [];
@@ -50,7 +48,7 @@ export default function AccountPage() {
           ? result.userFollowers
           : [];
 
-        // Объединяем только если данные валидны
+        // Combine only if data is valid
         setAllFollows([...followings, ...followers]);
         console.log(1, allFollows);
       } catch (error) {
@@ -59,7 +57,10 @@ export default function AccountPage() {
     };
 
     fetchFollows();
-  }, [currentUser?.id]); // Зависимость только от id
+  }, [currentUser?.id]); // Dependency only on id
+
+  // Move the conditional render AFTER all hooks
+  if (!currentUser) return null;
 
   return (
     <div className={s.container}>
