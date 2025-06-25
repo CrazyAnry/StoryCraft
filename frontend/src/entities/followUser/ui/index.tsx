@@ -49,10 +49,6 @@ export default function FollowUser({
 
     }, [avatarUrl, imageLoaded]);
 
-    useEffect(() => {
-        console.log(123123123, avatarUrl)
-    }, [avatarUrl])
-
     return (
         <Link href={`/account/${id}`} className={s.container}>
             <Image

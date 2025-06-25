@@ -1,121 +1,19 @@
 .stories {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   padding: 0 20px;
   max-width: 1300px;
   margin: 0 auto;
-  
-  @media (min-width: 1200px) {
+
+  @media (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px 32px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
   }
 
-  @media (min-width: 1600px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-
-.emptyState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70vh;
-  padding: 2rem;
-  text-align: center;
-  background: radial-gradient(ellipse at center, #1e1e1e 0%, #141414 100%);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.orbit {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  margin-bottom: 2rem;
-  animation: orbitRotate 15s linear infinite;
-}
-
-.planet {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(145deg, #ff6b6b, #ff4757);
-  border-radius: 50%;
-  box-shadow: 
-    0 0 20px rgba(255, 107, 107, 0.7),
-    inset 0 0 10px rgba(0, 0, 0, 0.3);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.ring {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 2px dashed rgba(255, 107, 107, 0.4);
-  border-radius: 50%;
-  animation: ringPulse 4s ease-in-out infinite alternate;
-}
-
-.title {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  background: linear-gradient(to right, #ff6b6b, #ff8e53);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #aaa;
-  max-width: 500px;
-  margin-bottom: 2rem;
-  line-height: 1.6;
-}
-
-.createButton {
-  padding: 12px 32px;
-  font-size: 1.1rem;
-  background: linear-gradient(to right, #ff6b6b, #ff4757);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 
-    0 4px 15px rgba(255, 107, 107, 0.4),
-    0 2px 4px rgba(0, 0, 0, 0.1);
-  
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 
-      0 6px 20px rgba(255, 107, 107, 0.6),
-      0 3px 6px rgba(0, 0, 0, 0.15);
-  }
-  
-  &:active {
-    transform: translateY(1px);
-  }
-}
-
-@keyframes orbitRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes ringPulse {
-  from { 
-    opacity: 0.5;
-    transform: scale(0.95);
-  }
-  to { 
-    opacity: 1;
-    transform: scale(1.05);
+  @media (max-width: 1050px) {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

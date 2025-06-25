@@ -69,3 +69,48 @@
       0 8px 25px rgba(255, 107, 107, 0.6);
   }
 }
+
+
+@media(max-width: 1200px) {
+  .addSceneButton{
+    width: 80%;
+  }
+  .addSceneContainer{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+  }
+}
+
+@media(max-width: 1000px) {
+    .addSceneButton{
+    width: 55%;
+  }
+  .addSceneContainer{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+  }
+}
+
+@media(max-width: 700px) {
+    .addSceneButton{
+    width: 35%;
+  }
+  .addSceneContainer{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+  }
+}
+
+@media(max-width: 420px) {
+    .addSceneButton{
+    width: 25%;
+  }
+  .addSceneContainer{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+  }
+}

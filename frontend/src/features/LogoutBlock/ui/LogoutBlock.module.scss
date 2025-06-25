@@ -11,9 +11,10 @@
   width: max-content;
   margin-top: 15px;
   font-weight: bold;
+  font-size: 1.0em;
   transition: color 0.1s;
 
   &:hover {
-    color: $main-red;
+    color: #ff4757;
   }
 }

@@ -1,147 +1,173 @@
-@use "sass:color";
-@use "@/app/(default)/styles/variables.scss" as *;
-
 .avatarButtons {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-top: 5px;
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .followButton {
-  padding: 5px 10px;
-  background-color: $main-dark;
+  padding: 8px 12px;
+  background-color: rgba(30, 30, 30, 0.8);
   color: white;
-  border: none;
-  border-radius: 10px;
+  border: 2px solid #ff4757;
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.1s;
-  font-size: 18px;
-  font-weight: 700;
-  color: #ff4757;
-  transition: transform 0.1s ease, text-shadow 0.1s ease;
-  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+  transition: all 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  width: 100%;
 
   &:hover {
-    transform: scale(1.1);
-    text-shadow: 0 0 15px rgba(255, 71, 87, 0.8);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
 .modalContent {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 20px;
+  gap: 20px;
+  padding: 25px;
   width: 100%;
-  height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .modalTitle {
-  margin: 0;
-
-  font-size: 32px;
+  margin: 0 0 15px 0;
+  font-size: 24px;
   text-align: center;
-  color: inherit;
-  color: #ff4757;
-  transition: text-shadow 0.3s ease;
-  text-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
-
-  &:hover {
-    text-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
-  }
+  color: #4a6fa5;
+  font-weight: 700;
 }
 
 .modalContent h3 {
   margin: 0;
   text-align: center;
   color: inherit;
+  font-weight: 500;
 }
 
 .inputContainer {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 .avatarInput {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid $main-light;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: transparent;
-  color: inherit;
+  padding: 10px 15px;
+  border: 2px solid #4a6fa5;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #1e1e1e;
+  transition: border-color 0.2s ease;
 
   &:focus {
     outline: none;
-    border-color: $main-light;
+    border-color: #3a5a8f;
   }
 }
 
 .editButton {
-  background: none;
-  border: none;
+  padding: 8px 12px;
+  background-color: rgba(30, 30, 30, 0.8);
+  color: white;
+  border: 2px solid #ff4757;
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+  border-radius: 5px;
   cursor: pointer;
-  color: inherit;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  width: 100%;
 
   &:hover {
-    color: $main-light;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
 .modalButtons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   justify-content: center;
-  margin-top: auto;
+  margin-top: 20px;
 }
 
 .saveButton,
 .cancelButton {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 120px;
 }
 
 .saveButton {
-  background-color: $main-red;
+  background-color: #4a6fa5;
   color: white;
 
   &:hover {
-    background-color: color.adjust($main-red, $lightness: -10%);
+    background-color: #3a5a8f;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(74, 111, 165, 0.3);
   }
 }
 
 .cancelButton {
-  background-color: $main-dark;
-  color: $main-light;
+  background-color: rgba(30, 30, 30, 0.8);
+  color: white;
+  border: 2px solid #1e1e1e;
 
   &:hover {
-    background-color: color.adjust($main-dark, $lightness: -10%);
+    background-color: rgba(30, 30, 30, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(30, 30, 30, 0.2);
   }
 }
 
-// Для темной темы
+/* Темная тема */
 [data-theme="dark"] {
-  .cancelButton {
-    background-color: color.adjust($main-dark, $lightness: 10%);
-    color: $main-light;
+  .followButton {
+    background-color: rgba(30, 30, 30, 0.5);
+    border-color: #6d8cc7;
+    color: #6d8cc7;
 
     &:hover {
-      background-color: color.adjust($main-dark, $lightness: 15%);
+      background-color: rgba(74, 111, 165, 0.2);
     }
   }
 
   .avatarInput {
-    border-color: $main-light;
+    background-color: rgba(30, 30, 30, 0.7);
+    color: white;
+    border-color: #6d8cc7;
+  }
+
+  .cancelButton {
+    background-color: rgba(30, 30, 30, 0.5);
+    border-color: #444;
+
+    &:hover {
+      background-color: rgba(30, 30, 30, 0.7);
+    }
   }
 }

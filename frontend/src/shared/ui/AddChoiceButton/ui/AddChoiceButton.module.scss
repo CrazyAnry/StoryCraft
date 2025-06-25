@@ -1,6 +1,5 @@
 .addButton {
   margin-top: 0.5rem;
-  margin-left: 1.6rem;
   background: linear-gradient(135deg, #4CAF50, #2E7D32);
   color: white;
   padding: 0.6rem 1.2rem;
@@ -59,7 +58,6 @@
     0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
-/* Анимация для эффекта "сияния" */
 @keyframes shine {
   0% {
     left: -100%;
