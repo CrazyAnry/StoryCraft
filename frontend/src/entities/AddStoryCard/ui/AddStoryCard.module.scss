@@ -1,6 +1,9 @@
 .card {
   width: 100%;
+  min-width: 250px;
+  max-width: 400px;
   height: 380px;
+  min-height: 380px;
   border-radius: 12px;
   overflow: hidden;
   background: #2A2A2A;
@@ -100,5 +103,34 @@
   .card:hover & {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@media(min-width: 1200px) {}
+
+@media (min-width: 1050px) {
+  .card {
+    max-width: 250px;
+    min-height: 340px;
+  }
+  
+  .imageContainer {
+    min-height: 100%; 
+  }
+
+}
+
+@media (max-width: 1050px) {
+  .card {
+    min-width: 400px;
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 420px) {
+  .card {
+    max-width: 250px;
+    min-width: 250px;
+    min-height: 340px;
   }
 }

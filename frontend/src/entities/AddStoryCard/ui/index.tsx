@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import s from './CreateStoryCard.module.scss'
+import s from './AddStoryCard.module.scss'
 import Link from 'next/link'
 
 export default function AddStoryCard() {

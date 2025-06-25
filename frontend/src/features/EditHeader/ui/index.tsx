@@ -61,7 +61,7 @@ export default function EditHeader() {
   }, [oneStory?.id])
 
   const newId = (num: number) => {
-    if (stories.findIndex((s) => s.id === num) !== -1) {  // Check if found (not -1)
+    if (stories.findIndex((s) => s.id === num) !== -1) {
       return newId(num + 1)
     }
     return num
@@ -93,9 +93,9 @@ export default function EditHeader() {
         </div>
       </div>
       <div className={s.inputGroup}>
-        {/* <label htmlFor="story-description" className={s.label}>
+        <label htmlFor="story-description" className={s.label}>
           {story?.description}
-        </label> */}
+        </label>
         <textarea
           id="story-description"
           className={s.description_edit}

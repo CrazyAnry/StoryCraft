@@ -1,45 +1,29 @@
-@use "@/app/(default)/styles/variables.scss" as *;  
-
+@use "@/app/(default)/styles/variables.scss" as *;
 .container {
   display: flex;
-}
+  gap: 32px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 32px;
+  max-width: 100%;
 
-.avatarContainer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
+  @media (max-width: 1200px) {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-.info {
-  margin-left: 20px;
-  display: flex;
-  flex-direction: column;
-}
+  @media (max-width: 900px) {
+    max-width: 720px;
+  }
 
-.verified {
-  width: 20px;
-}
 
-.avatar {
-  width: 200px;
-  height: 200px;
-}
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.edit {
-  cursor: pointer;
-  color: $main-red;
-  font-size: 20px;
-  background-color: transparent;
-}
-
-.editAvatar {
-  cursor: pointer;
-  color: $main-red;
-  font-size: 20px;
-  margin-top: 10px;
-  background-color: transparent;
-  background-color: $main-red;
-  border-radius: 10px;
-  width: 100%;
-  color: $main-light;
+  @media (max-width: 400px) {
+    gap: 10px;
+  }
 }

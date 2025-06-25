@@ -32,11 +32,6 @@
   font-weight: bold;
   text-decoration: none;
   margin-left: 10px;
-  color: #ff4757;
+  color: white;
   transition: all 0.3s ease;
-  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
-
-  &:hover {
-    text-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
-  }
 }

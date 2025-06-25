@@ -3,7 +3,7 @@
   border-radius: 12px;
   padding: 28px;
   margin: 24px 0;
-  box-shadow: 
+  box-shadow:
     0 0 0 1px #ff4757,
     0 8px 32px rgba(255, 71, 87, 0.25);
   border: none;
@@ -12,12 +12,13 @@
 
 @keyframes glow {
   0% {
-    box-shadow: 
+    box-shadow:
       0 0 0 1px #ff4757,
       0 8px 32px rgba(255, 71, 87, 0.25);
   }
+
   100% {
-    box-shadow: 
+    box-shadow:
       0 0 0 2px #ff6b6b,
       0 12px 48px rgba(255, 107, 107, 0.4);
   }
@@ -36,7 +37,7 @@
   position: relative;
   margin-bottom: 24px;
   width: 100%;
-  
+
   &:hover .label {
     transform: translateX(5px);
   }
@@ -63,16 +64,16 @@
   border-radius: 10px;
   transition: all 0.4s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  
+
   &:focus {
     outline: none;
     border-color: #ff6b6b;
-    box-shadow: 
+    box-shadow:
       0 0 0 4px rgba(255, 107, 107, 0.3),
       0 8px 24px rgba(255, 71, 87, 0.4);
     transform: translateY(-2px);
   }
-  
+
   &::placeholder {
     color: #777;
     font-weight: 500;
@@ -92,19 +93,24 @@
   resize: vertical;
   transition: all 0.4s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  
+
   &:focus {
     outline: none;
     border-color: #ff6b6b;
-    box-shadow: 
+    box-shadow:
       0 0 0 4px rgba(255, 107, 107, 0.3),
       0 8px 24px rgba(255, 71, 87, 0.4);
     transform: translateY(-2px);
   }
-  
+
   &::placeholder {
     color: #777;
   }
+}
+
+.footer{
+  display: flex;
+  justify-content: end;
 }
 
 .scenesCount {
@@ -116,7 +122,7 @@
   border-radius: 50px;
   border: 2px dashed rgba(255, 107, 107, 0.3);
   animation: pulse 2s infinite;
-  
+
   &::before {
     content: "🎬";
     margin-right: 10px;
@@ -148,12 +154,40 @@
 }
 
 @keyframes fadeInOut {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.6;
     text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
   }
+
   50% {
     opacity: 1;
     text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+  }
+}
+
+@media(max-width: 1200px) {
+  .container {
+    max-width: 1000px;
+    margin: auto;
+  }
+}
+
+@media(max-width: 1000px) {
+  .container {
+    max-width: 700px;
+  }
+}
+
+@media(max-width: 700px) {
+  .container {
+    max-width: 400px;
+  }
+}
+
+@media(max-width: 400px) {
+  .container {
+    max-width: 300px;
   }
 }

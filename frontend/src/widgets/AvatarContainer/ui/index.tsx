@@ -16,6 +16,7 @@ import { IFollow, IUser } from "@/shared/lib/types";
 import { follow, unfollow } from "@/shared/api/follow/mutations";
 import { FollowsBlock } from "@/features";
 import ButtonsUnderAvatar from "@/features/ButtonsUnderAvatar/ui/ButtonsUnderAvatar.module";
+import Image from "next/image";
 
 export default function AvatarContainer() {
   const { user } = useAuthStore();
@@ -97,7 +98,6 @@ export default function AvatarContainer() {
 
   const handleFollowing = () => {
     setShowModalFollowing(true);
-    console.log(followings);
   };
 
   const handleFollow = () => {
@@ -270,7 +270,20 @@ export default function AvatarContainer() {
         >
           <div onKeyDown={handleKeyDown} className={s.modalContent}>
             <h3 className={s.modalTitle}>Подписчики ({followers.length})</h3>
-            <FollowsBlock accounts={followers} />
+            {followers.length > 0 ? (
+              <FollowsBlock accounts={followers} />
+            ) : (
+              <div className={s.emptyState}>
+                <div className={s.orbit}>
+                  <div className={s.planet}></div>
+                  <div className={s.ring}></div>
+                </div>
+                <h4 className={s.emptyTitle}>Пока нет подписчиков</h4>
+                <p className={s.emptyText}>
+                  Когда у вас появятся подписчики, они отобразятся здесь
+                </p>
+              </div>
+            )}
           </div>
         </NewModal>
       )}
@@ -282,7 +295,20 @@ export default function AvatarContainer() {
         >
           <div onKeyDown={handleKeyDown} className={s.modalContent}>
             <h3 className={s.modalTitle}>Подписки ({followings.length})</h3>
-            <FollowsBlock accounts={followings} />
+            {followings.length > 0 ? (
+              <FollowsBlock accounts={followings} />
+            ) : (
+              <div className={s.emptyState}>
+                <div className={s.orbit}>
+                  <div className={s.planet}></div>
+                  <div className={s.ring}></div>
+                </div>
+                <h4 className={s.emptyTitle}>Вы ни на кого не подписаны</h4>
+                <p className={s.emptyText}>
+                  Начните подписываться на других пользователей, чтобы видеть их здесь
+                </p>
+              </div>
+            )}
           </div>
         </NewModal>
       )}
