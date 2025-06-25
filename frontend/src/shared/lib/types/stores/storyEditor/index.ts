@@ -1,4 +1,4 @@
-import { StoryEditorSlice } from "@/shared/lib";
+import { StoryEditorSlice, AddImageModalSlice } from "@/shared/lib";
 
 export * from "./slices";
-export type StoryEditorStore = StoryEditorSlice;
+export type StoryEditorStore = StoryEditorSlice & AddImageModalSlice;

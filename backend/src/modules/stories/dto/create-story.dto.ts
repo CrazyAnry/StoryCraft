@@ -23,4 +23,6 @@ export class CreateStoryDto {
   })
   @IsOptional()
   description?: string;
+
+  isPublic?: boolean;
 }

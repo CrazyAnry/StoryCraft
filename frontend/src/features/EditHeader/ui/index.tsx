@@ -8,6 +8,8 @@ import { useStories } from '@/shared/lib/hooks/useStories';
 import { usePathname, useRouter } from 'next/navigation';
 import { RemoveSceneButton } from '@/shared/ui';
 import { deleteStory } from '@/shared/api/stories/mutations';
+import AddImage from '@/features/AddImage';
+import AddImageModal from '@/features/AddImageModal';
 
 export default function EditHeader() {
 
@@ -72,6 +74,7 @@ export default function EditHeader() {
   }
 
   return (
+    <>
     <div className={s.container}>
       <div className={s.titleRow}>
         <div className={s.inputGroup}>
@@ -92,6 +95,7 @@ export default function EditHeader() {
           Количество сцен: {story.scenes!.length}
         </div>
       </div>
+        <AddImage addImageTo="story" />
       <div className={s.inputGroup}>
         {/* <label htmlFor="story-description" className={s.label}>
           {story?.description}
@@ -120,5 +124,7 @@ export default function EditHeader() {
         }}> Удалить историю </RemoveSceneButton>
       </div>
     </div>
+    <AddImageModal addImageTo="story"/>
+    </>
   );
 };

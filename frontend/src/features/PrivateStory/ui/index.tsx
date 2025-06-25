@@ -2,6 +2,7 @@ import { useStories } from "@/shared/lib/hooks/useStories";
 import s from "./Header.module.scss";
 import { useStoryEditorStore } from "@/shared/stores";
 import { useShallow } from "zustand/react/shallow";
+import { toast } from "react-toastify";
 
 export default function PrivateStory() {
 	const { story, setIsPublic } = useStoryEditorStore(
@@ -9,15 +10,21 @@ export default function PrivateStory() {
 	);
 	const { updateStory } = useStories()
 
+	const handlePrivateStory = async () => {
+		try {
+			await updateStory({...story!, isPublic: false});
+			setIsPublic(false);
+			toast.success("История скрыта");
+		} catch (error) {
+			throw error;
+		}
+	};
+
 	return (
 		<button
 			className={`${s.controlButton} ${s.unpublish} ${!story?.isPublic ? s.disabled : ""
 				}`}
-			onClick={() => {
-				const updatedStory = { ...story!, isPublic: false };
-				setIsPublic(false);
-				updateStory(updatedStory)
-			}}
+			onClick={handlePrivateStory}
 			disabled={!story?.isPublic}
 		>
 			Отменить публикацию

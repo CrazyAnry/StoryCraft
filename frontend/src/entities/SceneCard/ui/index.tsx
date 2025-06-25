@@ -9,6 +9,7 @@ import { useStoryEditorStore } from "@/shared/stores";
 import { deleteScene } from "@/shared/api/scenes/mutations";
 import { useScene } from "@/shared/lib/hooks/useScene";
 import { usePathname } from "next/navigation";
+import { AddImage, AddImageModal } from "@/features";
 
 interface Props {
   sceneId: number;
@@ -36,6 +37,7 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
   const currentScene = story.scenes[sceneIndex];
 
   return (
+    <>
     <div className={styles.container}>
       <div className={styles.header}>
         <span className={styles.index}>{sceneIndex + 1}</span>
@@ -54,6 +56,8 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
         placeholder="Описание сцены"
         className={styles.description}
       />
+
+      <AddImage addImageTo="scene" />
 
       <div className={styles.controls}>
         <CustomCheckbox
@@ -121,5 +125,7 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
         }}> Удалить сцену </RemoveSceneButton>
       </div>
     </div>
+    <AddImageModal addImageTo="scene"/>
+    </>
   );
 }

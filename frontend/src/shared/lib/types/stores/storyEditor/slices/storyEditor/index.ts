@@ -1,4 +1,4 @@
-import { IStoryEditor, IStoryHeader } from "@/shared/lib";
+import { AddImageModalSlice, IStoryEditor, IStoryHeader } from "@/shared/lib";
 
 export type StoryEditorActions = {
   // Story Actions
@@ -44,4 +44,4 @@ export type StoryEditorActions = {
   ) => void;
 };
 
-export type StoryEditorSlice = IStoryEditor & StoryEditorActions;
+export type StoryEditorSlice = IStoryEditor & StoryEditorActions & AddImageModalSlice;

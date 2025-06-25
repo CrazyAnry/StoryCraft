@@ -4,6 +4,7 @@ import { immer } from "zustand/middleware/immer";
 
 import { StoryEditorSlice } from "@/shared/lib";
 import { storyEditorSlice } from "./slices";
+import { addImageModalSlice } from "./slices/addImageModal";
 
 export const useStoryEditorStore = create<StoryEditorSlice>()(
   devtools(
@@ -11,6 +12,7 @@ export const useStoryEditorStore = create<StoryEditorSlice>()(
       subscribeWithSelector(
         immer((...a) => ({
           ...storyEditorSlice(...a),
+          ...addImageModalSlice(...a),
         }))
       ),
       {

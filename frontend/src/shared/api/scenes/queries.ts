@@ -1,7 +1,6 @@
 import { IScene, IStoryHeader } from "@/shared/lib";
 import { axiosInstance } from "../client";
 import { API_ROUTES } from "../endpoints";
-import { error } from "console";
 import axios from "axios";
 
 export const getAllScenes = async (storyId: number): Promise<IScene[] | null> => {

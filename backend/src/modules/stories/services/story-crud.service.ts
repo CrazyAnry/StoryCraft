@@ -11,6 +11,7 @@ import {
   FindOneResponse,
   UpdateResponse,
 } from '../responses/story-crud.response';
+import { MAX_PUBLIC_STORIES_FOR_COMMON_USER } from 'src/common/constants';
 
 @Injectable()
 export class StoryCrudService {
@@ -25,6 +26,18 @@ export class StoryCrudService {
     createStoryDto: CreateStoryDto,
   ): Promise<CreateResponse> {
     try {
+      if (createStoryDto.isPublic) {
+        const allStoriesOfUser = await this.prisma.story.findMany({
+          where: {
+            authorId,
+          },
+        });
+        const publishedStoriesCount = allStoriesOfUser.filter(story => story.isPublic).length;
+        
+        if (publishedStoriesCount >= MAX_PUBLIC_STORIES_FOR_COMMON_USER) {
+          throw new BadRequestException(`Вы уже опубликовали ${MAX_PUBLIC_STORIES_FOR_COMMON_USER} историй`);
+        }
+      }
 
       if (!createStoryDto.title) {
         throw new BadRequestException('Title is required');
@@ -174,13 +187,26 @@ export class StoryCrudService {
   ): Promise<UpdateResponse> {
     const story: Story = await this.helpers.getEntityOrThrow('story', { id }, 'Story');
 
+    if (updateStoryDto.isPublic) {
+      const allStoriesOfUser = await this.prisma.story.findMany({
+        where: {
+          authorId,
+        },
+      });
+      const publishedStoriesCount = allStoriesOfUser.filter(story => story.isPublic).length;
+      
+      if (publishedStoriesCount >= MAX_PUBLIC_STORIES_FOR_COMMON_USER) {
+        throw new BadRequestException(`Вы уже опубликовали ${MAX_PUBLIC_STORIES_FOR_COMMON_USER} историй`);
+      }
+    }
+
     if (Object.keys(updateStoryDto).length === 0) {
-      throw new BadRequestException('No data to update');
+      throw new BadRequestException('Нет данных для обновления');
     }
 
     if (story.authorId !== authorId) {
-      throw new BadRequestException('You are not the author of this story');
-    }
+      throw new BadRequestException('Вы не автор этой истории');
+    }   
 
     try {
     const updatedStory = await this.prisma.story.update({

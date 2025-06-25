@@ -116,6 +116,7 @@
   border-radius: 50px;
   border: 2px dashed rgba(255, 107, 107, 0.3);
   animation: pulse 2s infinite;
+  margin-top: -15px;
   
   &::before {
     content: "🎬";

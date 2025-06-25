@@ -22,3 +22,7 @@ export { default as ReadHeader } from "./ReadHeader"
 export { default as EditHeader } from "./EditHeader"
 export { default as LogoutBlock} from "./LogoutBlock"
 export { default as FollowsBlock } from "./followsBlock"
+export { default as AddImage } from "./AddImage"
+export { default as AddImageModal } from "./AddImageModal"
+
+
