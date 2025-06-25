@@ -47,6 +47,7 @@
 }
 
 .titleInput {
+  width: 100%;
   flex-grow: 1;
   padding: 16px 20px;
   font-size: 20px;
@@ -153,5 +154,31 @@
   100% {
     transform: scale(1);
     opacity: 0.8;
+  }
+}
+
+@media(max-width: 1200px) {
+  .container {
+    max-width: 968px;
+    margin: auto;
+    margin-bottom: 15px;
+  }
+}
+
+@media(max-width: 1000px) {
+  .container {
+    max-width: 668px;
+  }
+}
+
+@media(max-width: 700px) {
+  .container {
+    max-width: 400px;
+  }
+}
+
+@media(max-width: 420px) {
+  .container {
+    max-width: 300px;
   }
 }

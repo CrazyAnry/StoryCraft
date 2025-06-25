@@ -29,8 +29,8 @@ export default function ButtonsUnderAvatar({
   return (
     <div className={s.avatarButtons}>
       {user?.id === currentUser?.id ? (
-        <button onClick={handleEditAvatar} className={s.followButton}>
-          Изменить
+        <button onClick={handleEditAvatar} className={s.editButton}>
+          Изменить аватар
         </button>
       ) : isFollowed ? (
         <button onClick={handleUnfollow} className={s.followButton}>

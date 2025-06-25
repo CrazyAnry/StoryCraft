@@ -34,6 +34,7 @@
 }
 
 .input {
+  width: 100%;
   flex-grow: 1;
   padding: 16px 20px;
   font-size: 16px;
@@ -67,6 +68,9 @@
   margin-bottom: 24px;
   flex-wrap: wrap;
   margin-left: 46px;
+  @media(max-width: 420px){
+    margin-left: 0px;
+  }
 }
 
 .selectLabel {
@@ -86,7 +90,7 @@
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.3s ease;
-  width: 300px;
+  width: 100%;
   
   &:focus {
     outline: none;

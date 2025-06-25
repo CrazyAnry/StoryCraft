@@ -112,7 +112,6 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
           if(pathname.split('/')[2] !== 'newStory'){
             try{
               const findedScene = await getScene(currentScene.id!)
-              console.log(findedScene)
               if(findedScene)
                 deleteScene(story.id!, sceneId)
             }

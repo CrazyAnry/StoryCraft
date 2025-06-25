@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 
 export default function StoriesGenerator() {
     const { sortedStories } = useSortedStoriesStore()
-    const router = useRouter()
 
     if (!sortedStories)
         return <h1>Loading...</h1>

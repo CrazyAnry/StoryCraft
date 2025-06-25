@@ -36,9 +36,11 @@ export default function SceneGenerator() {
                 return <SceneCard key={scene.id} sceneId={scene.id!} sceneIndex={index} />
             })}
 
-            <button onClick={addNewScene} className={s.addSceneButton}>
-                Добавить сцену
-            </button>
+            <div className={s.addSceneContainer}>
+                <button onClick={addNewScene} className={s.addSceneButton}>
+                    Добавить сцену
+                </button>
+            </div>
         </>
     );
 };
