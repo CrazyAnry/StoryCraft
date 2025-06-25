@@ -46,11 +46,14 @@ export class StoryCrudController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
-  findAllByLimit(@Query('page') page: number = 1, @Query('limit') limit: number = 8) {
-    return this.storyCrudService.AllStoriesByLimit({page, limit});
+  findAllByLimit(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 8,
+  ) {
+    return this.storyCrudService.AllStoriesByLimit({ page, limit });
   }
 
-  @Get('/my/paginated')
+  @Get('/user/:id/paginated')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Retrieve all users stories by limit' })
@@ -61,8 +64,12 @@ export class StoryCrudController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
-  findMyAllByLimit(@Request() req: AuthRequest, @Query('page') page: number = 1, @Query('limit') limit: number = 8,) {
-    return this.storyCrudService.AllMyStoriesByLimit(+req.user.id, {page, limit});
+  findMyAllByLimit(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 8,
+    @Param('id') id: number,
+  ) {
+    return this.storyCrudService.AllMyStoriesByLimit(+id, { page, limit });
   }
 
   // Find all stories
@@ -72,7 +79,6 @@ export class StoryCrudController {
     status: 200,
     description: 'Returns a list of stories',
   })
-
   findAll() {
     return this.storyCrudService.findAll();
   }
@@ -134,7 +140,11 @@ export class StoryCrudController {
     @Param('id') id: string,
     @Body() updateStoryDto: UpdateStoryDto,
   ) {
-    return this.storyCrudService.updateMyStory(+req.user.id, +id, updateStoryDto);
+    return this.storyCrudService.updateMyStory(
+      +req.user.id,
+      +id,
+      updateStoryDto,
+    );
   }
 
   // Delete story

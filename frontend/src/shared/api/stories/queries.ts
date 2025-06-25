@@ -14,6 +14,17 @@ export const getAllStories = async (): Promise<IStoryHeader[]> => {
   }
 };
 
+export const getAllStoriesById = async (id: number, page: number, limit: number): Promise<IStoryHeader[]> => {
+  try {
+    const response = await axiosInstance.get(`${API_ROUTES.stories.AllStoriesById}${id}/paginated`,
+      { params: { page, limit } }
+    );
+    return response.data.stories;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getStoriesByLimit = async (page: number, limit: number): Promise<IStoryHeader[]> => {
   try {
     const response = await axiosInstance.get(API_ROUTES.stories.getStoriesByLimit,

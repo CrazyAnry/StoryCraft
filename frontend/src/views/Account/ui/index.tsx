@@ -34,30 +34,28 @@ export default function AccountPage() {
 
   useEffect(() => {
     const fetchFollows = async () => {
-      if (!currentUser?.id) return; // Early return if no current user
+      if (!currentUser?.id) return;
 
       try {
-        const result = await fetchFollowsByUserId(currentUser.id);
-        console.log("Follows data:", result);
+        setTimeout(async () => {
+          const result = await fetchFollowsByUserId(currentUser.id);
 
-        // Check that data exists and are arrays
-        const followings = Array.isArray(result?.userFollowings)
-          ? result.userFollowings
-          : [];
+          const followings = Array.isArray(result?.userFollowings)
+            ? result.userFollowings
+            : [];
         const followers = Array.isArray(result?.userFollowers)
           ? result.userFollowers
           : [];
 
-        // Combine only if data is valid
         setAllFollows([...followings, ...followers]);
-        console.log(1, allFollows);
-      } catch (error) {
-        console.error("Error fetching follows:", error);
-      }
-    };
+      }, 2000); // Timeout setted for fix bug, dont delete it
+    } catch (error) {
+      console.error("Error fetching follows:", error);
+    }
+  };
 
-    fetchFollows();
-  }, [currentUser?.id]); // Dependency only on id
+  fetchFollows();
+  }, [currentUser?.id, userIdOrUsername]); // Dependency only on id
 
   // Move the conditional render AFTER all hooks
   if (!currentUser) return null;

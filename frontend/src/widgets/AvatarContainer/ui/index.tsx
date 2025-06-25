@@ -40,7 +40,6 @@ export default function AvatarContainer() {
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [followings, setFollowings] = useState<IUser[]>([]);
   const [followers, setFollowers] = useState<IUser[]>([]);
-  const { accountInfoState } = useUsersStore();
 
   useEffect(() => {
     if (allFollows && user?.id && currentUser?.id) {

@@ -18,6 +18,7 @@ export const usersSlice: StateCreator<
     usernameValue: "",
     bioValue: "",
   },
+  allUserStories: [],
 
   // Actions
   setUsers: (users) => set((state) => {
@@ -30,7 +31,9 @@ export const usersSlice: StateCreator<
     state.users = state.users.map((u) => (u.id === id ? { ...u, ...user } : u));
     state.currentUser = { ...state.currentUser, ...user };
   }),
-
+  setAllUserStories: (stories) => set((state) => {
+    state.allUserStories = stories;
+  }),
   updateAccountInfoState: (accountInfoState: IAccountInfoState) => set((state) => {
     state.accountInfoState = accountInfoState;
   }),

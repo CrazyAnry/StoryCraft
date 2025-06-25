@@ -2,7 +2,7 @@
 
 import s from "./AccountInfo.module.scss";
 import { useUsersStore } from "@/shared/stores/users";
-import { BioBlock, RoleAndPlanBlock, UsernameBlock, LogoutBlock } from "@/features";
+import { BioBlock, RoleAndPlanBlock, UsernameBlock, LogoutBlock, UserStories } from "@/features";
 
 export default function AccountInfo() {
   const { currentUser } = useUsersStore();
@@ -19,6 +19,8 @@ export default function AccountInfo() {
       <BioBlock />
 
       <LogoutBlock />
+
+      <UserStories userId={currentUser.id} />
     </div>
   );
 }

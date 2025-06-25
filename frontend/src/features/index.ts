@@ -24,5 +24,4 @@ export { default as LogoutBlock} from "./LogoutBlock"
 export { default as FollowsBlock } from "./followsBlock"
 export { default as AddImage } from "./AddImage"
 export { default as AddImageModal } from "./AddImageModal"
-
-
+export { default as UserStories } from "./UserStories"
