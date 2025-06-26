@@ -23,7 +23,6 @@ const AddImageModal = ({ addImageTo }: Props) => {
       <label className={s.customFileUpload}>
         <input
           type="file"
-          onChange={(e) => console.log(e.target.files)}
         />
         📁 Загрузить изображение
       </label>
