@@ -53,6 +53,25 @@ export class StoryCrudController {
     return this.storyCrudService.AllStoriesByLimit({ page, limit });
   }
 
+  @Get('/my/paginated')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Retrieve all users stories by limit' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns a list of users stories by limit.',
+  })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+  MyAllByLimit(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 8,
+    @Request() req: AuthRequest
+  ) {
+    return this.storyCrudService.AllMyStoriesByLimit(+req.user.id, { page, limit });
+  }
+
   @Get('/user/:id/paginated')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)

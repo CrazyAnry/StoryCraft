@@ -20,7 +20,7 @@ export default function StoryQuestionBase() {
         <>
             <div className={s.titleRow}>
                 <h2> {oneStory?.title} </h2>
-                <h2>Сцена: {oneStory?.scenes.findIndex(storyScene => storyScene.id === scene?.id)! + 1}</h2>
+                <h2>{oneStory?.scenes.findIndex(storyScene => storyScene.id === scene?.id)! + 1}</h2>
             </div>
             <div className={s.questionBody}>
                 <h2>{scene?.title}</h2>

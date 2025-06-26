@@ -41,7 +41,7 @@ export const useStories = () => {
   };
 
   const fetchAllUsersStoriesByLimit = useCallback(
-    async (page: number = 1, limit: number = 7) => {
+    async (page: number = 1, limit: number = 8) => {
       try {
         const data = await getUsersStoriesByLimit( page, limit);
         return data;

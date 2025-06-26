@@ -20,13 +20,13 @@ export default function Pagination({ mode='home' }: Props) {
     if (newPage < 1 || newPage > totalPages) return;
 
     setCurrentPage(newPage);
-    setSortedStories(mode === 'home' ? await fetchStoriesByLimit(newPage, limit) : await fetchAllUsersStoriesByLimit(newPage, 7));
+    setSortedStories(mode === 'home' ? await fetchStoriesByLimit(newPage, limit) : await fetchAllUsersStoriesByLimit(newPage, 8));
   }, [fetchStoriesByLimit, limit, totalPages]);
 
   useEffect(() => {
     const getStories = async () => {
       const res = mode === 'home' ? await getAllStories() : await fetchAllUsersStories()
-      mode === 'home' ? setTotalPages(Math.ceil(res.filter((s) => s.isPublic === true).length / limit)) : setTotalPages(Math.ceil(res.length / 7))
+      mode === 'home' ? setTotalPages(Math.ceil(res.filter((s) => s.isPublic === true).length / limit)) : setTotalPages(Math.ceil(res.length / 8))
     }
 
     getStories()
