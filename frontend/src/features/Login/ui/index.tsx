@@ -43,7 +43,10 @@ export default function Login() {
   return (
     <div className={s.container}>
       <CustomForm onSubmit={() => submitLogin(formData)}>
-        <h1>Авторизация</h1>
+        <div className={s.headerContainer}>
+          <p className={s.activeHeader}>Авторизация</p>
+          <Link href="/auth/register"><p className={s.authHeader}>Регистрация</p></Link>
+        </div>
         <CustomInput
           placeholder="Ваш логин"
           className={s.input}
@@ -75,12 +78,9 @@ export default function Login() {
           ) : (
             <FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
           )}
-          <OAuth2Google />
         </div>
-        <Link className={s.link} href="/auth/register">
-          Зарегистрироваться
-        </Link>
-        <Submit className={s.submit}>Войти</Submit>
+        <OAuth2Google />
+        <Submit> Войти </Submit>
       </CustomForm>
     </div>
   );

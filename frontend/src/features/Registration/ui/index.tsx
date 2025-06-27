@@ -28,7 +28,10 @@ export default function Registration() {
   return (
     <div className={s.container}>
       <CustomForm onSubmit={() => submitRegistration(formData)}>
-        <h1>Регистрация</h1>
+        <div className={s.headerContainer}>
+          <Link href="/auth/login"><p className={s.authHeader}>Авторизация</p></Link>
+          <p className={s.activeHeader}>Регистрация</p>
+        </div>
         <CustomInput
           className={s.input}
           value={formData.username}
@@ -72,35 +75,31 @@ export default function Registration() {
           )}
         </div>
         <div className={s.passwordBlock}>
-  <CustomInput
-    className={s.input}
-    type={showPassword ? "text" : "password"}
-    value={formData.rePassword}
-    placeholder="Повторите пароль..."
-    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-      setFormDataValue(
-        setFormData,
-        formData,
-        "rePassword",
-        e.target.value
-      )
-    }
-  />
-  {showPassword ? (
-    <FaEyeSlash
-      className={s.eyeIcon}
-      onClick={changePasswordVisibility}
-    />
-  ) : (
-    <FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
-  )}
-</div>
+          <CustomInput
+            className={s.input}
+            type={showPassword ? "text" : "password"}
+            value={formData.rePassword}
+            placeholder="Повторите пароль..."
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormDataValue(
+                setFormData,
+                formData,
+                "rePassword",
+                e.target.value
+              )
+            }
+          />
+          {showPassword ? (
+            <FaEyeSlash
+              className={s.eyeIcon}
+              onClick={changePasswordVisibility}
+            />
+          ) : (
+            <FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
+          )}
+        </div>
 
-<OAuth2Google/> {/* Переносим OAuth2Google за пределы passwordBlock */}
-
-<Link className={s.link} href="/auth/login">
-  Уже есть аккаунт?
-</Link>
+        <OAuth2Google />
         <Submit className={s.submit}>Зарегистрироваться</Submit>
       </CustomForm>
     </div>
