@@ -10,13 +10,14 @@ import { RegisterResponse, LoginResponse, LogoutResponse, MeResponse } from '../
 import { GoogleAuthGuard } from 'src/common/guards/google-auth.guard';
 import { JwtAuthGuard } from 'src/modules/deffault/auth/guards/jwt-auth.guard';
 import { UserAuthHelperService } from 'src/modules/deffault/helpers/services/user-auth.helpers.service';
+import { sendEmailDto } from '../dto/email.dto';
 
 @ApiTags('User - auth')
 @Controller('users/auth')
 export class UserAuthController {
   constructor(private readonly userAuthService: UserAuthService,
-              private readonly userAuthHelperService: UserAuthHelperService
-  ) {}
+    private readonly userAuthHelperService: UserAuthHelperService
+  ) { }
 
   @Post('/register')
   @ApiOperation({ summary: 'Create a new user' })
@@ -60,7 +61,7 @@ export class UserAuthController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @UseGuards(GoogleAuthGuard)
   @Get("google/login")
-  googleLogin(){}
+  googleLogin() { }
 
   @ApiOperation({ summary: 'Generate JWT for google user and redirect to frontend' })
   @ApiResponse({
@@ -70,7 +71,7 @@ export class UserAuthController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @UseGuards(GoogleAuthGuard)
   @Get("google/callback")
-  async googleCallback(@Req() req, @Res() res){
+  async googleCallback(@Req() req, @Res() res) {
     const response = await this.userAuthService.generateUserJwt(req.user.id)
     res.redirect(`http://localhost:3000/auth/login?token=${response.tokens.accessToken}`)
   }
@@ -86,7 +87,7 @@ export class UserAuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get("me")
-  me(@Request() req){
+  me(@Request() req) {
     const token = req.headers.authorization.split(' ')[1];
     return this.userAuthService.me(token);
   }
@@ -102,7 +103,7 @@ export class UserAuthController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post("logout")
-  logout(@Request() req){
+  logout(@Request() req) {
     const token = req.headers.authorization.split(' ')[1];
     return this.userAuthHelperService.revokeToken(token);
   }
@@ -126,5 +127,16 @@ export class UserAuthController {
   @Post("update-user-jwt")
   updateUserJwt(@Body() body: { refreshToken: string }) {
     return this.userAuthService.updateUserJwt(body.refreshToken);
+  }
+
+  @ApiOperation({ summary: 'User email verify by code' })
+  @ApiResponse({
+    status: 200,
+    description: 'User email verified.',
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @Post('email/send')
+  sendMail(@Body() dto: sendEmailDto) {
+    return this.userAuthService.sendEmailCode(dto)
   }
 }

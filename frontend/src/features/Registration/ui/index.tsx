@@ -9,6 +9,7 @@ import { setFormDataValue } from "@/shared/lib";
 import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import OAuth2Google from "@/widgets/OAuth2Google";
+import { emailVerify } from "@/shared/api/users/mutations";
 
 export default function Registration() {
   const [formData, setFormData] = useState<IRegistrationSubmitData>({
@@ -17,17 +18,21 @@ export default function Registration() {
     rePassword: "",
     email: "",
   });
-  const { submitRegistration } = useRegistration();
-
+  const { submitRegistration, submitRegisterCode } = useRegistration();
+  const [isSending, setIsSending] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
+  const [code, setCode] = useState<{ currentCode: null | string, inputCode: string }>({ currentCode: null, inputCode: "" })
   const changePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   return (
-    <div className={s.container}>
-      <CustomForm onSubmit={() => submitRegistration(formData)}>
+    !isSending ? <div className={s.container}>
+      <CustomForm onSubmit={async (e) => {
+        submitRegistration(e, formData, setIsSending)
+        const res = await emailVerify(formData.email)
+        setCode({ ...code, currentCode: res })
+      }}>
         <div className={s.headerContainer}>
           <Link href="/auth/login"><p className={s.authHeader}>Авторизация</p></Link>
           <p className={s.activeHeader}>Регистрация</p>
@@ -102,6 +107,46 @@ export default function Registration() {
         <OAuth2Google />
         <Submit className={s.submit}>Зарегистрироваться</Submit>
       </CustomForm>
+    </div> : <div className={s.codeContainer}>
+      <h2 className={s.codeTitle}>Введите код подтверждения</h2>
+      <p className={s.codeSubtitle}>Мы отправили 6-значный код на вашу почту</p>
+
+      <div className={s.codeInputs}>
+        {[...Array(6)].map((_, i) => (
+          <input
+            key={i}
+            type="text"
+            maxLength={1}
+            value={code.inputCode[i] || ''}
+            onChange={(e) => {
+              const newCode = [...code.inputCode];
+              newCode[i] = e.target.value;
+              setCode({ ...code, inputCode: newCode.join('') });
+            }}
+            className={s.codeInput}
+            autoFocus={i === 0}
+          />
+        ))}
+      </div>
+
+      <div className={s.codeButtons}>
+        <button
+          onClick={() => submitRegisterCode(formData, code)}
+          className={s.primaryButton}
+        >
+          Подтвердить
+        </button>
+        <button
+          onClick={() => setIsSending(false)}
+          className={s.secondaryButton}
+        >
+          Назад
+        </button>
+      </div>
+
+      <div className={s.resendCode}>
+        Не получили код? <span>Отправить снова</span>
+      </div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { BcryptModule } from './modules/deffault/bcrypt/bcrypt.module';
 import { StoriesModule } from './modules/stories/stories.module';
 import { ScenesModule } from './modules/scenes/scenes.module';
 import { ChoicesModule } from './modules/choices/choices.module';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     AuthModule,
@@ -19,6 +20,7 @@ import { ChoicesModule } from './modules/choices/choices.module';
     StoriesModule,
     ScenesModule,
     ChoicesModule,
+    ConfigModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],

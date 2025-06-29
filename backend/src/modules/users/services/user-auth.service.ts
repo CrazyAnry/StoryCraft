@@ -15,6 +15,9 @@ import { LoginResponse } from '../responses/user-auth.response';
 import { RegisterResponse } from '../responses/user-auth.response';
 import { HelpersService } from 'src/modules/deffault/helpers/services/helpers.service';
 import { JwtService } from '@nestjs/jwt';
+import * as nodemailer from 'nodemailer'
+import { ConfigService } from '@nestjs/config';
+import { sendEmailDto } from '../dto/email.dto';
 
 @Injectable()
 export class UserAuthService {
@@ -24,6 +27,7 @@ export class UserAuthService {
     private readonly authService: AuthService,
     private readonly helpers: HelpersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   /**
@@ -231,6 +235,43 @@ export class UserAuthService {
       };
     } catch (error) {
       throw error;
+    }
+  }
+
+  emailTransport(){
+    const transporter = nodemailer.createTransport({
+      host: this.configService.get<string>('EMAIL_HOST'),
+      port: this.configService.get<number>('EMAIL_PORT'),
+      secure: false,
+      auth: {
+        user: this.configService.get<string>('EMAIL_USER'),
+        pass: this.configService.get<string>('EMAIL_PASSWORD'),
+      }
+    })
+    return transporter
+  }
+
+  async sendEmailCode(dto: sendEmailDto){
+    const {email} = dto
+    const transport = this.emailTransport()
+    const code = <Array<number>>[]
+    for(let i = 0; i < 6; i++){
+      code.push(Math.floor(Math.random() * 9) + 1)
+    }
+    const joinedCode = code.join("")
+
+    const options: nodemailer.SendMailOptions = {
+      from: this.configService.get<string>('EMAIL_USER'),
+      to: email,
+      subject: "Your verify email code",
+      text: joinedCode
+    }
+
+    try{
+      await transport.sendMail(options)
+      return joinedCode
+    }catch(error){
+      throw error
     }
   }
 }

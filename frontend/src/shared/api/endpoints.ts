@@ -5,7 +5,7 @@ export const API_ROUTES = {
     logout: "/users/auth/logout",
     me: "/users/auth/me",
     updateUserJwt: "/users/auth/update-user-jwt",
-    
+    emailVerify: "/users/auth/email/send"
   },
   users: {
     findUser: "/users/",
