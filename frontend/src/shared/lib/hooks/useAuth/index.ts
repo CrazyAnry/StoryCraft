@@ -8,6 +8,8 @@ import { LoginDto, RegisterDto } from "@/shared/api/auth/types";
 import { register, login } from "@/shared/api/auth/mutations";
 import { useAuthStore } from "@/shared/stores/auth";
 import { toast } from "react-toastify";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Router } from "next/router";
 
 const saveTokens = (tokens?: {
   accessToken?: string;
@@ -38,9 +40,9 @@ const useAuth = () => {
     }
   };
 
-  const submitRegistration = async (data: IRegistrationSubmitData) => {
+  const submitRegistration = async (e: ChangeEvent<HTMLFormElement>, data: IRegistrationSubmitData, setIsSending: Dispatch<SetStateAction<boolean>>) => {
+    e.preventDefault()
     const { username, password, rePassword, email } = data;
-
     if (password !== rePassword) return toast.error("Пароли не совпадают");
     if (password.length < 6)
       return toast.error("Пароль должен содержать не менее 6 символов");
@@ -50,7 +52,14 @@ const useAuth = () => {
       return toast.error("Логин должен содержать не менее 3 символов");
     if (!email.includes("@"))
       return toast.error("Email должен содержать символ @");
+    setIsSending(true)
+  };
+
+  const submitRegisterCode = async (data: IRegistrationSubmitData, code: { currentCode: null | string, inputCode: string }) => {
+    const { username, password, email } = data;
     try {
+      if(code.currentCode != code.inputCode)
+        return toast.error("Код не совпадает");
       const response = await register({
         username,
         email,
@@ -59,13 +68,13 @@ const useAuth = () => {
       if (!response?.user) throw new Error("Registration failed");
       saveTokens(response?.tokens);
       setUser(response?.user);
-      router.push("/");
+      router.push('/')
     } catch (error) {
-      console.error(error);
+      throw error
     }
   };
 
-  return { submitLogin, submitRegistration };
+  return { submitLogin, submitRegistration, submitRegisterCode };
 };
 
 export const useLogin = () => {
@@ -74,6 +83,6 @@ export const useLogin = () => {
 };
 
 export const useRegistration = () => {
-  const { submitRegistration } = useAuth();
-  return { submitRegistration };
+  const { submitRegistration, submitRegisterCode } = useAuth();
+  return { submitRegistration, submitRegisterCode };
 };

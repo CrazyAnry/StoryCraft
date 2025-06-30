@@ -20,3 +20,16 @@ export const updateMe = async (id: string | number, data: UpdateUserDto) => {
     throw error;
   }
 };
+
+export const emailVerify = async (email: string) => {
+  try {
+    const currentEmail = {email: email}
+    const response = await axiosInstance.post(
+      API_ROUTES.auth.emailVerify,
+      currentEmail
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
+};

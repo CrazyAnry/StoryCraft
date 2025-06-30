@@ -21,6 +21,10 @@
     background: #ff4757;
     opacity: 0.6;
   }
+
+ @media (max-width: 320px) {
+  display: none
+ }
 }
 
 .brandLogo {

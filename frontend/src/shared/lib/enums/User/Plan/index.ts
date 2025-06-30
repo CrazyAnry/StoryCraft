@@ -1,6 +1,5 @@
 export enum UserPlan {
-    "free",
-    "level-1",
-    "level-2",
+  free = "free",
+  level_1 = "level_1",
+  level_2 = "level_2"
 }
-

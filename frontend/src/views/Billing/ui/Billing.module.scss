@@ -1,0 +1,210 @@
+.container {
+    height: 750px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.billingHeader {
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(255, 71, 87, 0.2) 0%, rgba(255, 71, 87, 0.1) 100%);
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.billingHeader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff4757, #ff6b81, #ff4757);
+}
+
+.planText{
+    margin: 5px 0;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.planTerm{
+    color: #ff6b81;
+    font-size: 1.1em;
+}
+
+.plansContainer {
+    height: 90%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 15px;
+}
+
+.planContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+.planContainer:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    border-color: #ff4757;
+}
+
+.planName {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 71, 87, 0.3);
+    text-align: center;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    color: #ffffff;
+}
+
+.planName h2 {
+    margin: 5px 0;
+    font-size: 1.4em;
+}
+
+.planName h2:last-child {
+    color: #ff4757;
+    font-weight: 600;
+}
+
+.text {
+    margin: 15px 0;
+    text-align: center;
+    color: #ff4757;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.planDescription {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.planDescription ul {
+    padding-left: 15px;
+    margin: 0;
+    list-style-type: none;
+}
+
+.planDescription li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+    color: #b0b0b0;
+    position: relative;
+    padding-left: 22px;
+}
+
+.planDescription li:before {
+    content: "•";
+    color: #ff4757;
+    font-size: 1.2em;
+    position: absolute;
+    left: 0;
+    top: -2px;
+}
+
+.btnContainer {
+    padding: 12px;
+    text-align: center;
+    background: rgba(30, 30, 30, 0.7);
+    border-top: 1px solid #333;
+}
+
+.btn {
+    width: 90%;
+    height: 38px;
+    background-color: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.disabledBtn{
+    width: 90%;
+    height: 38px;
+    background-color: grey;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: no-drop;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    background-color: #ff6b81;
+}
+
+.plansContainer div:nth-child(2) {
+    transform: scale(1.05);
+    margin-top: -10px;
+    border: 1px solid #2ecc71;
+}
+
+.plansContainer div:nth-child(2) .planName {
+    background: linear-gradient(135deg, #1a2e22 0%, #1a3a2a 100%);
+    border-bottom: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.plansContainer div:nth-child(2) .planName h2:last-child {
+    color: #2ecc71;
+}
+
+.plansContainer div:nth-child(2) .btn {
+    background-color: #2ecc71;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.plansContainer div:nth-child(2) .btn:hover {
+    background-color: #1abc9c;
+}
+
+.plansContainer div:nth-child(2) .planDescription li:before {
+    color: #2ecc71;
+}
+
+
+@media (max-width: 992px) {
+    .container {
+        height: auto;
+        padding-bottom: 40px;
+    }
+    .plansContainer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
