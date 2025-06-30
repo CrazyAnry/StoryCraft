@@ -7,7 +7,7 @@ export default function HeaderLeft() {
       <Link href="/">
         <span className={s.brandLogo}>StoryCraft</span>
       </Link>
-      <span className={s.brandSlogan}>Место, где ты можешь создать свою собственную историю!</span>
+      <span className={s.brandSlogan}>Бесконечные сюжеты</span>
     </div>
   )
 }

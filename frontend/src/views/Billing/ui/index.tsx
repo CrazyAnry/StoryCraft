@@ -36,13 +36,13 @@ export default function Billing() {
                         </ul>
                     </div>
                     <div className={s.btnContainer}>
-                        <button className={s.btn}>Приобрести</button>
+                        <button className={s.disabledBtn}>Приобрести</button>
                     </div>
                 </div>
                 <div className={s.planContainer}>
                     <div className={s.planName}>
                         <h2>Подписка первого уровня</h2>
-                        <h2>Стоимость: 500р</h2>
+                        <h2>Стоимость: 500₽</h2>
                     </div>
                     <h2 className={s.text}>О подписке</h2>
                     <div className={s.planDescription}>
@@ -62,7 +62,7 @@ export default function Billing() {
                 <div className={s.planContainer}>
                     <div className={s.planName}>
                         <h2>Подписка второго уровня</h2>
-                        <h2>Стоимость: 1500р</h2>
+                        <h2>Стоимость: 1500₽</h2>
                     </div>
                     <h2 className={s.text}>О подписке</h2>
                     <div className={s.planDescription}>

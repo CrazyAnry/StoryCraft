@@ -2,7 +2,7 @@
 
 import { useRegistration } from "@/shared/lib";
 import { CustomForm, CustomInput, Submit } from "@/shared/ui";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import s from "./Registration.module.scss";
 import { IRegistrationSubmitData } from "@/shared/lib";
 import { setFormDataValue } from "@/shared/lib";
@@ -19,6 +19,8 @@ export default function Registration() {
     email: "",
   });
   const { submitRegistration, submitRegisterCode } = useRegistration();
+  const [timeout, setTimeout] = useState(false)
+  const [timeoutNum, setTimeoutNum] = useState(20)
   const [isSending, setIsSending] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [code, setCode] = useState<{ currentCode: null | string, inputCode: string }>({ currentCode: null, inputCode: "" })
@@ -26,6 +28,19 @@ export default function Registration() {
     setShowPassword(!showPassword);
   };
 
+  useEffect(() => {
+    if (timeoutNum <= 0) {
+      setTimeout(true);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeoutNum(prev => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+    
+  }, [timeoutNum])
   return (
     !isSending ? <div className={s.container}>
       <CustomForm onSubmit={async (e) => {
@@ -144,8 +159,16 @@ export default function Registration() {
         </button>
       </div>
 
-      <div className={s.resendCode}>
-        Не получили код? <span>Отправить снова</span>
+      <div className={timeout ? s.resendCode : s.disResendCode}>
+        Не получили код? <span onClick={async () => {
+          if (timeout) {
+            const res = await emailVerify(formData.email)
+            setCode({ ...code, currentCode: res })
+            setTimeoutNum(20)
+            setTimeout(false)
+          }
+        }}>Отправить снова</span>
+        <span className={s.timer}>{timeoutNum === 0? "" : timeoutNum}</span>
       </div>
     </div>
   );

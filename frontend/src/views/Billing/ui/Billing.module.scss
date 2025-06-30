@@ -149,6 +149,20 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
+.disabledBtn{
+    width: 90%;
+    height: 38px;
+    background-color: grey;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: no-drop;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
