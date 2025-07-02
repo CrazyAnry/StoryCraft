@@ -8,19 +8,18 @@
   border: 1px solid rgba(255, 71, 87, 0.2);
   color: #f0f0f0;
 
-  @media(max-width: 1000px){
+  @media (max-width: 1000px) {
     max-width: 700px;
   }
 
-  @media(max-width: 700px){
+  @media (max-width: 700px) {
     max-width: 450px;
   }
 
-  @media(max-width: 450px){
+  @media (max-width: 450px) {
     max-width: 390px;
   }
-    @media(max-width: 400px){
+  @media (max-width: 400px) {
     max-width: 300px;
   }
 }
-

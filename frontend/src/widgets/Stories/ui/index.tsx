@@ -8,21 +8,21 @@ import { useSortedStoriesStore } from "@/shared/stores/sortedStories";
 import { NoStories } from "@/entities";
 
 export default function Stories() {
-  const { sortedStories } = useStories();
-  const { setSortedStories } = useSortedStoriesStore();
+	const { sortedStories } = useStories();
+	const { setSortedStories } = useSortedStoriesStore();
 
-  useEffect(() => {
-    setSortedStories(sortedStories);
-  }, [sortedStories]);
+	useEffect(() => {
+		setSortedStories(sortedStories);
+	}, [sortedStories]);
 
-  if (sortedStories.length === 0) {
-    return <NoStories />;
-  }
+	if (sortedStories.length === 0) {
+		return <NoStories />;
+	}
 
-  return (
-    <>
-      <StoriesSort />
-      <StoriesGenerator />
-    </>
-  );
+	return (
+		<>
+			<StoriesSort />
+			<StoriesGenerator />
+		</>
+	);
 }

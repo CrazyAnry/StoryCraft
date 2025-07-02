@@ -1,5 +1,5 @@
-export interface IStorieCard{
-    id: number;
-    title: string;
-    author: string;
+export interface IStorieCard {
+	id: number;
+	title: string;
+	author: string;
 }

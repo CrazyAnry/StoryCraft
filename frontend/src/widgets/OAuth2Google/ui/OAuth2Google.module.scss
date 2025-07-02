@@ -23,7 +23,11 @@
   margin: 1.2rem 0;
   border: none;
   border-radius: 6px !important;
-  background: linear-gradient(135deg, rgba(50, 50, 50, 0.95), rgba(40, 40, 40, 0.9)) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(50, 50, 50, 0.95),
+    rgba(40, 40, 40, 0.9)
+  ) !important;
   color: white;
   font-size: 1.05rem;
   font-weight: 600;
@@ -37,7 +41,11 @@
     0 0 0 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
-    background: linear-gradient(135deg, rgba(60, 60, 60, 0.95), rgba(50, 50, 50, 0.9)) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(60, 60, 60, 0.95),
+      rgba(50, 50, 50, 0.9)
+    ) !important;
     transform: translateY(-3px);
     box-shadow:
       0 5px 15px rgba(0, 0, 0, 0.3),
@@ -50,7 +58,7 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -141,12 +149,12 @@
     padding: 0 1rem;
     font-size: 0.85rem;
   }
-  
+
   .imageWrapper {
     width: 30px;
     height: 30px;
   }
-  
+
   .image {
     width: 18px;
     height: 18px;

@@ -15,9 +15,9 @@
   font-size: 1.3rem;
   transition: all 0.3s ease;
   cursor: pointer;
-  
+
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -5px;
     left: 50%;
@@ -27,16 +27,16 @@
     background: #ff4757;
     transition: transform 0.3s ease;
   }
-  
+
   &:hover {
     color: #ff4757;
     transform: translateY(-3px);
-    
+
     &::after {
       transform: translateX(-50%) translateY(-200%) scaleX(1);
     }
   }
-  
+
   span {
     position: absolute;
     bottom: -25px;
@@ -46,7 +46,7 @@
     transition: all 0.3s ease;
     white-space: nowrap;
   }
-  
+
   &:hover span {
     opacity: 1;
     transform: translateY(-5px);
@@ -71,7 +71,7 @@
     transform: translateY(-150%);
     transition: transform 0.3s ease;
     border-bottom: 1px solid rgba(255, 71, 87, 0.3);
-    
+
     &.open {
       transform: translateY(-12%);
     }
@@ -79,7 +79,7 @@
     .navLink {
       width: auto;
       font-size: 1.1rem;
-      
+
       span {
         position: static;
         opacity: 1;
@@ -93,7 +93,7 @@
 
 .hamburger {
   display: none;
-  
+
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -101,7 +101,7 @@
     width: 30px;
     height: 20px;
     cursor: pointer;
-    
+
     span {
       display: block;
       width: 100%;
@@ -109,7 +109,7 @@
       background: white;
       transition: all 0.3s ease;
     }
-    
+
     &.open {
       span:nth-child(1) {
         transform: translateY(8px) rotate(45deg);

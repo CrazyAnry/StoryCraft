@@ -1,20 +1,24 @@
-'use client'
+"use client";
 
 import s from "./StoryEditor.module.scss";
-import { SaveStory, PublicStory, PrivateStory, SceneGenerator } from "@/features";
+import {
+	SaveStory,
+	PublicStory,
+	PrivateStory,
+	SceneGenerator,
+} from "@/features";
 
 export default function StoryEditor() {
+	return (
+		<div className={s.container}>
+			<SceneGenerator />
+			<div className={s.controls}>
+				<SaveStory />
 
-  return (
-    <div className={s.container}>
-      <SceneGenerator/>
-      <div className={s.controls}>
-        <SaveStory />
+				<PublicStory />
 
-        <PublicStory />
-
-        <PrivateStory />
-      </div>
-    </div>
-  );
+				<PrivateStory />
+			</div>
+		</div>
+	);
 }

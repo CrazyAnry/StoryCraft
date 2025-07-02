@@ -6,8 +6,11 @@
   align-items: center;
   gap: 10px;
 
-  transition: transform 0.15s ease, text-shadow 0.15s ease, margin 0.15s ease;
-  
+  transition:
+    transform 0.15s ease,
+    text-shadow 0.15s ease,
+    margin 0.15s ease;
+
   &:hover {
     transform: scale(1.1);
     margin-top: 5px;
@@ -28,8 +31,6 @@
   font-weight: 700;
   color: #ff4757;
   text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
-
-
 }
 
 .username {

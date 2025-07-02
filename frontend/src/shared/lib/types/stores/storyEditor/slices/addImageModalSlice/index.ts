@@ -1,11 +1,11 @@
 export type AddImageModalActions = {
- setAddStoryImageModalIsVisible: (isVisible: boolean) => void;
- setAddSceneImageModalIsVisible: (isVisible: boolean) => void; 
-} 
+	setAddStoryImageModalIsVisible: (isVisible: boolean) => void;
+	setAddSceneImageModalIsVisible: (isVisible: boolean) => void;
+};
 
 export type AddImageModalStates = {
- addStoryImageModalIsVisible: boolean;
- addSceneImageModalIsVisible: boolean;
-}
+	addStoryImageModalIsVisible: boolean;
+	addSceneImageModalIsVisible: boolean;
+};
 
-export type AddImageModalSlice = AddImageModalActions & AddImageModalStates
+export type AddImageModalSlice = AddImageModalActions & AddImageModalStates;

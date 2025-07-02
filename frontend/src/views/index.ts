@@ -5,5 +5,5 @@ export { default as RegisterPage } from "./Register";
 export { default as StoryReadPage } from "./StoryRead";
 export { default as EditorPage } from "./Editor";
 export { default as AccountPage } from "./Account";
-export { default as SceneReadPage } from "./SceneRead"
-export { default as BillingPage } from "./Billing"
+export { default as SceneReadPage } from "./SceneRead";
+export { default as BillingPage } from "./Billing";

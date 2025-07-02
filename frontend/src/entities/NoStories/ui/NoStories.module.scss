@@ -24,7 +24,7 @@
   height: 50px;
   background: linear-gradient(145deg, #ff6b6b, #ff4757);
   border-radius: 50%;
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(255, 107, 107, 0.7),
     inset 0 0 10px rgba(0, 0, 0, 0.3);
   position: absolute;
@@ -69,33 +69,37 @@
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 
+  box-shadow:
     0 4px 15px rgba(255, 107, 107, 0.4),
     0 2px 4px rgba(0, 0, 0, 0.1);
-  
+
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 
+    box-shadow:
       0 6px 20px rgba(255, 107, 107, 0.6),
       0 3px 6px rgba(0, 0, 0, 0.15);
   }
-  
+
   &:active {
     transform: translateY(1px);
   }
 }
 
 @keyframes orbitRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes ringPulse {
-  from { 
+  from {
     opacity: 0.5;
     transform: scale(0.95);
   }
-  to { 
+  to {
     opacity: 1;
     transform: scale(1.05);
   }

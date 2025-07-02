@@ -42,7 +42,7 @@ export class UserOperationsController {
   // Set role
   @Patch('role/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.admin, Role.moderator)
+  @Roles(Role.admin, Role.moderator)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Set a user role' })
   @ApiParam({ name: 'id', type: 'string', description: 'User ID' })

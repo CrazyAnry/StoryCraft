@@ -17,21 +17,23 @@
   justify-content: center;
   gap: 8px;
   min-width: 140px;
-  
+
   &:hover:not(.disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
-  
+
   &:active:not(.disabled) {
     transform: translateY(0);
   }
-  
+
   &:focus:not(.disabled) {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow:
+      0 0 0 3px rgba(255, 255, 255, 0.3),
+      0 4px 12px rgba(0, 0, 0, 0.25);
   }
-  
+
   &.disabled {
     background-color: #666 !important;
     cursor: not-allowed;
@@ -41,17 +43,17 @@
 }
 
 .controlButton.publish {
-  background: linear-gradient(135deg, #4CAF50, #2E7D32);
-  
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+
   &:hover:not(.disabled) {
-    background: linear-gradient(135deg, #66BB6A, #388E3C);
+    background: linear-gradient(135deg, #66bb6a, #388e3c);
   }
 }
 
 .controlButton.unpublish {
-  background: linear-gradient(135deg, #F44336, #D32F2F);
-  
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+
   &:hover:not(.disabled) {
-    background: linear-gradient(135deg, #EF5350, #C62828);
+    background: linear-gradient(135deg, #ef5350, #c62828);
   }
 }

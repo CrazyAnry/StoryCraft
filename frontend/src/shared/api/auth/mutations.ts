@@ -4,40 +4,44 @@ import { API_ROUTES } from "../endpoints";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const register = async (data: RegisterDto): Promise<AuthResponse | undefined> => {
-  try {
-    const response = await axiosInstance.post(API_ROUTES.auth.register, data);
-    return response.data;
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      toast.error("ошибка при регистрации: " + error.response?.data.message);
-      return;
-    }
-    throw error;
-  }
+export const register = async (
+	data: RegisterDto,
+): Promise<AuthResponse | undefined> => {
+	try {
+		const response = await axiosInstance.post(API_ROUTES.auth.register, data);
+		return response.data;
+	} catch (error: any) {
+		if (axios.isAxiosError(error)) {
+			toast.error("ошибка при регистрации: " + error.response?.data.message);
+			return;
+		}
+		throw error;
+	}
 };
 
-export const login = async (data: LoginDto): Promise<AuthResponse | undefined> => {
-  try {
-    const response = await axiosInstance.post(API_ROUTES.auth.login, data);
-    return response.data;
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      toast.error(`Ошибка при входе: ${error.response?.data.message}`);
-      return;
-    }
-    throw error;
-  }
+export const login = async (
+	data: LoginDto,
+): Promise<AuthResponse | undefined> => {
+	try {
+		const response = await axiosInstance.post(API_ROUTES.auth.login, data);
+		return response.data;
+	} catch (error: any) {
+		if (axios.isAxiosError(error)) {
+			toast.error(`Ошибка при входе: ${error.response?.data.message}`);
+			return;
+		}
+		throw error;
+	}
 };
 
 export const logout = async () => {
-  try {
-    await axiosInstance.post(API_ROUTES.auth.logout);
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      toast.error(`Ошибка при выходе: ${error.response?.data.message}`);
-      return;
-    }
-    throw error;
-  }
+	try {
+		await axiosInstance.post(API_ROUTES.auth.logout);
+	} catch (error: any) {
+		if (axios.isAxiosError(error)) {
+			toast.error(`Ошибка при выходе: ${error.response?.data.message}`);
+			return;
+		}
+		throw error;
+	}
 };

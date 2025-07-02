@@ -1,36 +1,41 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useLikes, useViews } from '@/shared/lib'
-import s from './Story.module.scss'
-import { useReadingStoriesStore } from '@/shared/stores/readingStories'
-import { useUsersStore } from '@/shared/stores'
+import { useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useLikes, useViews } from "@/shared/lib";
+import s from "./Story.module.scss";
+import { useReadingStoriesStore } from "@/shared/stores/readingStories";
+import { useAuthStore } from "@/shared/stores";
 
-export default function StoryCard({ id, title, author, image, tags = [] }: {
-	id: number
-	title: string
-	author: string
-	image?: string
-	tags?: string[]
+export default function StoryCard({
+	id,
+	title,
+	author,
+	image,
+	tags = [],
+}: {
+	id: number;
+	title: string;
+	author: string;
+	image?: string;
+	tags?: string[];
 }) {
-	const { getLikesCount, likesCount } = useLikes()
-	const { getViews, views, setView } = useViews()
-	const { getStoryProgress } = useReadingStoriesStore()
-	const { currentUser } = useUsersStore()
+	const { getLikesCount, likesCount } = useLikes();
+	const { getViews, views, setView } = useViews();
+	const { getStoryProgress } = useReadingStoriesStore();
+	const { user } = useAuthStore();
 
 	useEffect(() => {
-		getLikesCount(id)
-		getViews(id)
-	}, [id])
-
+		getLikesCount(id);
+		getViews(id);
+	}, [id]);
 
 	return (
 		<article className={s.card}>
 			<div className={s.imageContainer}>
 				<Image
-					src={image || '/NoImg.png'}
+					src={image || "/NoImg.png"}
 					alt={`Обложка: ${title}`}
 					fill
 					className={s.image}
@@ -54,10 +59,10 @@ export default function StoryCard({ id, title, author, image, tags = [] }: {
 						className={s.readBtn}
 						onClick={() => setView(id)}
 					>
-						{getStoryProgress(id, currentUser!.id) ? "Читать дальше" : "Читать"}
+						{getStoryProgress(id!, user!?.id!) ? "Читать дальше" : "Читать"}
 					</Link>
 				</div>
 			</div>
 		</article>
-	)
+	);
 }

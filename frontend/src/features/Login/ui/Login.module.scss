@@ -125,10 +125,10 @@
 
 .activeHeader {
   position: relative;
-  
+
   &::after,
   &::before {
-    content: '';
+    content: "";
     background-color: #ff4757;
     position: absolute;
     bottom: 0;
@@ -155,7 +155,7 @@
 
   &::after,
   &::before {
-    content: '';
+    content: "";
     background-color: #ff4757;
     position: absolute;
     bottom: 0;

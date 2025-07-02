@@ -1,6 +1,6 @@
 @use "@/app/(default)/styles/variables.scss" as *;
 
-.containerVisibleLight{
+.containerVisibleLight {
   border: 1px solid black;
   background-color: white;
   width: 25%;
@@ -12,7 +12,7 @@
   justify-items: center;
   align-items: center;
 }
-.containerVisibleDark{
+.containerVisibleDark {
   border: 1px solid $main-light;
   background-color: $main-dark;
   z-index: 100;
@@ -24,7 +24,7 @@
   border-radius: 10px;
   padding: 20px;
 }
-.containerUnVisible{
+.containerUnVisible {
   display: none;
 }
 .modalOverlay {

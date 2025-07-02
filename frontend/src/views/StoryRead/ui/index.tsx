@@ -2,8 +2,5 @@
 import { StoryHeader } from "@/features";
 
 export default function StoryReadPage() {
-
-  return (
-      <StoryHeader/>
-  );
+	return <StoryHeader />;
 }

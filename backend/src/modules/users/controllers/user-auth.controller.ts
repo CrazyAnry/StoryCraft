@@ -73,7 +73,7 @@ export class UserAuthController {
   @Get("google/callback")
   async googleCallback(@Req() req, @Res() res) {
     const response = await this.userAuthService.generateUserJwt(req.user.id)
-    res.redirect(`http://localhost:3000/auth/login?token=${response.tokens.accessToken}`)
+    res.redirect(`https://redesigned-telegram-x544j66v9wrgh69wq-3002.app.github.dev/auth/login?token=${response.tokens.accessToken}`)
   }
 
   // Me

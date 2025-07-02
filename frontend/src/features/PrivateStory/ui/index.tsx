@@ -6,13 +6,13 @@ import { toast } from "react-toastify";
 
 export default function PrivateStory() {
 	const { story, setIsPublic } = useStoryEditorStore(
-		useShallow((state) => state)
+		useShallow((state) => state),
 	);
-	const { updateStory } = useStories()
+	const { updateStory } = useStories();
 
 	const handlePrivateStory = async () => {
 		try {
-			await updateStory({...story!, isPublic: false});
+			await updateStory({ ...story!, isPublic: false });
 			setIsPublic(false);
 			toast.success("История скрыта");
 		} catch (error) {
@@ -22,8 +22,9 @@ export default function PrivateStory() {
 
 	return (
 		<button
-			className={`${s.controlButton} ${s.unpublish} ${!story?.isPublic ? s.disabled : ""
-				}`}
+			className={`${s.controlButton} ${s.unpublish} ${
+				!story?.isPublic ? s.disabled : ""
+			}`}
 			onClick={handlePrivateStory}
 			disabled={!story?.isPublic}
 		>

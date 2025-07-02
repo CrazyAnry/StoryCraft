@@ -8,7 +8,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 
+  box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.2),
     0 4px 16px rgba(0, 0, 0, 0.1);
   user-select: none;
@@ -23,7 +23,7 @@
 
 .controlButton:hover {
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.25),
     0 8px 24px rgba(0, 0, 0, 0.15);
 }
@@ -33,7 +33,7 @@
 }
 
 .controlButton::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
@@ -52,43 +52,43 @@
 
 .controlButton:focus {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 3px rgba(255, 255, 255, 0.3),
     0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .controlButton.save {
-  background: linear-gradient(135deg, #FF9800, #FF5722);
+  background: linear-gradient(135deg, #ff9800, #ff5722);
 }
 
 .controlButton.save:hover {
-  background: linear-gradient(135deg, #FFA726, #FF7043);
+  background: linear-gradient(135deg, #ffa726, #ff7043);
 }
 
 .controlButton.publish {
-  background: linear-gradient(135deg, #4CAF50, #2E7D32);
-  box-shadow: 
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  box-shadow:
     0 2px 8px rgba(76, 175, 80, 0.3),
     0 4px 16px rgba(46, 125, 50, 0.2);
 }
 
 .controlButton.publish:hover {
-  background: linear-gradient(135deg, #66BB6A, #388E3C);
-  box-shadow: 
+  background: linear-gradient(135deg, #66bb6a, #388e3c);
+  box-shadow:
     0 4px 12px rgba(76, 175, 80, 0.4),
     0 8px 24px rgba(46, 125, 50, 0.3);
 }
 
 .controlButton.unpublish {
-  background: linear-gradient(135deg, #F44336, #D32F2F);
-  box-shadow: 
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  box-shadow:
     0 2px 8px rgba(244, 67, 54, 0.3),
     0 4px 16px rgba(211, 47, 47, 0.2);
 }
 
 .controlButton.unpublish:hover {
-  background: linear-gradient(135deg, #EF5350, #C62828);
-  box-shadow: 
+  background: linear-gradient(135deg, #ef5350, #c62828);
+  box-shadow:
     0 4px 12px rgba(244, 67, 54, 0.4),
     0 8px 24px rgba(211, 47, 47, 0.3);
 }

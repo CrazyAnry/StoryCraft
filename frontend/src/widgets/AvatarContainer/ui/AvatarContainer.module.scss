@@ -26,7 +26,9 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.1s ease, text-shadow 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    text-shadow 0.1s ease;
   font-size: 18px;
   font-weight: 700;
   color: #ff4757;
@@ -64,7 +66,9 @@
   font-size: 18px;
   font-weight: 700;
   color: #ff4757;
-  transition: transform 0.1s ease, text-shadow 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    text-shadow 0.1s ease;
   text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
 
   &:hover {
@@ -106,9 +110,9 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   position: relative;
   padding-bottom: 10px;
-  
+
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 25%;
@@ -134,13 +138,13 @@
   background: rgba(20, 20, 20, 0.7);
   color: white;
   transition: all 0.3s ease;
-  
+
   &:focus {
     outline: none;
     border-color: #ff6b6b;
     box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
   }
-  
+
   &::placeholder {
     color: rgba(255, 255, 255, 0.4);
   }
@@ -159,7 +163,7 @@
   color: #ff6b6b;
   font-size: 1.4rem;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: rgba(255, 107, 107, 0.2);
     transform: rotate(15deg) scale(1.1);
@@ -189,12 +193,12 @@
   background: linear-gradient(135deg, #ff6b6b, #ff4757);
   color: white;
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -204,7 +208,7 @@
   background: rgba(255, 255, 255, 0.1);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
@@ -216,7 +220,7 @@
   max-height: 70vh;
   display: flex;
   flex-direction: column;
-  
+
   h3 {
     padding: 20px;
     margin: 0;
@@ -233,34 +237,34 @@
     background: rgba(40, 30, 50, 0.95);
     border-color: rgba(161, 140, 209, 0.3);
   }
-  
+
   .modalTitle::after {
     background: linear-gradient(90deg, transparent, #a18cd1, transparent);
   }
-  
+
   .avatarInput {
     border-color: rgba(161, 140, 209, 0.3);
-    
+
     &:focus {
       border-color: #a18cd1;
       box-shadow: 0 0 0 3px rgba(161, 140, 209, 0.2);
     }
   }
-  
+
   .editButton {
     color: #a18cd1;
     background: rgba(161, 140, 209, 0.1);
-    
+
     &:hover {
       background: rgba(161, 140, 209, 0.2);
     }
   }
-  
+
   .saveButton {
     background: linear-gradient(135deg, #a18cd1, #fbc2eb);
     box-shadow: 0 4px 15px rgba(161, 140, 209, 0.3);
   }
-  
+
   .followsModalContent h3 {
     background: rgba(30, 20, 40, 0.7);
     border-bottom-color: rgba(161, 140, 209, 0.2);
@@ -272,25 +276,25 @@
     padding: 20px;
     border-radius: 12px;
   }
-  
+
   .modalTitle {
     font-size: 1.5rem;
   }
-  
+
   .inputContainer {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .avatarInput {
     width: 100%;
   }
-  
+
   .modalButtons {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .saveButton,
   .cancelButton {
     width: 100%;
@@ -395,7 +399,7 @@
   height: 60px;
   background: linear-gradient(145deg, #ff6b6b, #ff4757);
   border-radius: 50%;
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(255, 107, 107, 0.7),
     inset 0 0 10px rgba(0, 0, 0, 0.3);
   position: absolute;
@@ -414,16 +418,20 @@
 }
 
 @keyframes orbitRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes ringPulse {
-  from { 
+  from {
     opacity: 0.5;
     transform: scale(0.95);
   }
-  to { 
+  to {
     opacity: 1;
     transform: scale(1.05);
   }

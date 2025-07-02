@@ -3,49 +3,61 @@ import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ExcludePasswordInterceptor } from './common/interceptors/excludePassword.interceptor';
+import * as cookieParser from 'cookie-parser';
 
-// Load environment variables
 dotenv.config();
 
-// Function to create Swagger configuration
 function createSwaggerConfig() {
   return new DocumentBuilder()
-    .setTitle('Story Craft API') // Set API title
-    .setDescription('Documentation for Story Craft API') // Set API description
-    .setVersion('1.0') // Set API version
+    .setTitle('Story Craft API')
+    .setDescription('API documentation for the Story Craft application')
+    .setVersion('1.0')
     .addBearerAuth()
     .build();
 }
 
-// Main function to bootstrap the application
 async function bootstrap() {
   try {
-    const app = await NestFactory.create(AppModule); // Create NestJS app
-    app.useGlobalInterceptors(new ExcludePasswordInterceptor(new Reflector()));
+    const app = await NestFactory.create(AppModule);
+
+    const reflector = app.get(Reflector);
+    app.useGlobalInterceptors(new ExcludePasswordInterceptor(reflector));
+
+    app.use(cookieParser());
+
+    // Enable CORS for local and deployed frontends
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://story-craft-cbt.vercel.app',
+    ];
 
     app.enableCors({
-      origin: 'http://localhost:3000',
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error(`Not allowed by CORS: ${origin}`));
+        }
+      },
       credentials: true,
     });
 
-    // Create and configure Swagger
+    // Enable Swagger
     const swaggerConfig = createSwaggerConfig();
     const document = SwaggerModule.createDocument(app, swaggerConfig, {
       deepScanRoutes: true,
-      ignoreGlobalPrefix: true,
+      ignoreGlobalPrefix: false,
     });
-
-    // Setup Swagger UI at /api-docs path
     SwaggerModule.setup('api-docs', app, document);
 
-    // Start the app and listen on the specified port (defaults to 3001)
-    const port = process.env.PORT ?? 3001;
-    await app.listen(port, '0.0.0.0', () => {
-      console.log(`App is running on http://0.0.0.0:${port}`);
-    });
+    const port = parseInt(process.env.PORT || '3002', 10);
+    await app.listen(port, '0.0.0.0');
+
+    console.log(`🚀 Server is running on http://localhost:${port}/api`);
+    console.log(`📚 Swagger docs available at http://localhost:${port}/api-docs`);
   } catch (error) {
-    console.error('Error during application startup', error); // Log any error during app startup
-    process.exit(1); // Exit the process with an error code
+    console.error('❌ Error during application startup:', error);
+    process.exit(1);
   }
 }
 

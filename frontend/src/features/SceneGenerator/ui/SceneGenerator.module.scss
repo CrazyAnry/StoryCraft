@@ -9,7 +9,7 @@
   font-weight: 600;
   margin-top: 24px;
   cursor: pointer;
-  box-shadow: 
+  box-shadow:
     0 4px 15px rgba(255, 107, 107, 0.4),
     0 2px 5px rgba(255, 71, 87, 0.5);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -21,10 +21,10 @@
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 
+    box-shadow:
       0 8px 25px rgba(255, 107, 107, 0.6),
       0 4px 10px rgba(255, 71, 87, 0.7);
-    
+
     &::after {
       opacity: 1;
     }
@@ -35,7 +35,7 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -48,7 +48,7 @@
   }
 
   &::after {
-    content: '+';
+    content: "+";
     margin-left: 10px;
     font-size: 20px;
     transition: all 0.3s ease;
@@ -64,51 +64,50 @@
 
   &:focus {
     outline: none;
-    box-shadow: 
+    box-shadow:
       0 0 0 3px rgba(255, 107, 107, 0.5),
       0 8px 25px rgba(255, 107, 107, 0.6);
   }
 }
 
-
-@media(max-width: 1200px) {
-  .addSceneButton{
+@media (max-width: 1200px) {
+  .addSceneButton {
     width: 80%;
   }
-  .addSceneContainer{
+  .addSceneContainer {
     display: flex;
     justify-items: center;
     justify-content: center;
   }
 }
 
-@media(max-width: 1000px) {
-    .addSceneButton{
+@media (max-width: 1000px) {
+  .addSceneButton {
     width: 55%;
   }
-  .addSceneContainer{
+  .addSceneContainer {
     display: flex;
     justify-items: center;
     justify-content: center;
   }
 }
 
-@media(max-width: 700px) {
-    .addSceneButton{
+@media (max-width: 700px) {
+  .addSceneButton {
     width: 35%;
   }
-  .addSceneContainer{
+  .addSceneContainer {
     display: flex;
     justify-items: center;
     justify-content: center;
   }
 }
 
-@media(max-width: 420px) {
-    .addSceneButton{
+@media (max-width: 420px) {
+  .addSceneButton {
     width: 25%;
   }
-  .addSceneContainer{
+  .addSceneContainer {
     display: flex;
     justify-items: center;
     justify-content: center;

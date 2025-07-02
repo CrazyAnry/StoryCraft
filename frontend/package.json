@@ -1,40 +1,40 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "lint:staged": "biome check --staged --files-ignore-unknown=true --no-errors-on-unmatched",
-    "format:staged": "pretty-quick --staged"
-  },
-  "dependencies": {
-    "axios": "^1.9.0",
-    "color-thief-browser": "^2.0.2",
-    "console": "^0.7.2",
-    "fast-average-color": "^9.5.0",
-    "immer": "^10.1.1",
-    "next": "^15.3.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0",
-    "react-toastify": "^11.0.5",
-    "scss": "^0.2.4",
-    "zustand": "^5.0.5"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9.27.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-no-restricted-imports": "^0.0.0",
-    "pretty-quick": "^4.1.1",
-    "sass": "^1.89.1",
-    "simple-git-hooks": "^2.13.0",
-    "typescript": "^5"
-  }
+	"name": "frontend",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --turbopack",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"lint:staged": "biome check --staged --files-ignore-unknown=true --no-errors-on-unmatched",
+		"format:staged": "pretty-quick --staged"
+	},
+	"dependencies": {
+		"axios": "^1.9.0",
+		"color-thief-browser": "^2.0.2",
+		"console": "^0.7.2",
+		"fast-average-color": "^9.5.0",
+		"immer": "^10.1.1",
+		"next": "^15.3.2",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"react-icons": "^5.5.0",
+		"react-toastify": "^11.0.5",
+		"scss": "^0.2.4",
+		"zustand": "^5.0.5"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/node": "^20",
+		"@types/react": "^19",
+		"@types/react-dom": "^19",
+		"eslint": "^9.27.0",
+		"eslint-plugin-import": "^2.31.0",
+		"eslint-plugin-no-restricted-imports": "^0.0.0",
+		"pretty-quick": "^4.1.1",
+		"sass": "^1.89.1",
+		"simple-git-hooks": "^2.13.0",
+		"typescript": "^5"
+	}
 }

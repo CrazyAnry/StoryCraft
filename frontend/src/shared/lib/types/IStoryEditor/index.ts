@@ -1,7 +1,7 @@
 import { IStoryHeader } from "../";
 
 export interface IStoryEditor {
-  stories: IStoryHeader[];
-  currentStory: number;
-  story: IStoryHeader | null
+	stories: IStoryHeader[];
+	currentStory: number;
+	story: IStoryHeader | null;
 }

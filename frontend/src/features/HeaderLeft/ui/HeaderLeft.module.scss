@@ -11,7 +11,7 @@
   padding-left: 15px;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 50%;
@@ -22,9 +22,9 @@
     opacity: 0.6;
   }
 
- @media (max-width: 320px) {
-  display: none
- }
+  @media (max-width: 320px) {
+    display: none;
+  }
 }
 
 .brandLogo {

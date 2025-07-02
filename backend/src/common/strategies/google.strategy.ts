@@ -9,9 +9,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy){
     constructor(private readonly configService: ConfigService,
                 private readonly userAuthService:UserAuthService){
         super({
-            clientID: configService.get('GOOGLE_CLIENT_ID')!,
-            clientSecret: configService.get('GOOGLE_CLIENT_SECRET')!,
-            callbackURL: configService.get('GOOGLE_CALLBACK_URL')!,
+            clientID: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            callbackURL: process.env.GOOGLE_CALLBACK_URL!,
             scope: ["email", "profile"]
         })
     }

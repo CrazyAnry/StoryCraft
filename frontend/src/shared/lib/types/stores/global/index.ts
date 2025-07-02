@@ -2,4 +2,4 @@ import { FooterPositionSlice } from "./slices";
 
 export * from "./slices";
 
-export type GlobalStore = FooterPositionSlice
+export type GlobalStore = FooterPositionSlice;

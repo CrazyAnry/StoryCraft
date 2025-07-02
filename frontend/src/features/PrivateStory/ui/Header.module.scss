@@ -17,21 +17,21 @@
   justify-content: center;
   gap: 8px;
   min-width: 180px;
-  
+
   &:hover:not(.disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
-  
+
   &:active:not(.disabled) {
     transform: translateY(0);
   }
-  
+
   &:focus:not(.disabled) {
     outline: none;
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
   }
-  
+
   &.disabled {
     background-color: #666 !important;
     cursor: not-allowed;
@@ -42,12 +42,12 @@
 
 .controlButton.unpublish {
   background: linear-gradient(135deg, #f44336, #c62828);
-  
+
   &:hover:not(.disabled) {
     background: linear-gradient(135deg, #ef5350, #b71c1c);
     box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
   }
-  
+
   &:focus:not(.disabled) {
     box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.3);
   }

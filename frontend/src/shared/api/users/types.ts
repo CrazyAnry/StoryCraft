@@ -1,5 +1,5 @@
 export type UpdateUserDto = {
-  username?: string;
-  bio?: string;
-  avatarUrl?: string;
+	username?: string;
+	bio?: string;
+	avatarUrl?: string;
 };

@@ -8,12 +8,12 @@
   cursor: pointer;
   margin-top: 1rem;
   font-weight: 600;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 
+  box-shadow:
     0 2px 8px rgba(255, 71, 87, 0.3),
     0 4px 16px rgba(255, 107, 107, 0.2);
   transition: all 0.3s ease;
@@ -27,7 +27,7 @@
 .removeButton:hover {
   background: linear-gradient(135deg, #ff6b6b, #ff4757);
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(255, 71, 87, 0.4),
     0 8px 24px rgba(255, 107, 107, 0.3);
 }
@@ -37,7 +37,7 @@
 }
 
 .removeButton::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
@@ -56,7 +56,7 @@
 
 .removeButton:focus {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 3px rgba(255, 107, 107, 0.4),
     0 4px 12px rgba(255, 71, 87, 0.3);
 }
@@ -75,19 +75,19 @@
   }
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
   .removeButton {
     max-width: 180px;
   }
 }
 
-@media(max-width: 1000px) {
+@media (max-width: 1000px) {
   .removeButton {
     max-width: 160px;
   }
 }
 
-@media(max-width: 700px) {
+@media (max-width: 700px) {
   .removeButton {
     max-width: 140px;
     font-size: 0.9rem;
@@ -95,7 +95,7 @@
   }
 }
 
-@media(max-width: 420px) {
+@media (max-width: 420px) {
   .removeButton {
     max-width: 120px;
     font-size: 0.8rem;

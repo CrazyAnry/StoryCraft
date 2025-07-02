@@ -18,12 +18,12 @@
     justify-content: center;
     gap: 1rem;
   }
-  
+
   @media (max-width: 1000px) {
     gap: 0.8rem;
     margin-top: 1rem;
   }
-  
+
   @media (max-width: 700px) {
     gap: 0.6rem;
     margin-top: 0.8rem;
@@ -34,7 +34,7 @@
       margin: 0 auto;
     }
   }
-  
+
   @media (max-width: 420px) {
     gap: 0.5rem;
     margin-top: 0.6rem;

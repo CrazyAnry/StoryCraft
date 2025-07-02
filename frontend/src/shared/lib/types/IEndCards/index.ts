@@ -1,4 +1,4 @@
 export interface Card {
-    text: string;
-    path: string;
+	text: string;
+	path: string;
 }

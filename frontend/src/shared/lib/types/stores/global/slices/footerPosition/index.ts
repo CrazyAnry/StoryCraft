@@ -1,4 +1,4 @@
 export type FooterPositionSlice = {
-  isSticky: boolean;
-  setIsSticky: (isSticky: boolean) => void;
-}
+	isSticky: boolean;
+	setIsSticky: (isSticky: boolean) => void;
+};

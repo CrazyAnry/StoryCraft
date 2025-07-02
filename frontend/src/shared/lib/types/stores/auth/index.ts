@@ -2,4 +2,4 @@ import { AuthSlice } from "./slices";
 
 export * from "./slices";
 
-export type AuthStore = AuthSlice
+export type AuthStore = AuthSlice;

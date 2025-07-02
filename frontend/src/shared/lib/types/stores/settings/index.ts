@@ -2,4 +2,4 @@ import { SettingsSlice } from "./slices";
 
 export * from "./slices";
 
-export type SettingsStore = SettingsSlice
+export type SettingsStore = SettingsSlice;

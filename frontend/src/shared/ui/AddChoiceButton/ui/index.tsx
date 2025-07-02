@@ -1,13 +1,13 @@
 import s from "./AddChoiceButton.module.scss";
 
 interface Props {
-    onClick: () => void;
+	onClick: () => void;
 }
 
 export default function AddChoiceButton({ onClick }: Props) {
-  return (
-    <button onClick={onClick} className={s.addButton}>
-      + Добавить выбор
-    </button>
-  );
+	return (
+		<button onClick={onClick} className={s.addButton}>
+			+ Добавить выбор
+		</button>
+	);
 }

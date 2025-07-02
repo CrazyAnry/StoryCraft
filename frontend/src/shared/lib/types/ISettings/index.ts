@@ -1,4 +1,4 @@
 export interface ISettings {
-    language: "ru" | "en"
-    theme: "light" | "dark"
+	language: "ru" | "en";
+	theme: "light" | "dark";
 }

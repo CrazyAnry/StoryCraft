@@ -108,7 +108,7 @@
   }
 }
 
-.footer{
+.footer {
   display: flex;
   justify-content: end;
 }
@@ -123,7 +123,7 @@
   border: 2px dashed rgba(255, 107, 107, 0.3);
   animation: pulse 2s infinite;
   margin-top: -15px;
-  
+
   &::before {
     content: "🎬";
     margin-right: 10px;
@@ -155,7 +155,6 @@
 }
 
 @keyframes fadeInOut {
-
   0%,
   100% {
     opacity: 0.6;
@@ -168,26 +167,26 @@
   }
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
   .container {
     max-width: 1000px;
     margin: auto;
   }
 }
 
-@media(max-width: 1000px) {
+@media (max-width: 1000px) {
   .container {
     max-width: 700px;
   }
 }
 
-@media(max-width: 700px) {
+@media (max-width: 700px) {
   .container {
     max-width: 400px;
   }
 }
 
-@media(max-width: 400px) {
+@media (max-width: 400px) {
   .container {
     max-width: 300px;
   }
