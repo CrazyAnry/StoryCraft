@@ -15,6 +15,7 @@ function createSwaggerConfig() {
     .addBearerAuth()
     .build();
 }
+export const PORT = process.env.PORT || '3002';
 
 async function bootstrap() {
   try {
@@ -50,7 +51,7 @@ async function bootstrap() {
     });
     SwaggerModule.setup('api-docs', app, document);
 
-    const port = parseInt(process.env.PORT || '3002', 10);
+    const port = PORT;
     await app.listen(port, '0.0.0.0');
 
     console.log(`🚀 Server is running on http://localhost:${port}/api`);

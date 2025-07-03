@@ -47,9 +47,13 @@ export default function Registration() {
 		<div className={s.container}>
 			<CustomForm
 				onSubmit={async (e) => {
-					submitRegistration(e, formData, setIsSending);
-					const res = await emailVerify(formData.email);
-					setCode({ ...code, currentCode: res });
+					try {
+						await submitRegistration(e, formData, setIsSending);
+						const res = await emailVerify(formData.email);
+						setCode({ ...code, currentCode: res });
+					} catch (error: any) {
+						console.log(error);
+					}
 				}}
 			>
 				<div className={s.headerContainer}>

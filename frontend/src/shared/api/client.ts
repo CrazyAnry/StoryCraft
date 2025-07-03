@@ -14,7 +14,7 @@ const getSetUser = () => {
 };
 
 export const axiosInstance = axios.create({
-	baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001",
+	baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3002",
 	withCredentials: true,
 	timeout: 10000,
 });

@@ -11,6 +11,7 @@ import { GoogleAuthGuard } from 'src/common/guards/google-auth.guard';
 import { JwtAuthGuard } from 'src/modules/deffault/auth/guards/jwt-auth.guard';
 import { UserAuthHelperService } from 'src/modules/deffault/helpers/services/user-auth.helpers.service';
 import { sendEmailDto } from '../dto/email.dto';
+import { PORT } from 'src/main';
 
 @ApiTags('User - auth')
 @Controller('users/auth')
@@ -73,7 +74,7 @@ export class UserAuthController {
   @Get("google/callback")
   async googleCallback(@Req() req, @Res() res) {
     const response = await this.userAuthService.generateUserJwt(req.user.id)
-    res.redirect(`https://redesigned-telegram-x544j66v9wrgh69wq-3002.app.github.dev/auth/login?token=${response.tokens.accessToken}`)
+    res.redirect(`https://localhost:${PORT}/auth/login?token=${response.tokens.accessToken}`)
   }
 
   // Me

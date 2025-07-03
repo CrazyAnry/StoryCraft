@@ -11,10 +11,11 @@ export default function OAuth2Google({
 	return (
 		<div className={s.container}>
 			<button
+				type="button"
 				className={s.btn}
 				onClick={() =>
 					window.open(
-						"https://redesigned-telegram-x544j66v9wrgh69wq-3002.app.github.dev/users/auth/google/login",
+						`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/auth/google/login`,
 						"_parent",
 					)
 				}
