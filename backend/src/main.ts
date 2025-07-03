@@ -54,7 +54,7 @@ async function bootstrap() {
     const port = PORT;
     await app.listen(port, '0.0.0.0');
 
-    console.log(`🚀 Server is running on http://localhost:${port}/api`);
+    console.log(`🚀 Server is running on http://localhost:${port}/health`);
     console.log(`📚 Swagger docs available at http://localhost:${port}/api-docs`);
   } catch (error) {
     console.error('❌ Error during application startup:', error);
