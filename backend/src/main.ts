@@ -29,6 +29,7 @@ async function bootstrap() {
     // Enable CORS for local and deployed frontends
     const allowedOrigins = [
       'http://localhost:3000',
+      'http://192.168.0.107:3000',
       'https://story-craft-cbt.vercel.app',
     ];
 

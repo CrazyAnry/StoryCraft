@@ -13,11 +13,13 @@ export default function OAuth2Google({
 			<button
 				type="button"
 				className={s.btn}
-				onClick={() =>
+				onClick={(e) =>{
+					e.preventDefault()
 					window.open(
 						`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/auth/google/login`,
 						"_parent",
 					)
+				}
 				}
 			>
 				<div className={s.imageWrapper}>
