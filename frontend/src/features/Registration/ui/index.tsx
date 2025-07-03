@@ -128,7 +128,6 @@ export default function Registration() {
 						<FaEye className={s.eyeIcon} onClick={changePasswordVisibility} />
 					)}
 				</div>
-
 				<OAuth2Google />
 				<Submit className={s.submit}>Зарегистрироваться</Submit>
 			</CustomForm>

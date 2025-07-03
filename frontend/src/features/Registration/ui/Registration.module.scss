@@ -239,6 +239,7 @@
   gap: 12px;
   margin-bottom: 2rem;
   justify-content: center;
+  width: 100%;
 
   @media (max-width: 480px) {
     gap: 8px;
@@ -247,7 +248,7 @@
 }
 
 .codeInput {
-  width: 50px;
+  max-width: 16%;
   height: 60px;
   text-align: center;
   font-size: 1.5rem;
@@ -262,6 +263,10 @@
     border-color: #ff4757;
     box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.3);
     transform: translateY(-2px);
+  }
+
+  @media (min-width: 768px) {
+    width: 55px;
   }
 
   @media (max-width: 768px) {
