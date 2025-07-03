@@ -136,8 +136,10 @@ export class StoryCrudService {
           take: limit
         });
 
+      const publishedStories = stories.filter(story => story.isPublic);
+
       return {
-        stories
+        stories: publishedStories
       };
     } catch (error) {
       throw new Error(`Failed to fetch stories: ${error.message}`);

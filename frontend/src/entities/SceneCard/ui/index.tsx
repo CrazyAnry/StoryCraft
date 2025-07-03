@@ -113,7 +113,7 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
 						/>
 					))}
 
-				{currentScene.choices?.length! < currentScene.maxChoices && (
+				{currentScene.choices?.length! < currentScene.maxChoices && !currentScene.isEnd && (
 					<AddChoiceButton onClick={() => addNewChoice(currentScene.id!)} />
 				)}
 
