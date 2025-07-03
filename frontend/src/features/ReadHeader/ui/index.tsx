@@ -5,7 +5,7 @@ import s from "./ReadHeader.module.scss";
 import Link from "next/link";
 import { useLikes } from "@/shared/lib";
 import { useViews } from "@/shared/lib";
-import { useUsersStore } from "@/shared/stores";
+import { useAuthStore } from "@/shared/stores";
 import { useReadingStoriesStore } from "@/shared/stores/readingStories";
 import { useStories } from "@/shared/lib/hooks/useStories";
 
@@ -15,7 +15,7 @@ export default function ReadHeader() {
 	const { getLikesCount, getLikes, setLike, deleteLike, likesCount } =
 		useLikes();
 	const { getViews, views } = useViews();
-	const { currentUser } = useUsersStore();
+	const { user } = useAuthStore();
 	const { startAndUpdateStory, getStoryProgress } = useReadingStoriesStore();
 	const [proggresScene, setProggresScene] = useState<number>();
 
@@ -28,20 +28,20 @@ export default function ReadHeader() {
 			if (oneStory) {
 				const likeRes = await getLikes(oneStory.id!);
 				likeRes.map((like) => {
-					if (like.userId === currentUser!.id) {
+					if (like.userId === user!.id) {
 						setStoryLiked(true);
 					}
 				});
-				const proggresRes = getStoryProgress(oneStory.id!, currentUser!.id);
+				const proggresRes = getStoryProgress(oneStory.id!, user!.id);
 				if (!proggresRes) {
 					startAndUpdateStory(
 						oneStory.id!,
-						currentUser!.id,
+						user!.id,
 						oneStory.scenes[0].id,
 					);
 				}
 				setProggresScene(
-					getStoryProgress(oneStory.id!, currentUser!.id)?.currentSceneId,
+					getStoryProgress(oneStory.id!, user!.id)?.currentSceneId,
 				);
 			}
 		};

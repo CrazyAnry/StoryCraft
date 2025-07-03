@@ -16,8 +16,8 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    height: 60%;
-    width: 2px;
+    height: 80%;
+    width: 1px;
     background: #ff4757;
     opacity: 0.6;
   }
@@ -33,6 +33,7 @@
   color: #ff4757;
   transition: all 0.3s ease;
   text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+  margin-right: 7px;
 
   &:hover {
     transform: scale(1.5);

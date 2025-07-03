@@ -7,32 +7,44 @@ import { usePathname } from "next/navigation";
 import { useScene } from "@/shared/lib/hooks/useScene";
 import IsEndCards from "@/entities/IsEndCards/ui";
 import { StoryQuestionBase } from "@/entities";
+import { IChoice } from "@/shared/lib";
+import { useState } from "react";
 
 export default function StoryReader() {
-	const pathname = usePathname();
-	const { getScene, scene } = useScene();
+  const pathname = usePathname();
+  const { getScene, scene } = useScene();
+  const [allChoicesOfScene, setAllChoicesOfScene] = useState<IChoice[]>([]);
 
-	useEffect(() => {
-		getScene();
-	}, [pathname]);
+  useEffect(() => {
+    getScene();
+  }, [pathname]);
 
-	if (scene === null) {
-		return <h1>Loading...</h1>;
-	}
+  useEffect(() => {
+    if (scene) {
+      setAllChoicesOfScene(
+        scene.choices?.filter((choice): choice is IChoice => choice !== null) ||
+          []
+      );
+    }
+  }, [scene]);
 
-	if (scene.isEnd) {
-		return (
-			<div className={s.container}>
-				<StoryQuestionBase />
-				<IsEndCards />
-			</div>
-		);
-	}
+  if (scene === null) {
+    return <h1>Loading...</h1>;
+  }
 
-	return (
-		<div className={s.container}>
-			<StoryQuestionBase />
-			<ChoicesGenerator choices={scene?.choices!} />
-		</div>
-	);
+  if (scene.isEnd || allChoicesOfScene.length === 0) {
+    return (
+      <div className={s.container}>
+        <StoryQuestionBase />
+        <IsEndCards />
+      </div>
+    );
+  }
+
+  return (
+    <div className={s.container}>
+      <StoryQuestionBase />
+      <ChoicesGenerator choices={scene?.choices!} />
+    </div>
+  );
 }

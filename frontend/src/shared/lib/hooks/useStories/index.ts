@@ -5,6 +5,7 @@ import {
   getAllStories,
   getOneStory,
   getStoriesByLimit,
+  getStoryLength,
   getUsersStoriesByLimit,
 } from "@/shared/api/stories/queries";
 import { IChoice, IScene, IStoryHeader } from "@/shared/lib";
@@ -119,20 +120,18 @@ export const useStories = () => {
         throw new Error("Создайте выбор в первой сцене");
       }
 
-      const allChoices = savingStory.scenes.flatMap((scene) => {
+      const allChoices = savingStory.scenes.flatMap(scene => {
         if (!scene.isEnd) {
-          return scene.choices;
+          return scene.choices?.filter(choice => choice !== null && !choice?.text) ?? [];
         }
-      });	
-
-      if (
-        allChoices.some((choice) => {
-          !choice?.text && choice !== null;
-        })
-      ) {
+        return [];
+      });
+      
+      if (allChoices.length > 0) {
         toast.error("Добавьте заголовок к каждому выбору");
         throw new Error(JSON.stringify(allChoices));
       }
+      
 
       const { id, scenes, ...updatedStory } = savingStory;
       let storyId = savingStory.id!;
@@ -154,7 +153,6 @@ export const useStories = () => {
         // Обновляем существующую историю
         await changeStory(storyId, updatedStory);
       } else {
-        // Создаем новую историю
         const createdStory = await createStory(updatedStory);
         storyId = createdStory?.id!;
         isNewStory = true;

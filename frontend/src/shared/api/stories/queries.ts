@@ -153,3 +153,15 @@ export const setStoryView = async (storyId: number): Promise<IView> => {
 		throw error;
 	}
 };
+
+export const getStoryLength = async (): Promise<number> => {
+	try {
+		const storyLength = await axiosInstance.get(
+			API_ROUTES.stories.getStoryLength,
+		);
+		return storyLength.data.length + 1;
+	} catch (error) {
+		throw error;
+	}
+};
+	
