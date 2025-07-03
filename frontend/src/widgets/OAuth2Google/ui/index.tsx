@@ -14,7 +14,7 @@ export default function OAuth2Google({
 				className={s.btn}
 				onClick={() =>
 					window.open(
-						"https://redesigned-telegram-x544j66v9wrgh69wq-3002.app.github.dev/users/auth/google/login",
+						"http://localhost:3002/users/auth/google/login",
 						"_parent",
 					)
 				}
