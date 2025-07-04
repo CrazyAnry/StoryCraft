@@ -2,7 +2,7 @@ import { axiosInstance } from "../client";
 import { API_ROUTES } from "../endpoints";
 import { AuthResponse, UpdateUserJwtResponse } from "./types";
 
-export const me = async (accessToken: string): Promise<AuthResponse> => {
+export const me = async (): Promise<AuthResponse> => {
 	try {
 		const response = await axiosInstance.get(API_ROUTES.auth.me);
 		return response.data;
