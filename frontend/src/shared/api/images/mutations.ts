@@ -1,13 +1,13 @@
-import { axiosSecondary } from "../client";
 import { API_ROUTES } from "../endpoints";
 import { toast } from "react-toastify";
+import axiosInstance from "../client";
 
 export const uploadImage = async (image: File) => {
 	const formData = new FormData();
 	formData.append("file", image);
 
 	try {
-		const response = await axiosSecondary.post(
+		const response = await axiosInstance.post(
 			API_ROUTES.images.uploadImage,
 			formData,
 			{

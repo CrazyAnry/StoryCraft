@@ -1,143 +1,160 @@
-import { Get, Post, Req, Request, Res, UseGuards } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { LoginUserDto } from '../dto/login-user.dto';
-import { ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
-import { Body } from '@nestjs/common';
-import { UserAuthService } from '../services/user-auth.service';
-import { ApiTags } from '@nestjs/swagger';
-import { Controller } from '@nestjs/common';
-import { RegisterResponse, LoginResponse, LogoutResponse, MeResponse } from '../responses/user-auth.response';
-import { GoogleAuthGuard } from 'src/common/guards/google-auth.guard';
-import { JwtAuthGuard } from 'src/modules/deffault/auth/guards/jwt-auth.guard';
-import { UserAuthHelperService } from 'src/modules/deffault/helpers/services/user-auth.helpers.service';
-import { sendEmailDto } from '../dto/email.dto';
-import { PORT } from 'src/main';
+import { Get, Post, Req, Request, Res, UseGuards } from "@nestjs/common";
+import { CreateUserDto } from "../dto/create-user.dto";
+import { LoginUserDto } from "../dto/login-user.dto";
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
+import { Body } from "@nestjs/common";
+import { UserAuthService } from "../services/user-auth.service";
+import { ApiTags } from "@nestjs/swagger";
+import { Controller } from "@nestjs/common";
+import {
+  RegisterResponse,
+  LoginResponse,
+  LogoutResponse,
+  MeResponse,
+} from "../responses/user-auth.response";
+import { GoogleAuthGuard } from "src/common/guards/google-auth.guard";
+import { JwtAuthGuard } from "src/modules/deffault/auth/guards/jwt-auth.guard";
+import { UserAuthHelperService } from "src/modules/deffault/helpers/services/user-auth.helpers.service";
+import { sendEmailDto } from "../dto/email.dto";
+import { PORT } from "src/main";
 
-@ApiTags('User - auth')
-@Controller('users/auth')
+@ApiTags("User - auth")
+@Controller("users/auth")
 export class UserAuthController {
-  constructor(private readonly userAuthService: UserAuthService,
+  constructor(
+    private readonly userAuthService: UserAuthService,
     private readonly userAuthHelperService: UserAuthHelperService
-  ) { }
+  ) {}
 
-  @Post('/register')
-  @ApiOperation({ summary: 'Create a new user' })
+  @Post("/register")
+  @ApiOperation({ summary: "Create a new user" })
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({
     status: 201,
-    description: 'The user has been successfully created.',
+    description: "The user has been successfully created.",
     type: RegisterResponse,
   })
   @ApiResponse({
     status: 409,
-    description: 'This user already exists',
+    description: "This user already exists",
   })
   register(@Body() createUserDto: CreateUserDto): Promise<RegisterResponse> {
     return this.userAuthService.register(createUserDto);
   }
 
   // Login
-  @Post('/login')
-  @ApiOperation({ summary: 'Login a user' })
+  @Post("/login")
+  @ApiOperation({ summary: "Login a user" })
   @ApiBody({ type: LoginUserDto })
   @ApiResponse({
     status: 200,
-    description: 'The user has been successfully logged in.',
+    description: "The user has been successfully logged in.",
     type: LoginResponse,
   })
   @ApiResponse({
     status: 401,
-    description: 'Invalid credentials',
+    description: "Invalid credentials",
   })
   login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponse> {
     return this.userAuthService.login(loginUserDto);
   }
 
   // Login with google
-  @ApiOperation({ summary: 'Login a user by google' })
+  @ApiOperation({ summary: "Login a user by google" })
   @ApiResponse({
     status: 200,
-    description: 'The user has been successfully logged in with google.',
+    description: "The user has been successfully logged in with google.",
   })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 400, description: "Bad Request" })
   @UseGuards(GoogleAuthGuard)
   @Get("google/login")
-  googleLogin() { }
+  googleLogin() {}
 
-  @ApiOperation({ summary: 'Generate JWT for google user and redirect to frontend' })
+  @ApiOperation({
+    summary: "Generate JWT for google user and redirect to frontend",
+  })
   @ApiResponse({
     status: 200,
-    description: 'The JWT for google user has been successfully generated.',
+    description: "The JWT for google user has been successfully generated.",
   })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 400, description: "Bad Request" })
   @UseGuards(GoogleAuthGuard)
   @Get("google/callback")
   async googleCallback(@Req() req, @Res() res) {
-    const response = await this.userAuthService.generateUserJwt(req.user.id)
-    res.redirect(req.user.newGoogleUser ? `http://localhost:3000/auth/login/repassword?token=${response.tokens.accessToken}` : `http://localhost:3000/auth/login?token=${response.tokens.accessToken}`)
+    const response = await this.userAuthService.generateUserJwt(req.user.id);
+    res.redirect(
+      req.user.newGoogleUser
+        ? `${process.env.FRONTEND_URL}/auth/login/repassword?token=${response.tokens.accessToken}`
+        : `${process.env.FRONTEND_URL}/auth/login?token=${response.tokens.accessToken}`
+    );
   }
 
   // Me
-  @ApiOperation({ summary: 'Information about user with JWT' })
+  @ApiOperation({ summary: "Information about user with JWT" })
   @ApiResponse({
     status: 200,
-    description: 'Information about user and JWT received successfully.',
-    type: MeResponse
+    description: "Information about user and JWT received successfully.",
+    type: MeResponse,
   })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 400, description: "Bad Request" })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get("me")
   me(@Request() req) {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     return this.userAuthService.me(token);
   }
 
   // Logout
-  @ApiOperation({ summary: 'JWT revoking' })
+  @ApiOperation({ summary: "JWT revoking" })
   @ApiResponse({
     status: 200,
-    description: 'User JWT revoked.',
-    type: LogoutResponse
+    description: "User JWT revoked.",
+    type: LogoutResponse,
   })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 400, description: "Bad Request" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post("logout")
   logout(@Request() req) {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     return this.userAuthHelperService.revokeToken(token);
   }
 
   // Update user JWT
-  @ApiOperation({ summary: 'Update user JWT' })
+  @ApiOperation({ summary: "Update user JWT" })
   @ApiResponse({
     status: 200,
-    description: 'User JWT updated.',
+    description: "User JWT updated.",
   })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 400, description: "Bad Request" })
   @ApiBody({
     schema: {
-      type: 'object',
+      type: "object",
       properties: {
-        refreshToken: { type: 'string' }
+        refreshToken: { type: "string" },
       },
-      required: ['refreshToken']
-    }
+      required: ["refreshToken"],
+    },
   })
   @Post("update-user-jwt")
   updateUserJwt(@Body() body: { refreshToken: string }) {
     return this.userAuthService.updateUserJwt(body.refreshToken);
   }
 
-  @ApiOperation({ summary: 'User email verify by code' })
+  @ApiOperation({ summary: "User email verify by code" })
   @ApiResponse({
     status: 200,
-    description: 'User email verified.',
+    description: "User email verified.",
   })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
-  @Post('email/send')
+  @ApiResponse({ status: 400, description: "Bad Request" })
+  @Post("email/send")
   sendMail(@Body() dto: sendEmailDto) {
-    return this.userAuthService.sendEmailCode(dto)
+    return this.userAuthService.sendEmailCode(dto);
   }
 }

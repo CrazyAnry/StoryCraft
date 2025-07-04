@@ -10,6 +10,7 @@ import { StoriesModule } from './modules/stories/stories.module';
 import { ScenesModule } from './modules/scenes/scenes.module';
 import { ChoicesModule } from './modules/choices/choices.module';
 import { ConfigModule } from '@nestjs/config';
+import { ImagesModule } from './modules/images/images.module';
 @Module({
   imports: [
     AuthModule,
@@ -20,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     StoriesModule,
     ScenesModule,
     ChoicesModule,
+    ImagesModule,
     ConfigModule.forRoot()
   ],
   controllers: [AppController],

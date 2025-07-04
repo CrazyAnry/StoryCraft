@@ -222,6 +222,7 @@ export const useStories = () => {
             nextScene = allScenes.find((s) => s.id === nextSceneId);
 
             if (!nextScene) {
+              toast.error(`Следующая сцена не найдена с id: ${nextSceneId}`);
               throw new Error(`Next scene not found with ID: ${nextSceneId}`);
             }
           } else {

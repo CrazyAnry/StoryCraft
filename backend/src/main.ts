@@ -31,6 +31,7 @@ async function bootstrap() {
       'http://localhost:3000',
       'http://192.168.0.107:3000',
       'https://story-craft-cbt.vercel.app',
+      `${process.env.FRONTEND_URL}`,
     ];
 
     app.enableCors({

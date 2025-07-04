@@ -10,6 +10,7 @@ import { RemoveSceneButton } from "@/shared/ui";
 import { deleteStory } from "@/shared/api/stories/mutations";
 import AddImage from "@/features/AddImage";
 import AddImageModal from "@/features/AddImageModal";
+import { toast } from "react-toastify";
 
 export default function EditHeader() {
 	const { story, stories, setTitle, setDescription, setStory, setStories } =
@@ -122,12 +123,32 @@ export default function EditHeader() {
 										deleteStory(findedStory.id!);
 										router.push("/create");
 									}
-								} catch { }
+								} catch (error) {
+									toast.error("Не удалось удалить историю: " + error);
+								}
 							}
 						}}
 					>
 						{" "}
 						Удалить историю{" "}
+					</RemoveSceneButton>
+										<RemoveSceneButton
+						className={s.removeButton}
+						onClick={async () => {
+							if (pathname.split("/")[2] !== "newStory") {
+								try {
+									const findedStory = await getStory();
+									if (findedStory) {
+										setStory("clear the story");
+									}
+								} catch (error) {	 
+									toast.error("Не удалось очистить историю: " + error);
+								}
+							}
+						}}	
+					>
+						{" "}
+						Очистить историю{" "}
 					</RemoveSceneButton>
 				</div>
 			</div>

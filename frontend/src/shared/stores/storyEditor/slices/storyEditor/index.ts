@@ -32,7 +32,7 @@ export const storyEditorSlice: StateCreator<
       };
     }),
 
-  setStories: (stories) => set({ stories }),
+  setStories: (stories) => set({ stories: stories.filter(Boolean) }),
 
   setTitle: (title) =>
     set((state) => {
@@ -99,12 +99,16 @@ export const storyEditorSlice: StateCreator<
       set({ currentStory: index });
     }
   },
-
-  setStory: (currentStory: IStoryHeader) => {
-    set({
+  setStory: (currentStory: IStoryHeader | null | "clear the story") => {
+    if (!currentStory) return;
+    if (currentStory === "clear the story") {
+      set({ story: {id: -2, title: "", description: "", image: null, isPublic: false, authorId: 0, authorName: "", scenes: [], createdAt: "", updatedAt: ""}, stories: [] });
+      return;
+    }
+    set((state) => ({
       story: currentStory,
-      stories: updateStories(currentStory, get().stories),
-    });
+      stories: updateStories(currentStory, state.stories),
+    }));
   },
 
   // ================== Scene Actions ==================
