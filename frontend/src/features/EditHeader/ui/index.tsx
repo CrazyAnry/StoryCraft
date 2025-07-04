@@ -34,26 +34,33 @@ export default function EditHeader() {
 				setStory(updatedStories[updatedStories.length - 1]);
 			} else {
 				setStory(stories[editingStory]);
-				console.log(123);
 			}
 		} else {
-			const updatedStories = [
-				...stories,
-				{
-					id: newId(1),
-					title: "",
-					description: "",
-					image: null,
-					isPublic: false,
-					authorId: currentUser?.id!,
-					authorName: currentUser?.username!,
-					scenes: [],
-					createdAt: new Date().toISOString(),
-					updatedAt: new Date().toISOString(),
-				},
-			];
-			setStories(updatedStories);
-			setStory(updatedStories[updatedStories.length - 1]);
+			const editingStory = stories.findIndex(
+				(story) => story.id === -2,
+			);
+			if(editingStory){
+				setStory(stories[editingStory]);
+			}
+			else{
+				const updatedStories = [
+					...stories,
+					{
+						id: -2,
+						title: "",
+						description: "",
+						image: null,
+						isPublic: false,
+						authorId: currentUser?.id!,
+						authorName: currentUser?.username!,
+						scenes: [],
+						createdAt: new Date().toISOString(),
+						updatedAt: new Date().toISOString(),
+					},
+				];
+				setStories(updatedStories);
+				setStory(updatedStories[updatedStories.length - 1]);
+			}
 		}
 	}, [oneStory?.id]);
 
@@ -115,7 +122,7 @@ export default function EditHeader() {
 										deleteStory(findedStory.id!);
 										router.push("/create");
 									}
-								} catch {}
+								} catch { }
 							}
 						}}
 					>

@@ -2,14 +2,14 @@
 
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useUsersStore } from "@/shared/stores";
+import { useAuthStore } from "@/shared/stores";
 
 export default function HomeModal() {
-	const { currentUser } = useUsersStore();
+	const { user } = useAuthStore();
 
 	useEffect(() => {
 		toast.info(
-			`Приветствую, ${currentUser?.username} Переместите на плашку курсор чтобы посмотреть подробнее.\n\nЗакрытое Бета Тестирование предполагает инвайты только доверенным людям. Вы можете использовать весь функционал, делиться впечатлениями, искать баги, собственно для этого мы сюда и запросили вас. Наслаждайтесь!`,
+			`Приветствую, ${user?.username} Переместите на плашку курсор чтобы посмотреть подробнее.\n\nЗакрытое Бета Тестирование предполагает инвайты только доверенным людям. Вы можете использовать весь функционал, делиться впечатлениями, искать баги, собственно для этого мы сюда и запросили вас. Наслаждайтесь!`,
 			{
 				className: "toast",
 			},

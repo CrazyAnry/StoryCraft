@@ -33,7 +33,7 @@ export class StoryCrudService {
           },
         });
         const publishedStoriesCount = allStoriesOfUser.filter(story => story.isPublic).length;
-        
+
         if (publishedStoriesCount >= MAX_PUBLIC_STORIES_FOR_COMMON_USER) {
           throw new BadRequestException(`Вы уже опубликовали ${MAX_PUBLIC_STORIES_FOR_COMMON_USER} историй`);
         }
@@ -94,14 +94,14 @@ export class StoryCrudService {
   }
 
   async AllStoriesByLimit(
-    options?: {page: number, limit: number}
-  ): Promise<FindAllResponse>  {
+    options?: { page: number, limit: number }
+  ): Promise<FindAllResponse> {
     const page = Number(options!.page) || 1;
     const limit = Number(options?.limit) || 6;
     const skip = (page - 1) * limit;
 
     try {
-      const stories = await 
+      const stories = await
         this.prisma.story.findMany({
           where: {
             isPublic: true
@@ -120,14 +120,14 @@ export class StoryCrudService {
 
   async AllMyStoriesByLimit(
     userId: number,
-    options?: {page: number, limit: number}
-  ): Promise<FindAllResponse>  {
+    options?: { page: number, limit: number }
+  ): Promise<FindAllResponse> {
     const page = Number(options!.page) || 1;
     const limit = Number(options?.limit) || 6;
     const skip = (page - 1) * limit;
 
     try {
-      const stories = await 
+      const stories = await
         this.prisma.story.findMany({
           where: {
             authorId: userId
@@ -136,10 +136,8 @@ export class StoryCrudService {
           take: limit
         });
 
-      const publishedStories = stories.filter(story => story.isPublic);
-
       return {
-        stories: publishedStories
+        stories
       };
     } catch (error) {
       throw new Error(`Failed to fetch stories: ${error.message}`);
@@ -196,7 +194,7 @@ export class StoryCrudService {
         },
       });
       const publishedStoriesCount = allStoriesOfUser.filter(story => story.isPublic).length;
-      
+
       if (publishedStoriesCount >= MAX_PUBLIC_STORIES_FOR_COMMON_USER) {
         throw new BadRequestException(`Вы уже опубликовали ${MAX_PUBLIC_STORIES_FOR_COMMON_USER} историй`);
       }
@@ -208,14 +206,14 @@ export class StoryCrudService {
 
     if (story.authorId !== authorId) {
       throw new BadRequestException('Вы не автор этой истории');
-    }   
+    }
 
     try {
-    const updatedStory = await this.prisma.story.update({
-      where: { id },
-      data: updateStoryDto,
-    });
-   // TODO: Refactor
+      const updatedStory = await this.prisma.story.update({
+        where: { id },
+        data: updateStoryDto,
+      });
+      // TODO: Refactor
 
       return { story: updatedStory };
     } catch (error) {
