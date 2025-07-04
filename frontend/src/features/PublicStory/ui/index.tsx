@@ -1,20 +1,25 @@
+'use client'
+
 import { useStories } from "@/shared/lib/hooks/useStories";
 import s from "./Header.module.scss";
 import { useStoryEditorStore } from "@/shared/stores";
 import { useShallow } from "zustand/react/shallow";
 import { toast } from "react-toastify";
+import { usePathname } from "next/navigation";
 
 export default function PublicStory() {
 	const { story, setIsPublic } = useStoryEditorStore(
 		useShallow((state) => state),
 	);
 	const { updateStory } = useStories();
-
+	const pathname = usePathname()
 	const handlePublicStory = async () => {
 		try {
-			await updateStory({ ...story!, isPublic: true });
-			setIsPublic(true);
-			toast.success("История опубликована");
+			if (pathname.split("/")[2] !== "newStory") {
+				await updateStory({ ...story!, isPublic: true });
+				setIsPublic(true);
+				toast.success("История опубликована");
+			}
 		} catch (error) {
 			throw error;
 		}
@@ -22,9 +27,8 @@ export default function PublicStory() {
 
 	return (
 		<button
-			className={`${s.controlButton} ${s.publish} ${
-				story?.isPublic ? s.disabled : ""
-			}`}
+			className={`${s.controlButton} ${s.publish} ${story?.isPublic || pathname.split("/")[2] === "newStory" ? s.disabled : ""
+				}`}
 			onClick={handlePublicStory}
 			disabled={story?.isPublic}
 		>

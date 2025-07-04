@@ -29,6 +29,7 @@ model User {
   plan Plan @default(free)
   planWillDeleteAt DateTime?
   planCreatedAt DateTime @default(now())
+  newGoogleUser Boolean  @default(false)
 }
 
 model Story {

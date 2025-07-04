@@ -164,6 +164,7 @@ export class UserAuthService {
           ...googleUser,
           password: hashedPassword,
           settings: { create: settings },
+          newGoogleUser: true
         },
       });
     } catch (error) {
