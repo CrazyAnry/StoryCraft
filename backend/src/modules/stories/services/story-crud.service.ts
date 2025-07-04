@@ -120,7 +120,8 @@ export class StoryCrudService {
 
   async AllMyStoriesByLimit(
     userId: number,
-    options?: { page: number, limit: number }
+    withoutPublic: boolean,
+    options?: { page: number, limit: number },
   ): Promise<FindAllResponse> {
     const page = Number(options!.page) || 1;
     const limit = Number(options?.limit) || 6;
@@ -136,6 +137,14 @@ export class StoryCrudService {
           take: limit
         });
 
+      if (withoutPublic) {
+        const publishedStories = stories.filter(story => story.isPublic);
+
+        return {
+          stories: publishedStories
+        };
+      }
+      
       return {
         stories
       };

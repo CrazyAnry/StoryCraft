@@ -67,9 +67,9 @@ export class StoryCrudController {
   MyAllByLimit(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 8,
-    @Request() req: AuthRequest
+    @Request() req: AuthRequest,
   ) {
-    return this.storyCrudService.AllMyStoriesByLimit(+req.user.id, { page, limit });
+    return this.storyCrudService.AllMyStoriesByLimit(+req.user.id, false, { page, limit });
   }
 
   @Get('/user/:id/paginated')
@@ -88,7 +88,7 @@ export class StoryCrudController {
     @Query('limit') limit: number = 8,
     @Param('id') id: number,
   ) {
-    return this.storyCrudService.AllMyStoriesByLimit(+id, { page, limit });
+    return this.storyCrudService.AllMyStoriesByLimit(+id, true, { page, limit });
   }
 
   // Find all stories
