@@ -21,6 +21,7 @@ export const API_ROUTES = {
 		AllStories: "/stories",
 		getStoriesByLimit: "/stories/paginated",
 		AllStoriesById: "/stories/user/",
+		getStoryLength: "/stories/length",
 		getOneStory: (storyId: number) => `/stories/${storyId}`,
 		getStoryLikes: (storyId: number) => `/stories/likes/${storyId}`,
 		setStoryLike: (storyId: number) => `/stories/likes/like/${storyId}`,

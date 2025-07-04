@@ -10,7 +10,7 @@ export default function IsEndCards() {
 
 	return (
 		<div className={s.choiceContainer}>
-			{EndCards.map((card: Card, index) => (
+			{EndCards ? EndCards.map((card: Card, index) => (
 				<div
 					key={index}
 					onClick={() => router.push(card.path)}
@@ -18,7 +18,7 @@ export default function IsEndCards() {
 				>
 					{card.text}
 				</div>
-			))}
+			)) : "Loading..."}
 		</div>
 	);
 }

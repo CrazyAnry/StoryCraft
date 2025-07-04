@@ -13,7 +13,7 @@ export default function SceneGenerator() {
 		useShallow((state) => state),
 	);
 
-	const { getStory, oneStory } = useStories();
+	const { getStory } = useStories();
 	const pathname = usePathname();
 
 	useEffect(() => {
