@@ -100,11 +100,30 @@ export const storyEditorSlice: StateCreator<
     }
   },
   setStory: (currentStory: IStoryHeader | null | "clear the story") => {
-    if (!currentStory) return;
     if (currentStory === "clear the story") {
-      set({ story: {id: -2, title: "", description: "", image: null, isPublic: false, authorId: 0, authorName: "", scenes: [], createdAt: "", updatedAt: ""}, stories: [] });
+      set({ 
+        story: {
+          id: -2, 
+          title: "", 
+          description: "", 
+          image: null, 
+          isPublic: false, 
+          authorId: 0, 
+          authorName: "", 
+          scenes: [], 
+          createdAt: new Date().toISOString(), 
+          updatedAt: new Date().toISOString()
+        }, 
+        stories: [] 
+      });
       return;
     }
+
+    if (!currentStory) {
+      set({ story: null });
+      return;
+    }
+
     set((state) => ({
       story: currentStory,
       stories: updateStories(currentStory, state.stories),

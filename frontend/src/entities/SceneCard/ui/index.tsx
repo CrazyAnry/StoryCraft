@@ -35,7 +35,7 @@ export default function SceneCard({ sceneId, sceneIndex }: Props) {
 	const pathname = usePathname();
 
 	if (!story || !story.scenes || !story.scenes[sceneIndex]) {
-		return <h1>Loading...</h1>;
+		return <h1>Загрузка...</h1>;
 	}
 
 	const currentScene = story.scenes[sceneIndex];

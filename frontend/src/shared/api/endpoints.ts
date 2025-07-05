@@ -39,6 +39,6 @@ export const API_ROUTES = {
 			`/stories/${storyId}/scene/${sceneId}`,
 	},
 	images: {
-		uploadImage: "/upload",
+		uploadImage: "/images/upload",
 	},
 };

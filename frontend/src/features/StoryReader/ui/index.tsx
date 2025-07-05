@@ -29,7 +29,7 @@ export default function StoryReader() {
   }, [scene]);
 
   if (scene === null) {
-    return <h1>Loading...</h1>;
+    return <h1>Загрузка...</h1>;
   }
 
   if (scene.isEnd || allChoicesOfScene.length === 0) {

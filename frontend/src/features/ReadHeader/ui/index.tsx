@@ -58,7 +58,7 @@ export default function ReadHeader() {
 	}, [oneStory]);
 
 	if (!oneStory) {
-		return <h1>Loading...</h1>;
+		return <h1>Загрузка...</h1>;
 	}
 
 	return (

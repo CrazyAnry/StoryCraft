@@ -18,7 +18,7 @@ export default function IsEndCards() {
 				>
 					{card.text}
 				</div>
-			)) : "Loading..."}
+			)) : "Загрузка..."}
 		</div>
 	);
 }

@@ -23,7 +23,7 @@ export default function SceneGenerator() {
 	if (!story) {
 		return (
 			<>
-				<h1>Loading...</h1>
+				<h1>Загрузка...</h1>
 			</>
 		);
 	}
