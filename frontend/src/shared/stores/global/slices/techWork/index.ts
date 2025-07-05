@@ -9,7 +9,7 @@ export const techWorkSlice: StateCreator<
   TechWorkSlice
 > = (set, get) => ({
   // State
-  isTechWork: true,
+  isTechWork: false,
 
   // Actions
   goToTechWorkPage: () => {
