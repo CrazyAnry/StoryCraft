@@ -42,7 +42,7 @@ export default function SaveStory() {
 				setStory(savedStory);
 				
 				// Перенаправляем на страницу с реальным ID
-				router.replace(`/story-editor/${savedStory.id}`);
+				router.replace(`/editor/${savedStory.id}`);
 			} else {
 				// Обновляем существующую историю
 				const updatedStory = await updateStory(story!);
