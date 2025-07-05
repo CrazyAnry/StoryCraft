@@ -5,9 +5,19 @@ import { useEffect } from "react";
 import { me, updateUserJwt } from "@/shared/api/auth/queries";
 import { useAuthStore } from "@/shared/stores";
 import { toast } from "react-toastify";
+import { useGlobalStore } from "@/shared/stores/global";
+import { useHandleTechWorkNavigation } from "@/shared/lib/hooks";
 
 export function useGlobalEffect() {
 	const { user, setUser } = useAuthStore();
+	const {isTechWork} = useGlobalStore();
+	const {handleTechWorkNavigation} = useHandleTechWorkNavigation();
+
+	useEffect(() => {
+		if (isTechWork) {
+			handleTechWorkNavigation();
+		}
+	}, [isTechWork]);	
 
 	useEffect(() => {
 		const updateJwt = async () => {

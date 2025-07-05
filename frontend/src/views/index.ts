@@ -8,3 +8,4 @@ export { default as AccountPage } from "./Account";
 export { default as SceneReadPage } from "./SceneRead";
 export { default as BillingPage } from "./Billing";
 export { default as RepasswordPage } from "./Repassword";
+export { default as TechnicalWorkPage } from "./TechnicalWork";

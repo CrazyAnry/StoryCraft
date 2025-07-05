@@ -1,1 +1,1 @@
-export * from "./footerPosition";
+export * from "./techWork";

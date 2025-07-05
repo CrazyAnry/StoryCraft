@@ -5,3 +5,4 @@ export { useSelect } from "./useSelect";
 export { useModal } from "./useModal";
 export { useLikes } from "./useLikes";
 export { useViews } from "./useViews";
+export { useHandleTechWorkNavigation } from "./usehandleTechWorkNavigation";
