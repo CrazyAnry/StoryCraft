@@ -89,29 +89,34 @@ export const useStories = () => {
     },
     []
   );
-
   const updateStory = async (savingStory: IStoryHeader) => {
     try {
+      // Проверяем авторизацию в самом начале
+      if (!currentUser?.id) {
+        toast.error("Необходима авторизация");
+        throw new Error("User not authenticated");
+      }
+  
       if (!savingStory) {
         toast.error("Не удалось загрузить историю");
         throw new Error("Не удалось загрузить историю");
       }
-
+  
       if (!savingStory.title) {
         toast.error("Введите название");
         throw new Error("Введите название");
       }
-
+  
       if (!savingStory.description) {
         toast.error("Введите описание");
         throw new Error("Введите описание");
       }
-
+  
       if (!savingStory.scenes[0]) {
         toast.error("Создайте сцену");
         throw new Error("Создайте сцену");
       }
-
+  
       if (
         !savingStory.scenes[0].choices ||
         savingStory.scenes[0].choices.length === 0
@@ -119,7 +124,7 @@ export const useStories = () => {
         toast.error("Создайте выбор в первой сцене");
         throw new Error("Создайте выбор в первой сцене");
       }
-
+  
       const allChoices = savingStory.scenes.flatMap(scene => {
         if (!scene.isEnd) {
           return scene.choices?.filter(choice => choice !== null && !choice?.text) ?? [];
@@ -131,46 +136,51 @@ export const useStories = () => {
         toast.error("Добавьте заголовок к каждому выбору");
         throw new Error(JSON.stringify(allChoices));
       }
-      
-
-      const { id, scenes, ...updatedStory } = savingStory;
+  
+      const { id, scenes, ...storyFields } = savingStory;
       let storyId = savingStory.id!;
       let isNewStory = false;
-
+  
       // Проверяем, существует ли история на сервере ДО любых операций
-      // Если ID отсутствует или история не найдена - это новая история
       let currentStory = null;
       if (storyId) {
         try {
           currentStory = await getStory(storyId);
         } catch (error) {
-          // История не найдена - значит новая
           currentStory = null;
         }
       }
-
+  
+      // Формируем объект для обновления/создания
+      const updatedStory = {
+        ...storyFields,
+        // Гарантируем, что authorId всегда число
+        authorId: storyFields.authorId || currentUser.id,
+      };
+  
       if (currentStory && storyId) {
         // Обновляем существующую историю
         await changeStory(storyId, updatedStory);
       } else {
+        // Создаем новую историю
         const createdStory = await createStory(updatedStory);
         storyId = createdStory?.id!;
         isNewStory = true;
       }
-
+  
       await new Promise((resolve) => setTimeout(resolve, 300));
-      const storyData = await getStory(storyId);
-
-      if (!storyData) {
+      const updatedStoryData = await getStory(storyId);
+  
+      if (!updatedStoryData) {
         throw new Error("Story not found after update");
       }
-
+  
       const scenesToProcess = savingStory.scenes || [];
-      const existingScenes = storyData.scenes || [];
-
+      const existingScenes = updatedStoryData.scenes || [];
+  
       for (const [index, scene] of scenesToProcess.entries()) {
         const { id, choices, ...sceneData } = scene;
-
+  
         if (existingScenes[index]) {
           await changeScene(storyId, existingScenes[index].id!, {
             ...sceneData,
@@ -183,61 +193,60 @@ export const useStories = () => {
           });
         }
       }
-
+  
       const allScenes = (await getStory(storyId))?.scenes || [];
-
+  
       for (const [sceneIndex, scene] of scenesToProcess.entries()) {
         if (!scene || !allScenes[sceneIndex]) continue;
         const existingChoices = allScenes[sceneIndex].choices || [];
         const choicesToProcess = scene.choices || [];
-
+  
         for (const [choiceIndex, choice] of choicesToProcess.entries()) {
           if (!choice) continue;
-
+  
           const { id, ...choiceData } = choice;
-
+  
           let nextSceneId: string | number;
           let nextScene: IScene | undefined;
-
+  
           if (
             choiceData.nextSceneId <= allScenes.length &&
             choiceData.nextSceneId > 0
           ) {
             const nextSceneIndex = choiceData.nextSceneId - 1;
-
+  
             if (nextSceneIndex < 0 || nextSceneIndex >= allScenes.length) {
               throw new Error(`Invalid next scene index: ${nextSceneIndex}`);
             }
-
+  
             nextScene = allScenes[nextSceneIndex];
             if (!nextScene?.id) {
               throw new Error(
                 `Next scene not found at index ${nextSceneIndex}`
               );
             }
-
+  
             nextSceneId = nextScene.id;
           } else if (choiceData.nextSceneId > allScenes.length) {
             nextSceneId = choiceData.nextSceneId;
             nextScene = allScenes.find((s) => s.id === nextSceneId);
-
+  
             if (!nextScene) {
               toast.error(`Следующая сцена не найдена с id: ${nextSceneId}`);
               throw new Error(`Next scene not found with ID: ${nextSceneId}`);
             }
           } else {
-            // Случай когда nextSceneId <= 0 (не выбрана следующая сцена)
             toast.error("Сначала укажите все сцены, на которые ведут выборы");
             throw new Error("Some choices don't have next scene specified");
           }
-
+  
           const choicePayload = {
             ...choiceData,
             nextSceneId: nextScene.id!,
             sceneId: allScenes[sceneIndex].id!,
             storyId: storyId,
           };
-
+  
           if (
             existingChoices[choiceIndex] &&
             choiceIndex + 1 <= scene.maxChoices
@@ -256,10 +265,10 @@ export const useStories = () => {
             );
           }
         }
-
+  
         for (const [choiceIndex, choice] of existingChoices.entries()) {
           if (!choice) continue;
-
+  
           if (
             existingChoices[choiceIndex] &&
             choiceIndex + 1 > scene.maxChoices
@@ -272,22 +281,21 @@ export const useStories = () => {
           }
         }
       }
-
+  
       // Перенаправляем только для новых историй
       if (isNewStory) {
         router.push(`/editor/${storyId}`);
       }
-
-      const updatedStoryData = await getStory(storyId);
+  
+      const finalStoryData = await getStory(storyId);
       const storyToUpdate = JSON.parse(
         JSON.stringify({
-          ...updatedStoryData,
+          ...finalStoryData,
           id: storyId,
         })
       );
-      const gettedStory = await getStory(storyId);
       setStory(storyToUpdate);
-      return gettedStory;
+      return finalStoryData;
     } catch (error) {
       throw error;
     }

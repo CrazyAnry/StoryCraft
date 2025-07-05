@@ -25,7 +25,7 @@ export default function RepasswordPage() {
 	};
 	
 	const loginMe = async (token: string) => {
-		const user = await me()
+		const user = await me(token)
 		setUser(user.user)
 		window.localStorage.setItem("accessToken", user.tokens.accessToken);
 		window.localStorage.setItem("refreshToken", user.tokens.refreshToken);

@@ -19,7 +19,8 @@
   justify-content: space-between;
   width: 100%;
   max-width: 350px;
-  height: 100%;
+  padding-inline: 2rem;
+  height: 4rem;
   border-radius: 6px !important;
   background: linear-gradient(
     135deg,
@@ -77,17 +78,14 @@
   }
 
   @media (max-width: 768px) {
-    height: 48px;
-    padding: 0 1.4rem;
     font-size: 0.95rem;
     max-width: 100%;
     margin: 0.8rem 0;
     max-width: 450px;
+    padding-block: 1.6rem;
   }
 
   @media (max-width: 480px) {
-    height: 44px;
-    padding: 0 1.2rem;
     font-size: 0.9rem;
     max-width: 350px;
   }
@@ -107,14 +105,9 @@
     0 0 4px rgba(255, 255, 255, 0.4);
 
   @media (max-width: 768px) {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 5px;
   }
 
   @media (max-width: 480px) {
-    width: 32px;
-    height: 32px;
   }
 }
 
@@ -142,7 +135,6 @@
 @media (max-width: 360px) {
   .btn {
     max-width: 250px;
-    height: 42px;
     padding: 0 1rem;
     font-size: 0.85rem;
   }

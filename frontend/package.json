@@ -16,10 +16,7 @@
 		"console": "^0.7.2",
 		"fast-average-color": "^9.5.0",
 		"immer": "^10.1.1",
-<<<<<<< HEAD
 		"jwt-decode": "^4.0.0",
-=======
->>>>>>> bf62978b3b75e0f43734242ea1d9203e5cbd0db6
 		"next": "^15.3.2",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
@@ -33,6 +30,8 @@
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
+		"@typescript-eslint/eslint-plugin": "^8.35.1",
+		"@typescript-eslint/parser": "^8.35.1",
 		"eslint": "^9.27.0",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-no-restricted-imports": "^0.0.0",

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
 import { useShallow } from "zustand/shallow";
 import { IStoryHeader } from "@/shared/lib";
+import { useState } from "react";
 
 export default function SaveStory() {
 	const { updateStory } = useStories();
@@ -14,8 +15,10 @@ export default function SaveStory() {
 	const { currentUser } = useUsersStore()
 	const { story, stories, setStories } =
 		useStoryEditorStore(useShallow((state) => state));
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSaveStory = async () => {
+		setIsLoading(true);
 		try {
 			if (pathname.split("/")[2] === "newStory") {
 				const newStoryIndex = stories.findIndex(
@@ -48,7 +51,10 @@ export default function SaveStory() {
 				toast.success("История сохранена");
 			}
 		} catch (error) {
+			toast.error("Ошибка сохранения истории");
 			throw error;
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -56,8 +62,13 @@ export default function SaveStory() {
 		<button
 			className={`${s.controlButton} ${s.save}`}
 			onClick={handleSaveStory}
+			disabled={isLoading}
+			style={{
+				background: isLoading ? "#666" : "",
+				cursor: isLoading ? "not-allowed" : "pointer",
+			}}
 		>
-			Сохранить
+			{isLoading ? "Сохраняется..." : "Сохранить"}
 		</button>
 	);
 }

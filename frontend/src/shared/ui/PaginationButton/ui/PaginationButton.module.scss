@@ -86,7 +86,7 @@
     background: linear-gradient(
       135deg,
       darken(#5a45ff, 5%) 0%,
-      darken(#5a45ff, 15%) 100%
+      color.adjust(#5a45ff, $lightness: -15%) 100%
     );
     box-shadow: 0 6px 16px rgba(#5a45ff, 0.4);
   }
