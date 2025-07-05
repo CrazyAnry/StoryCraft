@@ -1,6 +1,20 @@
+"use client";
+
 import s from "./TechnicalWork.module.scss";
+import { useEffect } from "react";
+import { useHandleTechWorkNavigation } from "@/shared/lib/hooks";
+import { useGlobalStore } from "@/shared/stores";
 
 export default function TechnicalWorks() {
+  const {isTechWork} = useGlobalStore();
+  const { handleTechWorkNavigationBack } = useHandleTechWorkNavigation();
+
+  useEffect(() => {
+    if (!isTechWork) {
+      handleTechWorkNavigationBack();
+    }
+  }, []);
+
   return (
     <div className={s.technicalWorks}>
       <h1 className={s.title}>
@@ -15,7 +29,7 @@ export default function TechnicalWorks() {
           href="https://t.me/StoryCraftTeam"
         >
           телеграмм канале
-        </a>{" "} 
+        </a>{" "}
         и{" "}
         <a
           className={s.link}

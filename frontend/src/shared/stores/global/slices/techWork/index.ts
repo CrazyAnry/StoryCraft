@@ -1,11 +1,6 @@
 import { GlobalStore } from "@/shared/lib";
 import { StateCreator } from "zustand";
-
-// Определяем тип для слайса
-interface TechWorkSlice {
-  isTechWork: boolean;
-  goToTechWorkPage: () => void;
-}
+import { TechWorkSlice } from "@/shared/lib/types";
 
 export const techWorkSlice: StateCreator<
   GlobalStore,
@@ -21,6 +16,12 @@ export const techWorkSlice: StateCreator<
     // Используем window.location для навигации в Zustand store
     if (typeof window !== "undefined") {
       window.location.href = "/technical_works";
+    }
+  },
+
+  goToHome: () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "/";
     }
   },
 });

@@ -11,11 +11,13 @@ import { useHandleTechWorkNavigation } from "@/shared/lib/hooks";
 export function useGlobalEffect() {
 	const { user, setUser } = useAuthStore();
 	const {isTechWork} = useGlobalStore();
-	const {handleTechWorkNavigation} = useHandleTechWorkNavigation();
+	const {handleTechWorkNavigation, handleTechWorkNavigationBack} = useHandleTechWorkNavigation();
 
 	useEffect(() => {
 		if (isTechWork) {
 			handleTechWorkNavigation();
+		} else {
+			handleTechWorkNavigationBack();
 		}
 	}, [isTechWork]);	
 
