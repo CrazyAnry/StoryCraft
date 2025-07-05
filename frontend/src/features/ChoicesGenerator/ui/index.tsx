@@ -23,11 +23,10 @@ export default function ChoicesGenerator({ choices }: Props) {
 
 	return (
 		<div className={s.choicesContainer}>
-			{chunkedChoices.map((chunk, chunkIndex) => (
-				<div key={`chunk-${chunkIndex}`} className={`${s.answersBody}`}>
-					{chunk.map((choice, index) => (
+			<div className={`${s.answersBody}`}>
+					{choices.map((choice, index) => (
 						<ReadChoiceCard
-							key={`${chunkIndex}-${index}`}
+							key={`${index}`}
 							StoryId={choice.storyId}
 							nextSceneId={choice.nextSceneId}
 							access={choice.access}
@@ -36,7 +35,6 @@ export default function ChoicesGenerator({ choices }: Props) {
 						</ReadChoiceCard>
 					))}
 				</div>
-			))}
 		</div>
 	);
 }

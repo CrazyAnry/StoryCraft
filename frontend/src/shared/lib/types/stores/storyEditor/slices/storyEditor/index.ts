@@ -10,7 +10,7 @@ export type StoryEditorActions = {
 	setIsPublic: (isPublic: IStoryHeader["isPublic"]) => void;
 	setScenes: (scenes: IStoryHeader["scenes"]) => void;
 	setCurrentStory: (value: number) => void;
-	setStory: (value: IStoryHeader) => void;
+	setStory: (value: IStoryHeader | null | "clear the story") => void;
 	setStories: (stories: IStoryHeader[]) => void;
 
 	// Scene Actions

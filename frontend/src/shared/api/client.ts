@@ -19,14 +19,6 @@ export const axiosInstance = axios.create({
 	timeout: 10000,
 });
 
-export const axiosSecondary = axios.create({
-	baseURL:
-		process.env.NEXT_PUBLIC_API_SECONDARY_URL ||
-		"https://reimagined-tribble-pjjvj5vr44wrcjgj-8080.app.github.dev",
-	withCredentials: true,
-	timeout: 10000,
-});
-
 // Request interceptor
 axiosInstance.interceptors.request.use(
 	(config) => {

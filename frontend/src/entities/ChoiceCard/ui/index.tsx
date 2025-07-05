@@ -47,7 +47,7 @@ const ChoiceCard = ({ scene, choice, index }: Props) => {
 							);
 							return (
 								<option key={s.id} value={s.id}>
-									{s.title || `Сцена ${sceneIndex + 1}`}
+									{s.id + " - " + s.title || `Сцена ${sceneIndex + 1}`}
 								</option>
 							);
 						})}
