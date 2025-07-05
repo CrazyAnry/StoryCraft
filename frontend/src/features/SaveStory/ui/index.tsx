@@ -12,7 +12,7 @@ export default function SaveStory() {
 	const { updateStory } = useStories();
 	const pathname = usePathname()
 	const { currentUser } = useUsersStore()
-	const { story, stories } =
+	const { story, stories, setStories } =
 		useStoryEditorStore(useShallow((state) => state));
 
 	const handleSaveStory = async () => {
@@ -21,7 +21,7 @@ export default function SaveStory() {
 				const newStoryIndex = stories.findIndex(
 					(story) => story.id === -2,
 				);
-				
+
 				await updateStory(story!);
 				toast.success("История сохранена");
 
@@ -38,10 +38,12 @@ export default function SaveStory() {
 					updatedAt: new Date().toISOString(),
 				};
 
+				const updatedStories = [...stories];
+				updatedStories[newStoryIndex] = newStory;
 
-				stories[newStoryIndex] = newStory;
+				setStories(updatedStories);
 			}
-			else{
+			else {
 				await updateStory(story!);
 				toast.success("История сохранена");
 			}

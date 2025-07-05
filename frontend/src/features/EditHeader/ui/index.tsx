@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./EditableHeader.module.scss";
 import { useStoryEditorStore, useUsersStore } from "@/shared/stores";
 import { useShallow } from "zustand/shallow";
@@ -11,17 +11,20 @@ import { deleteStory } from "@/shared/api/stories/mutations";
 import AddImage from "@/features/AddImage";
 import AddImageModal from "@/features/AddImageModal";
 import { toast } from "react-toastify";
+import { IStoryHeader } from "@/shared/lib";
 
 export default function EditHeader() {
-	const { story, stories, setTitle, setDescription, setStory, setStories } =
+	const { story, stories, setTitle, setDescription, setStory, setStories, removeScene } =
 		useStoryEditorStore(useShallow((state) => state));
 	const { currentUser } = useUsersStore();
 	const { getStory, oneStory } = useStories();
 	const pathname = usePathname();
 	const router = useRouter();
+	const [isNewStory, setIsNewStory] = useState<boolean>(false)
 
 	useEffect(() => {
 		if (pathname.split("/")[2] !== "newStory") getStory();
+		if (pathname.split("/")[2] === "newStory") setIsNewStory(true)
 	}, []);
 
 	useEffect(() => {
@@ -40,10 +43,10 @@ export default function EditHeader() {
 			const editingStory = stories.findIndex(
 				(story) => story.id === -2,
 			);
-			if(editingStory){
+			if (editingStory) {
 				setStory(stories[editingStory]);
 			}
-			else{
+			else {
 				const updatedStories = [
 					...stories,
 					{
@@ -113,7 +116,7 @@ export default function EditHeader() {
 					/>
 				</div>
 				<div className={s.footer}>
-					<RemoveSceneButton
+					{!isNewStory && <RemoveSceneButton
 						className={s.removeButton}
 						onClick={async () => {
 							if (pathname.split("/")[2] !== "newStory") {
@@ -122,6 +125,7 @@ export default function EditHeader() {
 									if (findedStory) {
 										deleteStory(findedStory.id!);
 										router.push("/create");
+										toast.success("История удалена");
 									}
 								} catch (error) {
 									toast.error("Не удалось удалить историю: " + error);
@@ -131,25 +135,25 @@ export default function EditHeader() {
 					>
 						{" "}
 						Удалить историю{" "}
-					</RemoveSceneButton>
-										<RemoveSceneButton
+					</RemoveSceneButton>}
+					{isNewStory && <RemoveSceneButton
 						className={s.removeButton}
 						onClick={async () => {
-							if (pathname.split("/")[2] !== "newStory") {
-								try {
-									const findedStory = await getStory();
-									if (findedStory) {
-										setStory("clear the story");
-									}
-								} catch (error) {	 
-									toast.error("Не удалось очистить историю: " + error);
+							try {
+								setTitle("")
+								setDescription("")
+								for(let i = 0; i < story.scenes.length; i++ ){
+									removeScene(story.scenes[i].id!)
 								}
+								toast.success("История очищена");
+							} catch (error) {
+								toast.error("Не удалось очистить историю: " + error);
 							}
-						}}	
+						}}
 					>
 						{" "}
 						Очистить историю{" "}
-					</RemoveSceneButton>
+					</RemoveSceneButton>}
 				</div>
 			</div>
 			<AddImageModal addImageTo="story" />
