@@ -1,3 +1,5 @@
+"use client";
+
 import { useStories } from "@/shared/lib/hooks/useStories";
 import s from "./Header.module.scss";
 import { useStoryEditorStore } from "@/shared/stores";
