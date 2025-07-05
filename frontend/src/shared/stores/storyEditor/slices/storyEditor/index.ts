@@ -441,11 +441,12 @@ export const storyEditorSlice: StateCreator<
 
   addNewStory: () => {
     const newStory: IStoryHeader = {
-      id: null,
+      id: -2, // Используем -2 для новых несохраненных историй
       title: "Новая история",
       description: "",
       image: null,
       authorId: null,
+      authorName: "",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       isPublic: false,
@@ -456,7 +457,7 @@ export const storyEditorSlice: StateCreator<
           description: "",
           image: null,
           isEnd: false,
-          storyId: 0,
+          storyId: -2,
           maxChoices: 1,
           choices: [
             {
@@ -465,7 +466,7 @@ export const storyEditorSlice: StateCreator<
               nextSceneId: 0,
               access: true,
               sceneId: 1,
-              storyId: 0,
+              storyId: -2,
             },
           ],
         },
