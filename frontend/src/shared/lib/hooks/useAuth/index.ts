@@ -50,8 +50,8 @@ const useAuth = () => {
 			return toast.error("Пароль должен содержать не менее 6 символов");
 		if (username.includes(" "))
 			return toast.error("Логин не должен содержать пробелы");
-		if (username.length < 3)
-			return toast.error("Логин должен содержать не менее 3 символов");
+		if (username.length < 2)
+			return toast.error("Логин должен содержать не менее 2 символов");
 		if (!email.includes("@"))
 			return toast.error("Email должен содержать символ @");
 		setIsSending(true);

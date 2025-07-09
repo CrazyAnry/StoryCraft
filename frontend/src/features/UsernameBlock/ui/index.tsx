@@ -25,10 +25,10 @@ export default function UsernameBlock() {
 	const handleUsernameSave = async () => {
 		if (
 			!usernameValue ||
-			usernameValue.length < 3 ||
+			usernameValue.length < 2 ||
 			usernameValue.length > 16
 		) {
-			toast.error("Username must be between 3 and 16 characters");
+			toast.error("Минимальное и максимальное количество символов - 2 и 16");
 			return;
 		}
 		try {

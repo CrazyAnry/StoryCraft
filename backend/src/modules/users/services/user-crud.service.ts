@@ -18,7 +18,7 @@ export class UserCrudService {
     private readonly prisma: PrismaService,
     private readonly helpers: HelpersService,
     private readonly bcryptService: BcryptService,
-  ) {}
+  ) { }
 
   /**
    * Find all users
@@ -62,65 +62,65 @@ export class UserCrudService {
    * @returns The updated user
    */
 
-async update(id: number, dto: UpdateUserDto): Promise<UpdateResponse> {
-  try {
-    const oldUser = await this.helpers.getEntityOrThrow<User>(
-      'user',
-      { id },
-      'User',
-    );
-
-    console.log(dto.username);
-
-    const { settings, password, username, ...rest } = dto;
-
-    if (username && (username.length > 16 || username.length < 3)) {
-      throw new BadRequestException(
-        'Никнейм должен быть от 3 до 16 символов',
+  async update(id: number, dto: UpdateUserDto): Promise<UpdateResponse> {
+    try {
+      const oldUser = await this.helpers.getEntityOrThrow<User>(
+        'user',
+        { id },
+        'User',
       );
-    }
 
-    if (username) {
-      const isUsernameExists = await this.prisma.user.findUnique({
-        where: { username },
+      console.log(dto.username);
+
+      const { settings, password, username, ...rest } = dto;
+
+      if (username && (username.length > 16 || username.length < 2)) {
+        throw new BadRequestException(
+          'Минимальное и максимальное количество символов - 2 и 16',
+        );
+      }
+
+      if (username) {
+        const isUsernameExists = await this.prisma.user.findUnique({
+          where: { username },
+        });
+
+        if (isUsernameExists && isUsernameExists.id !== id) {
+          throw new BadRequestException('Никнейм уже занят');
+        }
+      }
+
+      const data: Prisma.UserUncheckedUpdateInput = {
+        ...rest,
+        ...(username && { username }), // Добавляем username в data
+        settings: settings && {
+          upsert: {
+            update: settings,
+            create: settings,
+          },
+        },
+        updatedAt: new Date(),
+      };
+
+      if (password) {
+        data.password = await this.bcryptService.hashPassword(password);
+      }
+
+      const cleanData = Object.fromEntries(
+        Object.entries(data).filter(([_, value]) => value !== undefined),
+      );
+
+      const updatedUser = await this.prisma.user.update({
+        where: { id },
+        data: cleanData,
+        include: USER_INCLUDE,
       });
 
-      if (isUsernameExists && isUsernameExists.id !== id) {
-        throw new BadRequestException('Никнейм уже занят');
-      }
+      return { user: updatedUser };
+    } catch (error) {
+      throw error;
     }
-
-    const data: Prisma.UserUncheckedUpdateInput = {
-      ...rest,
-      ...(username && { username }), // Добавляем username в data
-      settings: settings && {
-        upsert: {
-          update: settings,
-          create: settings,
-        },
-      },
-      updatedAt: new Date(),
-    };
-
-    if (password) {
-      data.password = await this.bcryptService.hashPassword(password);
-    }
-
-    const cleanData = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => value !== undefined),
-    );
-
-    const updatedUser = await this.prisma.user.update({
-      where: { id },
-      data: cleanData,
-      include: USER_INCLUDE,
-    });
-
-    return { user: updatedUser };
-  } catch (error) {
-    throw error;
   }
-}
 
   /**
    * Remove a user by ID
